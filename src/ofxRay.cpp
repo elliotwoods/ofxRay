@@ -14,7 +14,7 @@ ofxRay::ofxRay(float f) {
 	infinite = false;
 }
 
-void ofxRay::draw(float f) {
+void ofxRay::draw(float width) const {
 	ofPushStyle();
 	ofEnableSmoothing();
 	ofSetColor(color);
@@ -28,7 +28,7 @@ void ofxRay::draw(float f) {
 		//'infinite' line
 		
 		//inner line
-		if (f > 2.0f){
+		if (width > 2.0f){
 			ofPushStyle();
 			ofSetLineWidth(1.0f);
 			ofSetColor(255,255,255);
@@ -37,12 +37,12 @@ void ofxRay::draw(float f) {
 		}
 		
 		
-		ofSetLineWidth(f==0.0f ? 1.0f : f);
+		ofSetLineWidth(width==0.0f ? 1.0f : width);
 		ofLine(s-1000*t, s+1000*t);
 	}
 	
 	//line section
-	ofSetLineWidth(f==0.0f ? 2.0f : f);
+	ofSetLineWidth(f==0.0f ? 2.0f : width);
 	ofLine(s, s+t);
 	
 	
@@ -67,7 +67,7 @@ void ofxRay::transform(ofMatrix4x4 m) {
 //	int LineLineIntersect(
 //	XYZ p1,XYZ p2,XYZ p3,XYZ p4,XYZ *pa,XYZ *pb,
 //	double *mua, double *mub)
-ofxRay ofxRay::intersect(Ray &other) {	
+ofxRay ofxRay::intersect(Ray &other) const {	
 	Ray intersectRay(0);
 	
 	const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
