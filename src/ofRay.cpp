@@ -128,12 +128,13 @@ ofRay ofRay::intersect(const ofRay &other) const {
 	return ofRay(s, t, false);
 }
 
-const ofVec3f& ofRay::getS() const {
-	return s;
+// using http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
+float ofRay::distanceTo(const ofVec3f& point) const {
+	return (point - s).cross(point - (s+t)).length() / t.length();
 }
 
-const ofVec3f& ofRay::getT() const {
-	return t;
+float ofRay::closestPointOnRayTo(const ofVec3f& point) const {
+
 }
 
 ofVec3f ofRay::getMidpoint() const {
@@ -142,16 +143,4 @@ ofVec3f ofRay::getMidpoint() const {
 
 float ofRay::getLength() const {
 	return t.length();
-}
-
-bool ofRay::getInfinite() const {
-	return infinite;
-}
-
-ofVec3f& ofRay::getS() {
-	return s;
-}
-
-ofVec3f& ofRay::getT() {
-	return t;
 }

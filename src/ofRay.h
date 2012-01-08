@@ -20,20 +20,16 @@ public:
 	void randomiseVectors(float amplitude=1.0f);
 	
 	ofRay intersect(const ofRay &other) const;
+	
+	float distanceTo(const ofVec3f& point) const;
+	float closestPointOnRayTo(const ofVec3f& point) const;
+	
 	void transform(ofMatrix4x4 m);
 	
-	const ofVec3f& getS() const;
-	const ofVec3f& getT() const;
 	ofVec3f	getMidpoint() const;
 	float	getLength() const;
-	bool	getInfinite() const;
 	
-protected:
-	ofVec3f& getS();
-	ofVec3f& getT();
-	
-	ofVec3f		s, t;
-	
+	ofVec3f	s, t;
 	bool	infinite;
 	bool	defined;
 };

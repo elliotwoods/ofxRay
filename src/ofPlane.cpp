@@ -94,30 +94,35 @@ void ofPlane::randomiseVectors(float amplitude) {
 bool ofPlane::intersect(const ofRay &ray, ofVec3f &position) const {
 	//check if line is parallel to plane
 	//if so, die young
-	if (ray.getT().dot(n) == 0.0f)
+	if (ray.t.dot(n) == 0.0f)
 		return false;
 	
-	float u = n.dot(c - ray.getS()) / n.dot(ray.getT());
+	float u = n.dot(c - ray.s) / n.dot(ray.t);	
+	position = ray.s + u * ray.t;
 	
 	
-	if (!ray.getInfinite())
-	{
+	if (!ray.infinite) {
 		//check within line segment
 		if (u < 0.0f || u > 1.0f)
 			return false;
-		
-		//check within plane segment
-		
-		//define up as ray, find distance between this ray and ray<> plane intersection point
-		ofRay upRay(c, up);
-		
-		//if length along this ray < height and distance of point to ray < width then we're in the plane
-		
 	}
 	
-	
-	position = ray.getS() + u * ray.getT();
-	return true;
+	if (!this->infinite) {
+		//check within plane segment
+		
+		//define up as ray, find distance between this ray and ray<> plane intersection point to get x position in plane
+		ofRay upRay(c, up);
+		float x = upRay.distanceTo(position);
+		float y = sqrt((c - position).lengthSquared() - x*x);
+		
+		//if length along this ray < height and distance of point to ray < width then we're in the plane
+		if (abs(x) <= scale.x && abs(y) <= scale.y)
+			return true;
+		else
+			return false;
+		
+	} else
+		return true;
 }
 
 const ofVec3f& ofPlane::getC() const{
