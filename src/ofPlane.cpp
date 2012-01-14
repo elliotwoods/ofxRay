@@ -2,7 +2,8 @@
 //  ofPlane.cpp
 //  ofxRay
 //
-//  (C) 2012 http://www.kimchiandchips.com
+//  Elliot Woods (C) 2012, MIT license
+//	http://www.kimchiandchips.com
 //
 
 #include "ofPlane.h"
@@ -13,13 +14,12 @@ ofMesh* ofPlane::viewPlane = 0;
 ofPlane::ofPlane() {
 	infinite = true;
 	makeGrid();
-	randomise();
+	randomiseVectors();
 }
 
 ofPlane::ofPlane(float a, float b, float c, float d) {
 	infinite = true;
 	makeGrid();
-	randomiseColor();
 }
 
 ofPlane::ofPlane(ofVec3f center, ofVec3f normal) {
@@ -27,18 +27,16 @@ ofPlane::ofPlane(ofVec3f center, ofVec3f normal) {
 	n = normal;
 	infinite = true;
 	makeGrid();
-	randomiseColor();
 }
 
 ofPlane::ofPlane(ofVec3f center, ofVec3f normal, ofVec3f up, ofVec2f scale) {
 	c = center;
-	n = normal;
+	n = normal.normalize();
 	infinite = false;
-	this->up = up;
+	this->up = up.normalize();
 	this->scale = scale;
 	
 	makeGrid();
-	randomiseColor();
 }
 
 void ofPlane::draw() const {
@@ -76,11 +74,6 @@ void ofPlane::draw() const {
 	ofPopMatrix();
 }
 
-void ofPlane::randomise(float amplitude) {
-	randomiseVectors(amplitude);
-	randomiseColor();
-}
-
 void ofPlane::randomiseVectors(float amplitude) {
 	c = ofVec3f(ofRandom(-1.0f, 1.0f),
 				ofRandom(-1.0f, 1.0f),
@@ -111,8 +104,7 @@ bool ofPlane::intersect(const ofRay &ray, ofVec3f &position) const {
 		//check within plane segment
 		
 		//define up as ray, find distance between this ray and ray<> plane intersection point to get x position in plane
-		ofRay upRay(c, up);
-		float x = upRay.distanceTo(position);
+		float x = getUpRay().distanceTo(position);
 		float y = sqrt((c - position).lengthSquared() - x*x);
 		
 		//if length along this ray < height and distance of point to ray < width then we're in the plane
@@ -149,6 +141,42 @@ void ofPlane::setInfinite(const bool b) {
 	infinite = b;
 }
 
+void ofPlane::getCornerRaysTo(const ofVec3f &target, ofRay* rays) const {
+	ofVec3f up = this->up * scale.y;
+	ofVec3f right = getRight() * scale.x;
+	ofVec3f corner;
+	
+	corner = c - up - right;
+	*rays++ = ofRay(corner, target - corner, color, false);
+
+	corner = c - up + right;
+	*rays++ = ofRay(corner, target - corner, color, false);
+	
+	corner = c + up + right;
+	*rays++ = ofRay(corner, target - corner, color, false);
+	
+	corner = c + up - right;
+	*rays++ = ofRay(corner, target - corner, color, false);
+}
+
+void ofPlane::getCornerRaysFrom(const ofVec3f &source, ofRay* rays) const {
+	ofVec3f up = this->up * scale.y;
+	ofVec3f right = getRight() * scale.x;
+	ofVec3f corner;
+	
+	corner = c - up - right;
+	*rays++ = ofRay(source, corner - source, color, false);
+	
+	corner = c - up + right;
+	*rays++ = ofRay(source, corner - source, color, false);
+	
+	corner = c + up + right;
+	*rays++ = ofRay(source, corner - source, color, false);
+	
+	corner = c + up - right;
+	*rays++ = ofRay(source, corner - source, color, false);
+}
+
 void ofPlane::makeGrid() {
 	if (viewGrid != 0)
 		return;
@@ -179,3 +207,18 @@ void ofPlane::makeGrid() {
 	viewPlane->setMode(OF_PRIMITIVE_TRIANGLE_FAN);	
 }
 
+ofVec3f ofPlane::getUp() const {
+	return up;
+}
+
+ofVec3f ofPlane::getRight() const {
+	return up.crossed(n).normalize();
+}
+
+ofRay ofPlane::getUpRay() const {
+	return ofRay(c, up);
+}
+
+ofRay ofPlane::getRightRay() const {
+	return ofRay(c, getRight());
+}

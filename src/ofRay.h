@@ -3,21 +3,24 @@
 //  ofRay.h
 //  ofxRay
 //
-//  (C) 2012 http://www.kimchiandchips.com
+//  Elliot Woods (C) 2012, MIT license
+//	http://www.kimchiandchips.com
 //
 
 #include "ofMain.h"
 #include "ofGeometric.h"
 
-class ofRay : ofGeometric {
+class ofRay : public ofGeometric {
 public:
 	ofRay();
 	ofRay(ofVec3f s, ofVec3f t, bool infinite=true);
+	ofRay(ofVec3f s, ofVec3f t, ofColor color, bool infinite=true);
 	
-	void draw(float width=0.0f) const;
-	
-	void randomise(float amplitude=1.0f);
-	void randomiseVectors(float amplitude=1.0f);
+	//-
+	//ofGeometric
+	void draw() const;
+	void randomiseVectors(float amplitude = 1.0f);
+	//-
 	
 	ofRay intersect(const ofRay &other) const;
 	
@@ -29,7 +32,14 @@ public:
 	ofVec3f	getMidpoint() const;
 	float	getLength() const;
 	
+	ofRay operator*(float other) const;
+	ofVec3f operator()(float other) const;
+	
+	//vectors
 	ofVec3f	s, t;
 	bool	infinite;
 	bool	defined;
+	
+	//draw styles
+	float	width;
 };

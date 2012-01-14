@@ -3,24 +3,26 @@
 //  ofPlane.h
 //  ofxRay
 //
-//  (C) 2012 http://www.kimchiandchips.com
+//  Elliot Woods (C) 2012, MIT license
+//	http://www.kimchiandchips.com
 //
 
 #include "ofMain.h"
 #include "ofGeometric.h"
 #include "ofRay.h"
 
-class ofPlane : ofGeometric {
+class ofPlane : public ofGeometric {
 public:
 	ofPlane();
 	ofPlane(float a, float b, float c, float d);
 	ofPlane(ofVec3f center, ofVec3f normal);
 	ofPlane(ofVec3f center, ofVec3f normal, ofVec3f up, ofVec2f scale);
 	
+	//-
+	//ofGeometric
 	void draw() const;
-	
-	void randomise(float amplitude=1.0f);
 	void randomiseVectors(float amplitude=1.0f);
+	//-
 	
 	bool intersect(const ofRay &ray, ofVec3f &position) const;
 	
@@ -31,6 +33,17 @@ public:
 	void setC(const ofVec3f& c);
 	void setN(const ofVec3f& c);
 	void setInfinite(const bool b);
+	
+	///fills rays{0..3} with rays starting from corners and going to target
+	void getCornerRaysTo(const ofVec3f &target, ofRay* rays) const;
+	///fills rays{0..3} with rays starting from source and going to corners
+	void getCornerRaysFrom(const ofVec3f &source, ofRay* rays) const;
+	
+	ofVec3f getUp() const;
+	ofVec3f getRight() const;
+	
+	ofRay getUpRay() const;
+	ofRay getRightRay() const;
 	
 protected:
 	void makeGrid();

@@ -2,32 +2,44 @@
 //  ofRay.cpp
 //  ofxRay
 //
-//  (C) 2012 http://www.kimchiandchips.com
+//  Elliot Woods (C) 2012, MIT license
+//	http://www.kimchiandchips.com
 //
 
 #include "ofRay.h"
 
 ofRay::ofRay() {
 	this->defined = false;
-	randomiseColor();
-	
+	this->width = 2.0f;
 }
 
 ofRay::ofRay(ofVec3f s, ofVec3f t, bool infinite) {
+	this->defined = true;
 	this->s = s;
 	this->t = t;
 	this->infinite = infinite;
-	randomiseColor();
+	this->width = 2.0f;
 }
 
-void ofRay::draw(float width) const {
+ofRay::ofRay(ofVec3f s, ofVec3f t, ofColor color, bool infinite) : ofGeometric(color) {
+	this->defined = true;
+	this->s = s;
+	this->t = t;
+	this->infinite = infinite;
+	this->width = 2.0f;
+}
+
+void ofRay::draw() const {
+	if (!this->defined)
+		return;
+	
 	ofPushStyle();
 	ofEnableSmoothing();
 	ofSetColor(color);
 	
 	ofPushMatrix();
 	ofTranslate(s);
-	ofSphere(0.1);
+	ofSphere(0.01);
 	ofPopMatrix();
 	
 	if (infinite) {
@@ -47,17 +59,10 @@ void ofRay::draw(float width) const {
 		ofLine(s-1000*t, s+1000*t);
 	}
 	
-	//line section
-	ofSetLineWidth(width==0.0f ? 2.0f : width);
-	ofLine(s, s+t);
-	
+	//arrow
+	ofDrawArrow(s, s+t);
 	
 	ofPopStyle();
-}
-
-void ofRay::randomise(float amplitude) {
-	randomiseVectors(amplitude);
-	randomiseColor();
 }
 
 void ofRay::randomiseVectors(float amplitude) {
@@ -143,4 +148,12 @@ ofVec3f ofRay::getMidpoint() const {
 
 float ofRay::getLength() const {
 	return t.length();
+}
+
+ofRay ofRay::operator*(float other) const {
+	return ofRay(s, t * other, color, infinite);
+}
+
+ofVec3f ofRay::operator()(float other) const {
+	return s + other * t;
 }
