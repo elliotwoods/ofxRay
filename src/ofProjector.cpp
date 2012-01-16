@@ -45,7 +45,7 @@ void ofProjector::draw() const {
 	drawBox->draw();
 	ofPopMatrix();
 	
-	ofPushStyle();
+	ofPopStyle();
 }
 
 void ofProjector::randomiseVectors(float amplitude) {
@@ -75,7 +75,7 @@ ofRay ofProjector::castCoordinate(float x, float y) const {
 ofMatrix4x4 ofProjector::getViewMatrix() const {
 	ofMatrix4x4 view;
 	view.makeRotationMatrix(rotation);
-	view.postMultTranslate(-position);
+	view.preMultTranslate(-position);
 	return view;
 }
 
@@ -89,7 +89,7 @@ ofMatrix4x4 ofProjector::getProjectionMatrix() const {
 	ofLogWarning() << "getProjectionMatrix() is fudged until can circumvent ofMatrix4x4::makeFrustumMatrix issue";
 	float fovx = atan(0.5f / throwRatio) / (atan(1) * 8) * 360;
 	float fovy = fovx / aspectRatio;
-	projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1, throwRatio);
+	projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1, 10.0f);
 	//
 	///////
 	

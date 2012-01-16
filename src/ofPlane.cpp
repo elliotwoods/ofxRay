@@ -84,6 +84,11 @@ void ofPlane::randomiseVectors(float amplitude) {
 	n.normalize();
 }
 
+bool ofPlane::intersect(const ofRay &ray) const {
+	ofVec3f position;
+	return intersect(ray, position);
+}
+
 bool ofPlane::intersect(const ofRay &ray, ofVec3f &position) const {
 	//check if line is parallel to plane
 	//if so, die young

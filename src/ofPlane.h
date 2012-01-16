@@ -24,6 +24,7 @@ public:
 	void randomiseVectors(float amplitude=1.0f);
 	//-
 	
+	bool intersect(const ofRay &ray) const;
 	bool intersect(const ofRay &ray, ofVec3f &position) const;
 	
 	const ofVec3f& getC() const;
