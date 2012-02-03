@@ -33,6 +33,7 @@ public:
 	
 	ofMatrix4x4 getViewMatrix() const;
 	ofMatrix4x4 getProjectionMatrix() const;
+  ofMatrix4x4 getViewProjMatrix() const;
 	int width;
 	int height;
 	float throwRatio;
@@ -41,8 +42,14 @@ public:
 	ofVec3f position;
 	ofQuaternion rotation;
 	
+  
+  // ccs, sometimes it seems we have to init the model with a matrix corresponding to view.proj    
+  ofMatrix4x4 viewProjMatrix; 
+  bool viewProjInitFlag;
+
 protected:
 	void makeBox();
-	
+
+  
 	static ofMesh* drawBox;
 };

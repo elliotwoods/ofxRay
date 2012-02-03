@@ -27,12 +27,33 @@ ofProjector::ofProjector(int width, int height) {
 	this->aspectRatio = (float) this->width / (float) this->height;
 	this->throwRatio = 2.0f;
 	this->lensOffset = ofVec2f(0.0f, 0.5f);
+  this->viewProjInitFlag = false;
 	randomisePose();
 	makeBox();
 }
 
+/**
+ * if we init with the viewProj matrix we can't decompose it to get just the view or
+ * just the projection matrix (can we?) but we can 
+ * presumably make everythine else work ok
+ * should we just inherit this class and write new methods? probably yes
+ */
 ofProjector::ofProjector(const ofMatrix4x4& viewProjection, int width, int height) {
-	throw("Error: viewProjection decomposition not implemented");
+  //throw("Error: viewProjection decomposition not implemented");
+  this->viewProjMatrix = viewProjection;
+  this->width = width;
+  this->height = height;
+  this->aspectRatio = (float) this->width / (float) this->height;
+  // how do we know what the throw and offset should be?
+  this->throwRatio = 2.0f;
+  this->lensOffset = ofVec2f(0.0f, 0.5f);
+  this->viewProjInitFlag = true;
+  // what does makeBox do? 
+  makeBox(); 
+}
+
+ofMatrix4x4 ofProjector::getViewProjMatrix() const{
+  return(this->viewProjMatrix);
 }
 
 void ofProjector::draw() const {
@@ -40,8 +61,16 @@ void ofProjector::draw() const {
 	ofSetColor(color);
 	
 	ofPushMatrix();
-	glMultMatrixf(getViewMatrix().getInverse().getPtr());
-	glMultMatrixf(getProjectionMatrix().getInverse().getPtr());
+  // ccs, here we need to change this if we've init'd with the 
+  // proj-view matrix
+  if(viewProjInitFlag){
+    // ccs, i think we need to call mult even with a single matrix
+    // the stack is initially the identity...
+    glMultMatrixf(getViewProjMatrix().getInverse().getPtr());
+  } else {
+    glMultMatrixf(getViewMatrix().getInverse().getPtr());
+    glMultMatrixf(getProjectionMatrix().getInverse().getPtr());
+  }
 	drawBox->draw();
 	ofPopMatrix();
 	
@@ -64,8 +93,13 @@ ofRay ofProjector::castPixel(int x, int y) const {
 }
 
 ofRay ofProjector::castCoordinate(float x, float y) const {
-	ofMatrix4x4 matrix = this->getProjectionMatrix();
-	matrix.preMult(this->getViewMatrix());
+  ofMatrix4x4 matrix;
+  if(viewProjInitFlag) {
+    matrix = this->getViewProjMatrix();
+  } else {
+    matrix = this->getProjectionMatrix();
+    matrix.preMult(this->getViewMatrix());
+  }
 	ofVec4f PosW = ofVec4f(x, y, 1.0f, 1.0f) * matrix.getInverse();
 	ofVec4f t = ofVec3f(PosW / PosW.w) - position;
 	
