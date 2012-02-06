@@ -48,6 +48,12 @@ ofProjector::ofProjector(const ofMatrix4x4& viewProjection, int width, int heigh
   this->throwRatio = 2.0f;
   this->lensOffset = ofVec2f(0.0f, 0.5f);
   this->viewProjInitFlag = true;
+  
+  // compute the position vec of the camera
+  ofMatrix4x4 temp = this->viewProjMatrix.getInverse();
+  ofVec4f temp4Vec = ofVec4f(0,0,0,1) * temp ;
+  this->position = ofVec3f(temp4Vec / temp4Vec.w);
+  
   // what does makeBox do? 
   makeBox(); 
 }
@@ -88,9 +94,23 @@ void ofProjector::randomisePose(float scale) {
 	rotation.makeRotate(ofRandom(360.0f), 0.0f, 1.0f, 0.0f);
 }
 
-ofRay ofProjector::castPixel(int x, int y) const {
-	return castCoordinate((float) x / (float) width * 2.0f - 1.0f, 1.0f - (float) y / (float) height * 2.0f);	
+// index starts from the top left (0,0)
+// 
+// index = Y * width  + x;
+// so Y = index / width 
+ofRay ofProjector::castPixelIndex(int index) const {
+  int x, y;
+  y = index / this->width;
+  x = index % this->width;
+  ofLogError() << "CastingPixels: " << index << "(x,y): " << x << " " << y << " (" << this->width << "," << this->height << ")";
+  return castPixel(x, y);
 }
+
+ofRay ofProjector::castPixel(int x, int y) const {
+	return castCoordinate( ((float) x / (float) width) * 2.0f - 1.0f, 1.0f - ((float) y / (float) height) * 2.0f);	
+}
+
+
 
 ofRay ofProjector::castCoordinate(float x, float y) const {
   ofMatrix4x4 matrix;
@@ -100,10 +120,15 @@ ofRay ofProjector::castCoordinate(float x, float y) const {
     matrix = this->getProjectionMatrix();
     matrix.preMult(this->getViewMatrix());
   }
-	ofVec4f PosW = ofVec4f(x, y, 1.0f, 1.0f) * matrix.getInverse();
-	ofVec4f t = ofVec3f(PosW / PosW.w) - position;
-	
-	return ofRay(position, t, this->color);
+
+  ofVec4f PosW, s,t;
+  
+  PosW = ofVec4f(x, y, 1.0f, 1.0f) * matrix.getInverse();
+  t = ofVec3f(PosW / PosW.w) - position;
+  s = position;
+  ofLogError() << "CastingRay: s" << s << "t: " << t;
+  
+	return ofRay(s, t, this->color);
 }
 
 ofMatrix4x4 ofProjector::getViewMatrix() const {

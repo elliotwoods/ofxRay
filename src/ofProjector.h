@@ -26,6 +26,8 @@ public:
 	
 	///Generate a ray for the given pixel coordinates x,y within the projector's image
 	ofRay castPixel(int x, int y) const;
+  ///Generate a ray for the given pixel index within the projectors image
+  ofRay castPixelIndex(int index) const;
 	///Generate a ray for the given normalised coordinate x,y where {-1.0f<x,y<1.0f}
 	ofRay castCoordinate(float x, float y) const;
 	
