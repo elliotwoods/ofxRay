@@ -21,7 +21,11 @@ public:
 	void draw() const;
 	void randomiseVectors(float amplitude = 1.0f);
 	//-
-	
+  
+  // ccs, quick test to see if other intersects with this
+  // locn is set to the intersection point if so
+  // returns TRUE if it works and FALSE otherways
+	bool intersectionPoint(const ofRay &other, ofVec3f *locn) const ;
 	ofRay intersect(const ofRay &other) const;
 	
 	float distanceTo(const ofVec3f& point) const;

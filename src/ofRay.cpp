@@ -77,6 +77,65 @@ void ofRay::transform(ofMatrix4x4 m) {
 	t = (t+sOld) * m - s;
 }
 
+/**
+ * compute the interesction point (if there is any) between
+ * both rays
+ * following :http://mathworld.wolfram.com/Line-LineIntersection.html
+ * this may be the same as intersect but i don't get it
+ *
+ * we want to compute
+ * 
+ * s = ((c x b ) . (a x b)) / | a x b| ^2
+ * a = x2 - x1;
+ * b = x4 - x3;
+ * c = x3 - x1;
+ *  
+ * the intersection point x can then be found like this
+ *
+ * x = x1 + a * s
+ */
+bool ofRay::intersectionPoint(const ofRay &other, ofVec3f *locn) const {
+  const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
+  ofVec3f a, b, c,  axb, cxb;
+  double numer, denom, sval;
+  double eps = 1.0E-6;
+  
+  a.x = p2.x - p1.x;
+  a.y = p2.y - p1.y;
+  a.z = p2.z - p1.z;
+  
+  b.x = p4.x - p3.x;
+  b.y = p4.y - p3.y;
+  b.z = p4.z - p3.z;
+
+  c.x = p3.x - p1.x;
+  c.y = p3.y - p1.y;
+  c.z = p3.z - p1.z;
+
+  // denom = | a x b |^2
+  axb = a.cross(b);
+  denom = fabs(axb.dot(axb));
+  
+  
+  ofLogError() << "denom: " << denom;
+  if(denom < eps){
+    return FALSE;
+  }
+  
+  cxb = c.cross(b);
+  numer = cxb.dot(axb);
+  ofLogError() << "numer: " << numer;
+  if(numer < eps){
+    return FALSE; // worry about errors here
+  }
+  
+  sval = numer / denom;
+  
+  *locn = (p1 + sval * a);
+  
+  return TRUE;
+}
+
 // from http://paulbourke.net/geometry/lineline3d/lineline.c 
 //	int LineLineIntersect(
 //	XYZ p1,XYZ p2,XYZ p3,XYZ p4,XYZ *pa,XYZ *pb,
@@ -132,6 +191,7 @@ ofRay ofRay::intersect(const ofRay &other) const {
 	
 	return ofRay(s, t, false);
 }
+
 
 // using http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 float ofRay::distanceTo(const ofVec3f& point) const {
