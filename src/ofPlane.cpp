@@ -18,70 +18,75 @@ ofPlane::ofPlane() {
 }
 
 ofPlane::ofPlane(float a, float b, float c, float d) {
+	ofVec3f direction(a,b,c);
+	setCenter(direction * d);
+	setNormal(direction.normalize());
 	infinite = true;
 	makeGrid();
 }
 
 ofPlane::ofPlane(ofVec3f center, ofVec3f normal) {
-	c = center;
-	n = normal;
+	setCenter(center);
+	setNormal(normal);
 	infinite = true;
 	makeGrid();
 }
 
 ofPlane::ofPlane(ofVec3f center, ofVec3f normal, ofVec3f up, ofVec2f scale) {
-	c = center;
-	n = normal.normalize();
-	infinite = false;
-	this->up = up.normalize();
-	this->scale = scale;
-	
+	setCenter(center);
+	setNormal(normal);
+	setUp(up);
+	setScale(scale);
+	infinite = false;	
 	makeGrid();
 }
 
 void ofPlane::draw() const {
-	ofPushMatrix();
-	ofTranslate(c);
-	ofQuaternion q = ofQuaternion();
-	q.makeRotate(ofVec3f(0,0,1), n);
-	float angle, x, y, z;
-	q.getRotate(angle, x, y, z);
-	ofRotate(angle, x, y, z);
-	
-	
 	ofPushStyle();
 	ofSetColor(color);
+	ofPushMatrix();
 	
-	if (!this->infinite) {
-		//align the up vector
-		ofVec3f upT = ofVec3f(0,1,0) * q;
-		ofQuaternion qU;
-		qU.makeRotate(upT, this->up);
-		qU.getRotate(angle, x, y, z);
-		ofRotate(angle, x, y, z);
-		ofScale(scale.x, scale.y, 1);
-	}
+	ofTranslate(center);
+	ofQuaternion q, r;
+	q.makeRotate(ofVec3f(0,0,1), normal);
+	r.makeRotate(ofVec3f(0,1,0) * q, up);
+	float angle, x, y, z;
+	(q * r).getRotate(angle, x, y, z);
+	ofRotate(angle, x, y, z);
+	ofScale(this->scale.x, this->scale.y, 1.0f);
+	
 	viewGrid->draw();
 	
 	if (this->infinite) {
+		ofPushStyle();
 		ofEnableAlphaBlending();
 		ofSetColor(color.r, color.g, color.b, 50);
 		viewPlane->draw();	
+		ofPopStyle();
 	}
-		
-	ofPopStyle();
 	
 	ofPopMatrix();
+	
+	ofDrawArrow(getCenter(), getCenter() + getNormal());
+	ofDrawArrow(getCenter(), getCenter() + getUp());
+	ofDrawArrow(getCenter(), getCenter() + getRight());
+	ofPopStyle();
 }
 
 void ofPlane::randomiseVectors(float amplitude) {
-	c = ofVec3f(ofRandom(-1.0f, 1.0f),
+	center = ofVec3f(ofRandom(-1.0f, 1.0f),
 				ofRandom(-1.0f, 1.0f),
 				ofRandom(-1.0f, 1.0f)) * amplitude;
-	n = ofVec3f(ofRandom(-1.0f, 1.0f),
+	normal = ofVec3f(ofRandom(-1.0f, 1.0f),
 				ofRandom(-1.0f, 1.0f),
-				ofRandom(-1.0f, 1.0f)) * amplitude;
-	n.normalize();
+				ofRandom(-1.0f, 1.0f));
+	up = ofVec3f(ofRandom(-1.0f, 1.0f),
+				 ofRandom(-1.0f, 1.0f),
+				 ofRandom(-1.0f, 1.0f));
+	scale = ofVec2f(ofRandom(-1.0f, 1.0f),
+					ofRandom(-1.0f, 1.0f)) * amplitude;
+	normal.normalize();
+	infinite = true;
 }
 
 bool ofPlane::intersect(const ofRay &ray) const {
@@ -92,10 +97,10 @@ bool ofPlane::intersect(const ofRay &ray) const {
 bool ofPlane::intersect(const ofRay &ray, ofVec3f &position) const {
 	//check if line is parallel to plane
 	//if so, die young
-	if (ray.t.dot(n) == 0.0f)
+	if (ray.t.dot(normal) == 0.0f)
 		return false;
 	
-	float u = n.dot(c - ray.s) / n.dot(ray.t);	
+	float u = normal.dot(center - ray.s) / normal.dot(ray.t);	
 	position = ray.s + u * ray.t;
 	
 	
@@ -110,7 +115,7 @@ bool ofPlane::intersect(const ofRay &ray, ofVec3f &position) const {
 		
 		//define up as ray, find distance between this ray and ray<> plane intersection point to get x position in plane
 		float x = getUpRay().distanceTo(position);
-		float y = sqrt((c - position).lengthSquared() - x*x);
+		float y = sqrt((center - position).lengthSquared() - x*x);
 		
 		//if length along this ray < height and distance of point to ray < width then we're in the plane
 		if (abs(x) <= scale.x && abs(y) <= scale.y)
@@ -122,24 +127,44 @@ bool ofPlane::intersect(const ofRay &ray, ofVec3f &position) const {
 		return true;
 }
 
-const ofVec3f& ofPlane::getC() const{
-	return c;
+const ofVec3f& ofPlane::getCenter() const{
+	return this->center;
 }
 
-const ofVec3f& ofPlane::getN() const {
-	return n;
+const ofVec3f& ofPlane::getNormal() const {
+	return this->normal;
+}
+
+const ofVec3f& ofPlane::getUp() const {
+	return this->up;
+}
+
+const ofVec2f& ofPlane::getScale() const{
+	return this->scale;
 }
 
 bool ofPlane::getInfinite() const {
-	return infinite;
+	return this->infinite;
 }
 
-void ofPlane::setC(const ofVec3f &c) {
-	this->c = c;
+void ofPlane::setCenter(const ofVec3f& center) {
+	this->center = center;
 }
 
-void ofPlane::setN(const ofVec3f &n) {
-	this->n = n;
+void ofPlane::setNormal(const ofVec3f& normal) {
+	this->normal = normal.getNormalized();
+	setUp(this->up);
+}
+
+void ofPlane::setUp(const ofVec3f& up) {
+	this->up = up;
+	this->up = this->up - this->up * this->up.dot(this->normal);
+	this->up = this->normal.crossed(this->getRight());
+	this->up.normalize();
+}
+
+void ofPlane::setScale(const ofVec2f& scale) {
+	this->scale = scale;
 }
 
 void ofPlane::setInfinite(const bool b) {
@@ -151,16 +176,16 @@ void ofPlane::getCornerRaysTo(const ofVec3f &target, ofRay* rays) const {
 	ofVec3f right = getRight() * scale.x;
 	ofVec3f corner;
 	
-	corner = c - up - right;
+	corner = center - up - right;
 	*rays++ = ofRay(corner, target - corner, color, false);
 
-	corner = c - up + right;
+	corner = center - up + right;
 	*rays++ = ofRay(corner, target - corner, color, false);
 	
-	corner = c + up + right;
+	corner = center + up + right;
 	*rays++ = ofRay(corner, target - corner, color, false);
 	
-	corner = c + up - right;
+	corner = center + up - right;
 	*rays++ = ofRay(corner, target - corner, color, false);
 }
 
@@ -169,16 +194,16 @@ void ofPlane::getCornerRaysFrom(const ofVec3f &source, ofRay* rays) const {
 	ofVec3f right = getRight() * scale.x;
 	ofVec3f corner;
 	
-	corner = c - up - right;
+	corner = center - up - right;
 	*rays++ = ofRay(source, corner - source, color, false);
 	
-	corner = c - up + right;
+	corner = center - up + right;
 	*rays++ = ofRay(source, corner - source, color, false);
 	
-	corner = c + up + right;
+	corner = center + up + right;
 	*rays++ = ofRay(source, corner - source, color, false);
 	
-	corner = c + up - right;
+	corner = center + up - right;
 	*rays++ = ofRay(source, corner - source, color, false);
 }
 
@@ -212,18 +237,15 @@ void ofPlane::makeGrid() {
 	viewPlane->setMode(OF_PRIMITIVE_TRIANGLE_FAN);	
 }
 
-ofVec3f ofPlane::getUp() const {
-	return up;
-}
 
 ofVec3f ofPlane::getRight() const {
-	return up.crossed(n).normalize();
+	return up.crossed(normal).normalize();
 }
 
 ofRay ofPlane::getUpRay() const {
-	return ofRay(c, up);
+	return ofRay(this->center, this->up);
 }
 
 ofRay ofPlane::getRightRay() const {
-	return ofRay(c, getRight());
+	return ofRay(this->center, getRight());
 }

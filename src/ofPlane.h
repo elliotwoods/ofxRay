@@ -27,12 +27,16 @@ public:
 	bool intersect(const ofRay &ray) const;
 	bool intersect(const ofRay &ray, ofVec3f &position) const;
 	
-	const ofVec3f& getC() const;
-	const ofVec3f& getN() const;
+	const ofVec3f& getCenter() const;
+	const ofVec3f& getNormal() const;
+	const ofVec3f& getUp() const;
+	const ofVec2f& getScale() const;
 	bool getInfinite() const;
 	
-	void setC(const ofVec3f& c);
-	void setN(const ofVec3f& c);
+	void setCenter(const ofVec3f& center);
+	void setNormal(const ofVec3f& normal);
+	void setUp(const ofVec3f& up);
+	void setScale(const ofVec2f& scale);
 	void setInfinite(const bool b);
 	
 	///fills rays{0..3} with rays starting from corners and going to target
@@ -40,7 +44,6 @@ public:
 	///fills rays{0..3} with rays starting from source and going to corners
 	void getCornerRaysFrom(const ofVec3f &source, ofRay* rays) const;
 	
-	ofVec3f getUp() const;
 	ofVec3f getRight() const;
 	
 	ofRay getUpRay() const;
@@ -49,8 +52,8 @@ public:
 protected:
 	void makeGrid();
 	
-	ofVec3f c;
-	ofVec3f n;
+	ofVec3f center;
+	ofVec3f normal;
 	
 	bool infinite;
 	ofVec3f up;
