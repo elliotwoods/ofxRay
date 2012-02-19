@@ -50,17 +50,21 @@ void ofRay::draw() const {
 			ofPushStyle();
 			ofSetLineWidth(1.0f);
 			ofSetColor(255,255,255);
-			ofLine(s-100*t, s+100*t);
+			ofBeginShape();
+			for (int i=-100; i<100; i+=10)
+				ofVertex(s+i*t);
+			ofEndShape(false);
 			ofPopStyle();
 		}
 		
 		
 		ofSetLineWidth(width==0.0f ? 1.0f : width);
-		ofLine(s-1000*t, s+1000*t);
-	}
-	
-	//arrow
-	ofDrawArrow(s, s+t);
+		ofBeginShape();
+		for (int i=-100; i<100; i+=10)
+			ofVertex(s+i*t);
+		ofEndShape(false);
+	} else
+		ofDrawArrow(s, s+t);
 	
 	ofPopStyle();
 }
@@ -199,7 +203,8 @@ float ofRay::distanceTo(const ofVec3f& point) const {
 }
 
 float ofRay::closestPointOnRayTo(const ofVec3f& point) const {
-
+	ofLogError() << "closestPointOnRayTo not implemented";
+	return 0.0f;
 }
 
 ofVec3f ofRay::getMidpoint() const {
