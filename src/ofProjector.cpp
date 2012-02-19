@@ -87,7 +87,7 @@ ofMatrix4x4 ofProjector::getProjectionMatrix() const {
 	///////
 	//
 	ofLogWarning() << "getProjectionMatrix() is fudged until can circumvent ofMatrix4x4::makeFrustumMatrix issue";
-	float fovx = atan(0.5f / throwRatio) / (atan(1) * 8) * 360;
+	float fovx = atan(0.5f / throwRatio) / (atan(1.0f) * 8) * 360;
 	float fovy = fovx / aspectRatio;
 	projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1, 10.0f);
 	//

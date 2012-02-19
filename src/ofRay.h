@@ -25,7 +25,7 @@ public:
 	ofRay intersect(const ofRay &other) const;
 	
 	float distanceTo(const ofVec3f& point) const;
-	float closestPointOnRayTo(const ofVec3f& point) const;
+	ofVec3f closestPointOnRayTo(const ofVec3f& point) const;
 	
 	void transform(ofMatrix4x4 m);
 	
