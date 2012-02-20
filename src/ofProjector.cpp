@@ -106,7 +106,7 @@ void ofProjector::setProjection(float throwRatio, const ofVec2f& lensOffset) {
 	const float aspectRatio = (float)width / (float)height;
 	const float fovx = 2.0f * atan(0.5f / throwRatio) * 90.0f / atan(1.0f);
 	const float fovy = fovx / aspectRatio;
-	projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1, 50.0f);
+	projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1f, 50.0f);
 
 	//lensOffset
 	ofMatrix4x4 lensOffsetTransform;
@@ -121,7 +121,7 @@ void ofProjector::setProjection(const ofMatrix4x4& projection) {
 }
 
 ofMatrix4x4 ofProjector::getViewMatrix() const {
-	return this->getGlobalTransformMatrix();
+	return this->getGlobalTransformMatrix().getInverse();
 }
 
 ofMatrix4x4 ofProjector::getProjectionMatrix() const {
