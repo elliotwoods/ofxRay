@@ -24,6 +24,12 @@ We can also define the plane using the notation _a_ x + _b_ y + _c_ z + _d_ = 0 
 
 For a non-infinite plane, we define the bounds of the _Plane segment_ with the 2D vector __bounds__, and the up vector __up__. We presume that the __up__ vector and __n__ vectors are perpendicular.
 
+## ofProjector
+
+A _Projector_ is defined by __projection__ matrix and its pose (defined by ofNode which it inherits from).
+
+We can use a projector to preview a projector or camera in a scene, and to generate pixel _ofRay_s.
+
 ## ofGeometric
 
 All objects within ofxRay inherit from ofGeometric. 
