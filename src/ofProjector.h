@@ -29,9 +29,13 @@ public:
 	
 	///Generate a ray for the given pixel coordinates x,y within the projector's image
 	ofRay castPixel(int x, int y) const;
+	ofRay castPixel(const ofVec2f& xy) const;
+	void castPixels(const vector<ofVec2f>& xy, vector<ofRay>& rays) const;
+
 	///Generate a ray for the given normalised coordinate x,y where {-1.0f<x,y<1.0f}
-	ofRay castCoordinate(float x, float y) const;
-	
+	ofRay castCoordinate(const ofVec2f& xy) const;
+	void castCoordinates(const vector<ofVec2f>& xy, vector<ofRay>& rays) const;
+
 	void setProjection(float throwRatio, const ofVec2f& lensOffset);
 	void setProjection(const ofMatrix4x4& projection);
 

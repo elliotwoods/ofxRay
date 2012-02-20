@@ -21,6 +21,8 @@ public:
 	map<string, float&>::iterator dataCursor;
 	
 	ofProjector projector;
+	vector<ofVec2f> pixels;
+	vector<ofRay> rays;
 	
 	ofVec3f position;
 	ofVec2f resolution;

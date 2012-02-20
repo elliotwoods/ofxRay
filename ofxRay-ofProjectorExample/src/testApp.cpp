@@ -39,6 +39,10 @@ void testApp::draw(){
 	ofPopStyle();
 
 	projector.draw();
+
+	vector<ofRay>::iterator it;
+	for (it = rays.begin(); it != rays.end(); it++)
+		it->draw();
 	
 	camera.end();
 	
@@ -48,7 +52,7 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::drawSelection() {
 	int nItems = data.size();
-	string instruction = "[RETURN] to move selection, [UP]/[DOWN],[LEFT]/[RIGHT],[A]/[Z] to edit";
+	string instruction = "[UP]/[DOWN] to move selection, [LEFT]/[RIGHT] to edit";
 	
 	int stringWidth = 0;
 	map<string, float&>::iterator it;
@@ -110,5 +114,11 @@ void testApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void testApp::updateProjector()	{
-	projector.setProjection(throwRatio, lensOffset);
+	projector.setProjection(this->throwRatio, this->lensOffset);
+	projector.setPosition(this->position);
+	pixels.clear();
+	for (int i=0; i<this->resolution.x; i+=32)
+		for(int j=0; j<this->resolution.y; j+=32)
+			pixels.push_back(ofVec2f(i, j));
+	projector.castPixels(pixels, rays);
 }

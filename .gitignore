@@ -11,3 +11,8 @@ bin/
 build/
 !data/
 xcuserdata/
+
+*.suo
+*.opensdf
+*.vcxproj.user
+*.vsxproj.filters
