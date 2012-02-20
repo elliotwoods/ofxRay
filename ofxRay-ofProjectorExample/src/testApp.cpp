@@ -114,6 +114,8 @@ void testApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void testApp::updateProjector()	{
+	projector.setWidth(this->resolution.x);
+	projector.setHeight(this->resolution.y);
 	projector.setProjection(this->throwRatio, this->lensOffset);
 	projector.setPosition(this->position);
 	pixels.clear();
