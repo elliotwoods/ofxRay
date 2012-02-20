@@ -9,30 +9,23 @@
 
 ofMesh* ofProjector::drawBox = 0;
 
-ofProjector::ofProjector() {
-	*this = ofProjector(1024, 768);
-	/*
-	this->width = 1024;
-	this->height = 768;
-	this->aspectRatio = this->width / this->height;
-	this->throwRatio = 2.0f;
-	
-	randomisePose();
-	 */
+ofProjector::ofProjector(int width, int height) {
+	float aspectRatio= (float)width / (float)height;
+	*this = ofProjector(2.0f, ofVec2f(0.0f, 0.5f), width, height);
 }
 
-ofProjector::ofProjector(int width, int height) {
+ofProjector::ofProjector(float throwRatio, const ofVec2f& lensOffset, int width, int height) {
 	this->width = width;
 	this->height = height;
-	this->aspectRatio = (float) this->width / (float) this->height;
-	this->throwRatio = 2.0f;
-	this->lensOffset = ofVec2f(0.0f, 0.5f);
-	randomisePose();
-	makeBox();
+	this->setProjection(throwRatio, lensOffset);
+	ofProjector::makeBox();
 }
 
-ofProjector::ofProjector(const ofMatrix4x4& viewProjection, int width, int height) {
-	throw("Error: viewProjection decomposition not implemented");
+ofProjector::ofProjector(const ofMatrix4x4& projection, int width, int height) {
+	this->projection = projection;
+	this->width = width;
+	this->height = height;
+	ofProjector::makeBox();
 }
 
 void ofProjector::draw() const {
@@ -53,10 +46,10 @@ void ofProjector::randomiseVectors(float amplitude) {
 }
 
 void ofProjector::randomisePose(float scale) {
-	position = ofVec3f(ofRandom(-scale, scale),
+	((ofNode*)(this))->setGlobalPosition(ofVec3f(ofRandom(-scale, scale),
 					   ofRandom(-scale, scale),
-					   ofRandom(-scale, scale));
-	rotation.makeRotate(ofRandom(360.0f), 0.0f, 1.0f, 0.0f);
+					   ofRandom(-scale, scale)));
+	((ofNode*)(this))->setOrientation(ofQuaternion(ofRandom(360.0f), 0.0f, 1.0f, 0.0f));
 }
 
 ofRay ofProjector::castPixel(int x, int y) const {
@@ -67,36 +60,37 @@ ofRay ofProjector::castCoordinate(float x, float y) const {
 	ofMatrix4x4 matrix = this->getProjectionMatrix();
 	matrix.preMult(this->getViewMatrix());
 	ofVec4f PosW = ofVec4f(x, y, 1.0f, 1.0f) * matrix.getInverse();
-	ofVec4f t = ofVec3f(PosW / PosW.w) - position;
-	
-	return ofRay(position, t, this->color);
+	ofVec4f t = ofVec3f(PosW / PosW.w) - this->getPosition();
+	return ofRay(this->getPosition(), t, this->color);
+}
+
+void ofProjector::setProjection(float throwRatio, const ofVec2f& lensOffset) {
+	ofMatrix4x4 projection;
+
+	//throwRatio, aspectRatio
+	const float aspectRatio = (float)width / (float)height;
+	const float fovx = 2.0f * atan(0.5f / throwRatio) * 90.0f / atan(1.0f);
+	const float fovy = fovx / aspectRatio;
+	projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1, 5000.0f);
+
+	//lensOffset
+	ofMatrix4x4 lensOffsetTransform;
+	lensOffsetTransform.makeTranslationMatrix(-lensOffset.x * 2.0f, -lensOffset.y * 2.0f, 0.0f);
+	projection *= lensOffsetTransform;
+
+	this->setProjection(projection);
+}
+
+void ofProjector::setProjection(const ofMatrix4x4& projection) {
+	this->projection = projection;
 }
 
 ofMatrix4x4 ofProjector::getViewMatrix() const {
-	ofMatrix4x4 view;
-	view.makeRotationMatrix(rotation);
-	view.preMultTranslate(-position);
-	return view;
+	return this->getGlobalTransformMatrix();
 }
 
 ofMatrix4x4 ofProjector::getProjectionMatrix() const {
-	ofMatrix4x4 projection;
-	
-	///////
-	//approx
-	///////
-	//
-	ofLogWarning() << "getProjectionMatrix() is fudged until can circumvent ofMatrix4x4::makeFrustumMatrix issue";
-	float fovx = atan(0.5f / throwRatio) / (atan(1.0f) * 8) * 360;
-	float fovy = fovx / aspectRatio;
-	projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1, 10.0f);
-	//
-	///////
-	
-	
-	//the following doesn't give sensible results:
-	//projection.makeFrustumMatrix(-0.5f + lensOffset.x, +0.5f + lensOffset.x, -0.5 / aspectRatio + lensOffset.y,  -0.5 / aspectRatio + lensOffset.y, 0.1f, throwRatio);
-	return projection;
+	return this->projection;
 }
 
 void ofProjector::makeBox() {

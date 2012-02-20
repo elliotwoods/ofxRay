@@ -9,40 +9,41 @@
 #include "ofRay.h"
 
 ///A class to generate rays given parameters for a projector or camera
-class ofProjector : public ofGeometric {
+///NB: ofProjector inherits from ofNode, and therefore ofNode stores its view matrix
+class ofProjector : public ofGeometric, public ofNode {
 public:
-	ofProjector();
-	ofProjector(int width, int height);
-	ofProjector(const ofMatrix4x4& viewProjection, int width, int height);
-	
-	//-
+	ofProjector(int width=1024, int height=768);
+	ofProjector(float throwRatio, const ofVec2f& lensOffset, int width, int height);
+	ofProjector(const ofMatrix4x4& projection, int width, int height);
+
+	////
 	//ofGeometric
+	////
+	//
 	void draw() const;
 	void randomiseVectors(float amplitude=1.0f);
-	//-
+	////
 	
-	///Choose a random pose, fov, lens properties for the camera with position scale parameter
-	void randomisePose(float scale=1.f);
+	///Choose a random pose, for the projector with scale factor
+	void randomisePose(float scale=1.0f);
 	
 	///Generate a ray for the given pixel coordinates x,y within the projector's image
 	ofRay castPixel(int x, int y) const;
 	///Generate a ray for the given normalised coordinate x,y where {-1.0f<x,y<1.0f}
 	ofRay castCoordinate(float x, float y) const;
 	
-	///
-	
+	void setProjection(float throwRatio, const ofVec2f& lensOffset);
+	void setProjection(const ofMatrix4x4& projection);
+
 	ofMatrix4x4 getViewMatrix() const;
 	ofMatrix4x4 getProjectionMatrix() const;
 	int width;
 	int height;
-	float throwRatio;
-	float aspectRatio;
-	ofVec2f lensOffset;
-	ofVec3f position;
-	ofQuaternion rotation;
-	
+
 protected:
-	void makeBox();
-	
+	ofMatrix4x4 projection;
 	static ofMesh* drawBox;
+
+private:
+	static void makeBox();
 };

@@ -137,7 +137,6 @@ ofRay ofRay::intersect(const ofRay &other) const {
 float ofRay::distanceTo(const ofVec3f& point) const {
 	return (point - s).cross(point - (s+t)).length() / t.length();
 }
-// using http://www.gamedev.net/topic/495120-find-closest-point-on-3d-line-from-a-point/
 // untested but makes sense
 ofVec3f ofRay::closestPointOnRayTo(const ofVec3f& point) const {
 	return s + (t * (point - s).dot(t) / t.length());
