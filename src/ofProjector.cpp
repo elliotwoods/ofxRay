@@ -120,6 +120,22 @@ void ofProjector::setProjection(const ofMatrix4x4& projection) {
 	this->projection = projection;
 }
 
+void ofProjector::setWidth(int width) {
+	this->width = width;
+}
+
+void ofProjector::getWidth(int height) {
+	this->height = height;
+}
+
+int ofProjector::getWidth() const {
+	return this->width;
+}
+
+int ofProjector::getHeight() const {
+	return this->height;
+}
+
 ofMatrix4x4 ofProjector::getViewMatrix() const {
 	return this->getGlobalTransformMatrix().getInverse();
 }

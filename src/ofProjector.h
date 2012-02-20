@@ -39,12 +39,19 @@ public:
 	void setProjection(float throwRatio, const ofVec2f& lensOffset);
 	void setProjection(const ofMatrix4x4& projection);
 
+	///Set width of projector. Warning: we will forget our throwRatio and lensOffset
+	void setWidth(int width);
+	///Set height of projector. Warning: we will forget our throwRatio and lensOffset
+	void setHeight(int height);
+	int getWidth() const;
+	int getHeight() const;
+
 	ofMatrix4x4 getViewMatrix() const;
 	ofMatrix4x4 getProjectionMatrix() const;
-	int width;
-	int height;
 
 protected:
+	int width;
+	int height;
 	ofMatrix4x4 projection;
 	static ofMesh* drawBox;
 
