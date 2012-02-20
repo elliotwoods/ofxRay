@@ -124,7 +124,7 @@ void ofProjector::setWidth(int width) {
 	this->width = width;
 }
 
-void ofProjector::getWidth(int height) {
+void ofProjector::setHeight(int height) {
 	this->height = height;
 }
 
