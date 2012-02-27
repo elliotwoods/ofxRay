@@ -27,7 +27,8 @@ public:
 	float distanceTo(const ofVec3f& point) const;
 	ofVec3f closestPointOnRayTo(const ofVec3f& point) const;
 	
-	void transform(ofMatrix4x4 m);
+	ofRay& operator*=(const ofMatrix4x4 &m);
+	ofRay operator*(const ofMatrix4x4 &m) const;
 	
 	ofVec3f	getMidpoint() const;
 	float	getLength() const;

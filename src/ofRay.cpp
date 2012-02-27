@@ -71,10 +71,16 @@ void ofRay::randomiseVectors(float amplitude) {
 	t = ofVec3f(ofRandomf(), ofRandomf(), ofRandomf()) * amplitude;
 }
 
-void ofRay::transform(ofMatrix4x4 m) {
+ofRay& ofRay::operator*=(const ofMatrix4x4 &m) {
 	ofVec3f sOld = s;
 	s = s * m;
 	t = (t+sOld) * m - s;
+	return *this;
+}
+
+ofRay ofRay::operator*(const ofMatrix4x4 &m) const {
+	ofRay ray;
+	return ray *= m;
 }
 
 // from http://paulbourke.net/geometry/lineline3d/lineline.c 

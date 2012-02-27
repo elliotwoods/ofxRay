@@ -123,6 +123,7 @@ if not exist "$(ProjectDir)\bin\data" mkdir  "$(ProjectDir)\bin\data"
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\ofxGrabCam\src\of3dMouseEventArgs.cpp" />
     <ClCompile Include="..\..\ofxGrabCam\src\ofxGrabCam.cpp" />
     <ClCompile Include="..\src\ofGeometric.cpp" />
     <ClCompile Include="..\src\ofPlane.cpp" />
@@ -132,6 +133,7 @@ if not exist "$(ProjectDir)\bin\data" mkdir  "$(ProjectDir)\bin\data"
     <ClCompile Include="src\testApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\ofxGrabCam\src\of3dMouseEventArgs.h" />
     <ClInclude Include="..\..\ofxGrabCam\src\ofxGrabCam.h" />
     <ClInclude Include="..\src\ofGeometric.h" />
     <ClInclude Include="..\src\ofPlane.h" />
