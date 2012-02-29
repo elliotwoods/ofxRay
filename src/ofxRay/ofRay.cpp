@@ -87,9 +87,7 @@ ofRay ofRay::operator*(const ofMatrix4x4 &m) const {
 //	int LineLineIntersect(
 //	XYZ p1,XYZ p2,XYZ p3,XYZ p4,XYZ *pa,XYZ *pb,
 //	double *mua, double *mub)
-ofRay ofRay::intersect(const ofRay &other) const {	
-	ofRay intersectRay();
-	
+ofRay ofRay::intersect(const ofRay &other) const {		
 	const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
 	const float EPS(1.0E-5);
 	

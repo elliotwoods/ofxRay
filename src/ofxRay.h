@@ -10,6 +10,6 @@
 //include me in your project
 //and i'll include everything else
 
-#include "ofRay.h"
-#include "ofPlane.h"
-#include "ofProjector.h"
+#include "ofxRay/ofRay.h"
+#include "ofxRay/ofPlane.h"
+#include "ofxRay/ofProjector.h"
