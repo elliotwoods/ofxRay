@@ -7,7 +7,7 @@
 //	http://www.kimchiandchips.com
 //
 
-#include "ofMain.h"
+#include "ofColor.h"
 #include "ofGeometric.h"
 
 class ofRay : public ofGeometric {
