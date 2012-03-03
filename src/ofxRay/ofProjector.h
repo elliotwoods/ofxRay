@@ -51,6 +51,8 @@ namespace ofxRay {
 		ofMatrix4x4 getProjectionMatrix() const;
 		ofMatrix4x4 getViewProjectionMatrix() const;
 
+		ofVec3f projectPoint(const ofVec3f& point) const;
+
 	protected:
 		int width;
 		int height;

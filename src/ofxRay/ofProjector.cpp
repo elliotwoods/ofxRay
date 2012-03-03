@@ -199,4 +199,11 @@ namespace ofxRay {
 	ofMatrix4x4 Projector::getViewProjectionMatrix() const {
 		return this->getViewMatrix() * this->getProjectionMatrix();
 	}
+
+	//----------
+	ofVec3f Projector::projectPoint(const ofVec3f& point) const {
+		ofVec4f point4(point.x, point.y, point.z, 1.0f);
+		point4 = point4 * this->getViewProjectionMatrix();
+		return ofVec3f(point4.x / point4.w, point4.y / point4.w, point4.z / point4.w);
+	}
 }
