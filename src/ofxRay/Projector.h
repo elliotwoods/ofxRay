@@ -16,7 +16,8 @@ namespace ofxRay {
 	public:
 		Projector(int width=1024, int height=768);
 		Projector(float throwRatio, const ofVec2f& lensOffset, int width, int height);
-		Projector(const ofMatrix4x4& projection, int width, int height);
+		Projector(const ofMatrix4x4 & projection, int width, int height);
+		Projector(const ofMatrix4x4 & view, const ofMatrix4x4 & projection, int width, int height);
 
 		////
 		//ofGeometric
@@ -51,6 +52,8 @@ namespace ofxRay {
 		ofMatrix4x4 getViewMatrix() const;
 		ofMatrix4x4 getProjectionMatrix() const;
 
+		bool isProjectionMatrixInfinite() const;
+		ofMatrix4x4 getClippedProjectionMatrix() const; ///<If projection matrix is infinite, we enforce a (0.01...10.0) clipping
 	protected:
 		int width;
 		int height;

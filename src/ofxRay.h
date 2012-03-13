@@ -12,9 +12,9 @@
 
 #include "ofMain.h"
 
-#include "ofxRay/ofRay.h"
-#include "ofxRay/ofPlane.h"
-#include "ofxRay/ofProjector.h"
+#include "ofxRay/Ray.h"
+#include "ofxRay/Plane.h"
+#include "ofxRay/Projector.h"
 
 typedef ofxRay::Ray ofRay;
 typedef ofxRay::Plane ofPlane;

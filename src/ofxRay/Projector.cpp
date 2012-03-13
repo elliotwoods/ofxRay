@@ -35,7 +35,7 @@ namespace ofxRay {
 	
 		ofPushMatrix();
 		glMultMatrixf(getViewMatrix().getInverse().getPtr());
-		glMultMatrixf(getProjectionMatrix().getInverse().getPtr());
+		glMultMatrixf(getClippedProjectionMatrix().getInverse().getPtr());
 		drawBox->draw();
 		ofPopMatrix();
 	
@@ -137,12 +137,28 @@ namespace ofxRay {
 		return this->height;
 	}
 
+	bool Projector::isProjectionMatrixInfinite() const {
+		return this->projection(2, 2) == 0.0f;
+	}
+
 	ofMatrix4x4 Projector::getViewMatrix() const {
 		return this->getGlobalTransformMatrix().getInverse();
 	}
 
 	ofMatrix4x4 Projector::getProjectionMatrix() const {
 		return this->projection;
+	}
+
+	ofMatrix4x4 Projector::getClippedProjectionMatrix() const {
+		if ( this->isProjectionMatrixInfinite() ) {
+			const float n(0.01f); //near
+			const float f(10.0f); //far
+			ofMatrix4x4 projection = this->getProjectionMatrix();
+			projection(2, 2) = - (f + n) / (f - n);
+			projection(3, 2) = - f * n / (f - n);
+			return projection;
+		} else 
+			return this->getProjectionMatrix();
 	}
 
 	void Projector::makeBox() {
