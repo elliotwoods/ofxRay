@@ -89,7 +89,7 @@ namespace ofxRay {
 	//	XYZ p1,XYZ p2,XYZ p3,XYZ p4,XYZ *pa,XYZ *pb,
 	//	double *mua, double *mub)
 	Ray Ray::intersect(const Ray &other) const {	
-		Ray intersectRay();
+		Ray intersectRay;
 	
 		const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
 		const float EPS(1.0E-5);
