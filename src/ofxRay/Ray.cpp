@@ -51,17 +51,17 @@ namespace ofxRay {
 				ofPushStyle();
 				ofSetLineWidth(1.0f);
 				ofSetColor(255,255,255);
-				ofLine(s-100*t, s+100*t);
+				ofLine(s-100*(t-s), s+100*(t-s));
 				ofPopStyle();
 			}
 		
 		
 			ofSetLineWidth(width==0.0f ? 1.0f : width);
-			ofLine(s-1000*t, s+1000*t);
+			ofLine(s-1000*(t-s), s+1000*(t-s));
 		}
 	
 		//arrow
-		ofDrawArrow(s, s+t);
+		ofDrawArrow(s, t);
 	
 		ofPopStyle();
 	}
@@ -91,7 +91,7 @@ namespace ofxRay {
 	Ray Ray::intersect(const Ray &other) const {	
 		Ray intersectRay;
 	
-		const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
+		const ofVec3f p1(s), p2(t), p3(other.s), p4(other.t);
 		const float EPS(1.0E-5);
 	
 		ofVec3f p13,p43,p21;
