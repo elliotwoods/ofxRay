@@ -15,6 +15,7 @@
 #include "ofxRay/Ray.h"
 #include "ofxRay/Plane.h"
 #include "ofxRay/Projector.h"
+#include "ofxRay/Camera.h"
 
 typedef ofxRay::Ray ofRay;
 typedef ofxRay::Plane ofPlane;

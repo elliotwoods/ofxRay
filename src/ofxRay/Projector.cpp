@@ -32,6 +32,7 @@ namespace ofxRay {
 	void Projector::draw() const {
 		ofPushStyle();
 		ofSetColor(color);
+		ofSetLineWidth(3.0f);
 	
 		ofPushMatrix();
 		glMultMatrixf(getViewMatrix().getInverse().getPtr());

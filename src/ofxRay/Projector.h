@@ -26,7 +26,7 @@ namespace ofxRay {
 		void draw() const;
 		void randomiseVectors(float amplitude=1.0f);
 		////
-	
+		
 		///Choose a random pose, for the projector with scale factor
 		void randomisePose(float scale=1.0f);
 	

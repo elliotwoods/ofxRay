@@ -146,7 +146,7 @@ namespace ofxRay {
 	}
 	// untested but makes sense
 	ofVec3f Ray::closestPointOnRayTo(const ofVec3f& point) const {
-		return s + (t * (point - s).dot(t) / t.length());
+		return s + (t * (point - s).dot(t) / t.lengthSquared());
 	}
 
 	ofVec3f Ray::getMidpoint() const {
