@@ -38,5 +38,8 @@
     <ClCompile Include="..\src\ofxRay\Projector.cpp">
       <Filter>src\ofxRay</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ofxRay\Camera.cpp">
+      <Filter>src\ofxRay</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

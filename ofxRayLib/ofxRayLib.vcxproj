@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ofxRay\Base.cpp" />
+    <ClCompile Include="..\src\ofxRay\Camera.cpp" />
     <ClCompile Include="..\src\ofxRay\Plane.cpp" />
     <ClCompile Include="..\src\ofxRay\Projector.cpp" />
     <ClCompile Include="..\src\ofxRay\Ray.cpp" />
