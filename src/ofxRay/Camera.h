@@ -13,5 +13,8 @@ namespace ofxRay {
 	class Camera : public Projector {
 	public:
 		Camera();
+		
+		ofVec2f undistortCoordinate(const ofVec2f & xy) const;
+		ofVec4f distortion;
 	};
 }

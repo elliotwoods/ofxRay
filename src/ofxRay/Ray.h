@@ -33,6 +33,7 @@ namespace ofxRay {
 	
 		ofVec3f	getMidpoint() const;
 		float	getLength() const;
+		float	getLengthSquared() const;
 	
 		Ray operator*(float other) const;
 		ofVec3f operator()(float other) const;

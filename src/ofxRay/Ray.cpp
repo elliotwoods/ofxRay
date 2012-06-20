@@ -156,6 +156,10 @@ namespace ofxRay {
 	float Ray::getLength() const {
 		return t.length();
 	}
+	
+	float Ray::getLengthSquared() const {
+		return t.lengthSquared();
+	}
 
 	Ray Ray::operator*(float other) const {
 		return Ray(s, t * other, color, infinite);

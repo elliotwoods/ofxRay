@@ -75,11 +75,12 @@ namespace ofxRay {
 	}
 
 	Ray Projector::castCoordinate(const ofVec2f& xy) const {
+		ofVec2f xyUndistorted = this->undistortCoordinate(xy);
 		ofMatrix4x4 matrix = this->getProjectionMatrix();
 		matrix.preMult(this->getViewMatrix());
-		ofVec4f PosW = ofVec4f(xy.x, xy.y, 1.0f, 1.0f) * matrix.getInverse();
+		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, 1.0f, 1.0f) * matrix.getInverse();
 		ofVec3f t = ofVec3f(PosW / PosW.w) - this->getPosition();
-		return Ray(this->getPosition(), t, ofColor(255.0f * (xy.x + 1.0f) / 2.0f, 255.0f * (xy.x + 1.0f) / 2.0f, 0.0f));
+		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f));
 	}
 
 	void Projector::castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const {
@@ -162,6 +163,33 @@ namespace ofxRay {
 			return this->getProjectionMatrix();
 	}
 
+	void Projector::drawOnNearPlane(ofBaseHasTexture &image) const {
+		ofMesh plane;
+		
+		ofMatrix4x4 inversed;
+		inversed.makeInvertOf(this->getViewMatrix() * this->getProjectionMatrix());
+		
+		plane.addVertex(ofVec3f(-1.0f, +1.0f, -1.0f) * inversed);
+		plane.addTexCoord(ofVec2f(0,0));
+		plane.addVertex(ofVec3f(+1.0f, +1.0f, -1.0f) * inversed);
+		plane.addTexCoord(ofVec2f(this->getWidth(),0));
+		plane.addVertex(ofVec3f(-1.0f, -1.0f, -1.0f) * inversed);
+		plane.addTexCoord(ofVec2f(0,this->getHeight()));
+		plane.addVertex(ofVec3f(+1.0f, -1.0f, -1.0f) * inversed);
+		plane.addTexCoord(ofVec2f(this->getWidth(),this->getHeight()));
+		
+		plane.addIndex(0);
+		plane.addIndex(1);
+		plane.addIndex(2);
+		plane.addIndex(2);
+		plane.addIndex(1);
+		plane.addIndex(3);
+		
+		image.getTextureReference().bind();
+		plane.draw();
+		image.getTextureReference().unbind();
+	}
+	
 	void Projector::makeBox() {
 		if (drawBox != 0)
 			return;

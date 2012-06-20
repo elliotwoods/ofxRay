@@ -30,6 +30,9 @@ namespace ofxRay {
 		///Choose a random pose, for the projector with scale factor
 		void randomisePose(float scale=1.0f);
 	
+		///Undistort the given coordinate (pass through for Projector)
+		virtual ofVec2f undistortCoordinate(const ofVec2f & xy) const { return xy;}
+		
 		///Generate a ray for the given pixel coordinates x,y within the projector's image
 		Ray castPixel(int x, int y) const;
 		Ray castPixel(const ofVec2f& xy) const;
@@ -54,6 +57,9 @@ namespace ofxRay {
 
 		bool isProjectionMatrixInfinite() const;
 		ofMatrix4x4 getClippedProjectionMatrix() const; ///<If projection matrix is infinite, we enforce a (0.01...10.0) clipping
+		
+		void drawOnNearPlane(ofBaseHasTexture & image) const;
+		
 	protected:
 		int width;
 		int height;
