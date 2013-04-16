@@ -14,6 +14,17 @@ namespace ofxRay {
 		
 	}
 	
+
+	Camera::Camera(const ofVec2f & focalLength, const ofVec2f & center, float zNear, float zFar, float w, float h)
+	:Projector(w,h){
+		ofMatrix4x4 projection;
+		projection.makeFrustumMatrix( zNear*center.x/focalLength.x,
+									 -zNear*(w-center.x)/focalLength.x,
+									  zNear*center.y/focalLength.y,
+									 -zNear*(h-center.y)/focalLength.y,zNear,zFar);
+		setProjection(projection);
+	}
+
 	ofVec2f Camera::undistortCoordinate(const ofVec2f & xy) const {
 		float theta = atan2(xy.y, xy.x);
 		float r = xy.length();
