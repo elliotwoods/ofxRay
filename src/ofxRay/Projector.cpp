@@ -239,4 +239,12 @@ namespace ofxRay {
 		drawBox->addIndices(indices);
 		drawBox->setMode(OF_PRIMITIVE_LINES);
 	}
+
+	ofVec2f Projector::getNormFromIndex(const uint index) {
+		uint x = index % width;
+		uint y = index / width;
+		return ofVec2f(2.0f * (float(x) + 0.5) / float(width) - 1.0f,
+				2.0f * (float(y) + 0.5) / float(height) - 1.0f);
+	}
 }
+
