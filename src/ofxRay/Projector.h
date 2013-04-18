@@ -60,6 +60,8 @@ namespace ofxRay {
 		
 		void drawOnNearPlane(ofBaseHasTexture & image) const;
 		
+		ofVec2f getNormFromIndex(const uint index);
+
 	protected:
 		int width;
 		int height;
