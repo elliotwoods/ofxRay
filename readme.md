@@ -10,7 +10,7 @@ A lightweight set of tools for intersection testings (e.g. does a ray intersect 
 
 A _Ray_ is defined by the starting point __s__ and the transmission vector __t__ . Check equation (5) at http://mathworld.wolfram.com/Line.html
 
-We define a ray as an infinite line (continuing infinitely forwards and backwards along the line __t__ and -__t__ starting at __s__ .
+We define a ray as an infinite line (continuing infinitely forwards and backwards along the line __t__ and - __t__ starting at __s__ .
 
 The line is defined by points __s__ + __u__ * __t__ , where {-inf < _u_ < +inf}.
 
