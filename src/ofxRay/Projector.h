@@ -60,7 +60,11 @@ namespace ofxRay {
 		
 		void drawOnNearPlane(ofBaseHasTexture & image) const;
 		
-		ofVec2f getNormFromIndex(const uint index);
+		ofVec2f getNormFromIndex(const uint32_t index);
+		ofVec2f getNormFromIndex(const uint32_t x, const uint32_t y);
+		
+		static void setDefaultNear(float defaultNear = 0.5);
+		static void setDefaultFar(float defaultFar = 20.0f);
 
 	protected:
 		int width;
@@ -68,6 +72,8 @@ namespace ofxRay {
 		ofMatrix4x4 projection;
 		static ofMesh* drawBox;
 
+		static float defaultNear;
+		static float defaultFar;
 	private:
 		static void makeBox();
 	};

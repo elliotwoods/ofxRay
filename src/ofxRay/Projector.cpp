@@ -9,6 +9,8 @@
 
 namespace ofxRay {
 	ofMesh* Projector::drawBox = 0;
+	float Projector::defaultNear = 0.5;
+	float Projector::defaultFar = 20.0f;
 
 	Projector::Projector(int width, int height) {
 		float aspectRatio= (float)width / (float)height;
@@ -76,15 +78,15 @@ namespace ofxRay {
 
 	Ray Projector::castCoordinate(const ofVec2f& xy) const {
 		ofVec2f xyUndistorted = this->undistortCoordinate(xy);
-		ofMatrix4x4 matrix = this->getProjectionMatrix();
+		ofMatrix4x4 matrix = this->getClippedProjectionMatrix();
 		matrix.preMult(this->getViewMatrix());
 		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, 1.0f, 1.0f) * matrix.getInverse();
 		ofVec3f t = ofVec3f(PosW / PosW.w) - this->getPosition();
-		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f));
+		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f), false);
 	}
 
 	void Projector::castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const {
-		ofMatrix4x4 matrix = this->getProjectionMatrix();
+		ofMatrix4x4 matrix = this->getClippedProjectionMatrix();
 		matrix.preMult(this->getViewMatrix());
 
 		ofVec4f s = this->getPosition();
@@ -140,7 +142,7 @@ namespace ofxRay {
 	}
 
 	bool Projector::isProjectionMatrixInfinite() const {
-		return this->projection(2, 2) == 0.0f;
+		return this->projection(3, 2) == 0.0f;
 	}
 
 	ofMatrix4x4 Projector::getViewMatrix() const {
@@ -153,11 +155,11 @@ namespace ofxRay {
 
 	ofMatrix4x4 Projector::getClippedProjectionMatrix() const {
 		if ( this->isProjectionMatrixInfinite() ) {
-			const float n(0.01f); //near
-			const float f(10.0f); //far
+			const float n(defaultNear);
+			const float f(defaultFar);
 			ofMatrix4x4 projection = this->getProjectionMatrix();
-			projection(2, 2) = - (f + n) / (f - n);
-			projection(3, 2) = - f * n / (f - n);
+			projection(2, 2) *= (f + n) / (f - n);
+			projection(3, 2) = - (f * n / (f - n));
 			return projection;
 		} else 
 			return this->getProjectionMatrix();
@@ -240,11 +242,23 @@ namespace ofxRay {
 		drawBox->setMode(OF_PRIMITIVE_LINES);
 	}
 
-	ofVec2f Projector::getNormFromIndex(const uint index) {
-		uint x = index % width;
-		uint y = index / width;
+	ofVec2f Projector::getNormFromIndex(const uint32_t pixelIndex) {
+		uint32_t x = pixelIndex % width;
+		uint32_t y = pixelIndex / width;
+		return getNormFromIndex(x, y);
+	}
+
+	ofVec2f Projector::getNormFromIndex(const uint32_t x, const uint32_t y) {
 		return ofVec2f(2.0f * (float(x) + 0.5) / float(width) - 1.0f,
-				2.0f * (float(y) + 0.5) / float(height) - 1.0f);
+				1.0f - 2.0f * (float(y) + 0.5) / float(height));
+	}
+	
+	void Projector::setDefaultNear(float defaultNear) {
+		Projector::defaultNear = defaultNear;
+	}
+	
+	void Projector::setDefaultFar(float defaultFar) {
+		Projector::defaultFar = defaultFar;
 	}
 }
 
