@@ -22,7 +22,7 @@ namespace ofxRay {
 		void draw() const;
 		void randomiseVectors(float amplitude = 1.0f);
 		//-
-	
+
 		Ray intersect(const Ray &other) const;
 	
 		float distanceTo(const ofVec3f& point) const;

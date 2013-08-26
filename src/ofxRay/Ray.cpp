@@ -80,15 +80,15 @@ namespace ofxRay {
 	}
 
 	Ray Ray::operator*(const ofMatrix4x4 &m) const {
-		Ray ray;
+		Ray ray = *this;
 		return ray *= m;
 	}
-
-	// from http://paulbourke.net/geometry/lineline3d/lineline.c 
+	
+	// from http://paulbourke.net/geometry/lineline3d/lineline.c
 	//	int LineLineIntersect(
 	//	XYZ p1,XYZ p2,XYZ p3,XYZ p4,XYZ *pa,XYZ *pb,
 	//	double *mua, double *mub)
-	Ray Ray::intersect(const Ray &other) const {	
+	Ray Ray::intersect(const Ray &other) const {
 		Ray intersectRay;
 	
 		const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
@@ -122,9 +122,9 @@ namespace ofxRay {
 		if (fabs(denom) < EPS)
 			return(Ray());
 		numer = d1343 * d4321 - d1321 * d4343;
-	
-		const float ma = numer / denom;
-		const float mb = (d1343 + d4321 * (ma)) / d4343;
+		
+		float ma = numer / denom;
+		float mb = (d1343 + d4321 * (ma)) / d4343;
 	
 		ofVec3f s;
 		ofVec3f t;
