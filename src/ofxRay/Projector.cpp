@@ -40,6 +40,8 @@ namespace ofxRay {
 		glMultMatrixf(getViewMatrix().getInverse().getPtr());
 		glMultMatrixf(getClippedProjectionMatrix().getInverse().getPtr());
 		drawBox->draw();
+		ofLine(ofVec3f(0.0f,0.0f,+1.0f), ofVec3f(2.0f,0.0f,+1.0f));
+		ofLine(ofVec3f(0.0f,0.0f,+1.0f), ofVec3f(0.0f,2.0f,+1.0f));
 		ofPopMatrix();
 	
 		ofPopStyle();
@@ -242,15 +244,23 @@ namespace ofxRay {
 		drawBox->setMode(OF_PRIMITIVE_LINES);
 	}
 
-	ofVec2f Projector::getNormFromIndex(const uint32_t pixelIndex) {
+	ofVec2f Projector::getCoordinateFromIndex(const uint32_t pixelIndex) {
 		uint32_t x = pixelIndex % width;
 		uint32_t y = pixelIndex / width;
-		return getNormFromIndex(x, y);
+		return getCoordinateFromIndex(x, y);
 	}
 
-	ofVec2f Projector::getNormFromIndex(const uint32_t x, const uint32_t y) {
+	ofVec2f Projector::getCoordinateFromIndex(const uint32_t x, const uint32_t y) {
 		return ofVec2f(2.0f * (float(x) + 0.5) / float(width) - 1.0f,
 				1.0f - 2.0f * (float(y) + 0.5) / float(height));
+	}
+	
+	ofVec2f Projector::getIndexFromCoordinate(const ofVec2f& coord) {
+		ofVec2f result = coord;
+		result.y *= -1.0f;
+		result += 1.0f;
+		result *= ofVec2f(this->width, this->height) / 2.0f;
+		return result;
 	}
 	
 	void Projector::setDefaultNear(float defaultNear) {

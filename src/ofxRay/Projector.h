@@ -42,6 +42,9 @@ namespace ofxRay {
 		Ray castCoordinate(const ofVec2f& xy) const;
 		void castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const;
 
+		void setView(const ofMatrix4x4& m) {
+			ofNode::setTransformMatrix(m.getInverse());
+		}
 		void setProjection(float throwRatio, const ofVec2f& lensOffset);
 		void setProjection(const ofMatrix4x4& projection);
 
@@ -60,8 +63,10 @@ namespace ofxRay {
 		
 		void drawOnNearPlane(ofBaseHasTexture & image) const;
 		
-		ofVec2f getNormFromIndex(const uint32_t index);
-		ofVec2f getNormFromIndex(const uint32_t x, const uint32_t y);
+		ofVec2f getCoordinateFromIndex(const uint32_t index);
+		ofVec2f getCoordinateFromIndex(const uint32_t x, const uint32_t y);
+
+		ofVec2f getIndexFromCoordinate(const ofVec2f&);
 		
 		static void setDefaultNear(float defaultNear = 0.5);
 		static void setDefaultFar(float defaultFar = 20.0f);
