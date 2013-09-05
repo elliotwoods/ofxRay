@@ -9,8 +9,8 @@ void testApp::setup(){
 	plane = ofPlane(ofVec3f(1,1,0), ofVec3f(1,0,-1), ofVec3f(0,1,0), ofVec2f(3,2));
 	ray.randomise();
 	
-	projector.position = ofVec3f(0,1,0);
-	projector.rotation.makeRotate(90,0,1,0);
+	projector.setPosition(ofVec3f(0,1,0));
+	projector.setOrientation(ofQuaternion(90, ofVec3f(0,1,0)));
 	i = j = 0;
 	
 	drawEnabled.insert(pair<string,bool>("ofGrid", true));	
@@ -23,11 +23,11 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
 	i+=32;
-	if (i >= projector.width) {
+	if (i >= projector.getWidth()) {
 		i = 0;
 		j++;
 	}
-	if (j >= projector.height)
+	if (j >= projector.getHeight())
 		j = 0;
 	
 	pRay = projector.castPixel(i, j);
