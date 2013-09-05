@@ -9,7 +9,11 @@
 #include "ofxRay/Ray.h"
 #include "ofxRay/Base.h"
 
+
 namespace ofxRay {
+    
+    class Plane;
+    
 	///A class to generate rays given parameters for a projector or camera
 	///NB: ofProjector inherits from ofNode, and therefore ofNode stores its view matrix
 	class Projector : public Base, public ofNode {
@@ -42,6 +46,16 @@ namespace ofxRay {
 		Ray castCoordinate(const ofVec2f& xy) const;
 		void castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const;
 
+        // Generate a ray for the projection center
+        Ray getProjectionCenterRay() const;
+        
+        // Generate a ray for the projector itself (differs from the above if we have lens offset)
+        Ray getProjectorRay(float distance) const;
+        
+        Plane getProjectionPlaneAt(float distance, bool infinite = true) const;
+
+        
+        // Generate a plane at specified distance, 
 		void setProjection(float throwRatio, const ofVec2f& lensOffset);
 		void setProjection(const ofMatrix4x4& projection);
 

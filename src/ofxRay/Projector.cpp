@@ -6,6 +6,8 @@
 //	http://www.kimchiandchips.com
 //
 #include "ofxRay/Projector.h"
+#include "ofxRay/Plane.h"
+
 
 namespace ofxRay {
 	ofMesh* Projector::drawBox = 0;
@@ -103,7 +105,23 @@ namespace ofxRay {
 			 rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f)));
 		}
 	}
+    
+    Ray Projector::getProjectionCenterRay() const {
+        return Ray(castCoordinate(ofVec2f(0, 0)));
+    }
+    
+    Ray Projector::getProjectorRay(float distance) const {
+        return Ray(getPosition(), getLookAtDir() * distance, false); // TODO: default distance?
+    }
 
+    Plane Projector::getProjectionPlaneAt(float distance, bool infinite) const {
+        Plane plane(getPosition() + getLookAtDir() * distance, getLookAtDir()); // TODO: not working?
+        // TODO:
+        if(infinite) {} // find corners
+        return plane;
+    }
+
+    
 	void Projector::setProjection(float throwRatio, const ofVec2f& lensOffset) {
 		ofMatrix4x4 projection;
 
