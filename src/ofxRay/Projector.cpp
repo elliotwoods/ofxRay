@@ -173,13 +173,13 @@ namespace ofxRay {
 		ofMatrix4x4 inversed;
 		inversed.makeInvertOf(this->getViewMatrix() * this->getProjectionMatrix());
 		
-		plane.addVertex(ofVec3f(-1.0f, +1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(-1.0f, +1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(0,0));
-		plane.addVertex(ofVec3f(+1.0f, +1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(+1.0f, +1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(this->getWidth(),0));
-		plane.addVertex(ofVec3f(-1.0f, -1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(-1.0f, -1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(0,this->getHeight()));
-		plane.addVertex(ofVec3f(+1.0f, -1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(+1.0f, -1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(this->getWidth(),this->getHeight()));
 		
 		plane.addIndex(0);
@@ -192,6 +192,18 @@ namespace ofxRay {
 		image.getTextureReference().bind();
 		plane.draw();
 		image.getTextureReference().unbind();
+	}
+	
+	void Projector::beginAsCamera() const {
+		ofPushView();
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf(getProjectionMatrix().getPtr());
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(getViewMatrix().getPtr());
+	}
+	
+	void Projector::endAsCamera() const {
+		ofPopView();
 	}
 	
 	void Projector::makeBox() {
@@ -244,18 +256,18 @@ namespace ofxRay {
 		drawBox->setMode(OF_PRIMITIVE_LINES);
 	}
 
-	ofVec2f Projector::getCoordinateFromIndex(const uint32_t pixelIndex) {
+	ofVec2f Projector::getCoordinateFromIndex(const uint32_t pixelIndex) const {
 		uint32_t x = pixelIndex % width;
 		uint32_t y = pixelIndex / width;
 		return getCoordinateFromIndex(x, y);
 	}
 
-	ofVec2f Projector::getCoordinateFromIndex(const uint32_t x, const uint32_t y) {
+	ofVec2f Projector::getCoordinateFromIndex(const uint32_t x, const uint32_t y) const {
 		return ofVec2f(2.0f * (float(x) + 0.5) / float(width) - 1.0f,
 				1.0f - 2.0f * (float(y) + 0.5) / float(height));
 	}
 	
-	ofVec2f Projector::getIndexFromCoordinate(const ofVec2f& coord) {
+	ofVec2f Projector::getIndexFromCoordinate(const ofVec2f& coord) const {
 		ofVec2f result = coord;
 		result.y *= -1.0f;
 		result += 1.0f;

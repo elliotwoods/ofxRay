@@ -19,13 +19,14 @@ namespace ofxRay {
 		Projector(const ofMatrix4x4 & projection, int width, int height);
 		Projector(const ofMatrix4x4 & view, const ofMatrix4x4 & projection, int width, int height);
 
-		////
+		//--
 		//ofGeometric
-		////
+		//--
 		//
 		void draw() const;
 		void randomiseVectors(float amplitude=1.0f);
-		////
+		//
+		//--
 		
 		///Choose a random pose, for the projector with scale factor
 		void randomisePose(float scale=1.0f);
@@ -63,10 +64,13 @@ namespace ofxRay {
 		
 		void drawOnNearPlane(ofBaseHasTexture & image) const;
 		
-		ofVec2f getCoordinateFromIndex(const uint32_t index);
-		ofVec2f getCoordinateFromIndex(const uint32_t x, const uint32_t y);
+		void beginAsCamera() const;
+		void endAsCamera() const;
+		
+		ofVec2f getCoordinateFromIndex(const uint32_t index) const;
+		ofVec2f getCoordinateFromIndex(const uint32_t x, const uint32_t y) const;
 
-		ofVec2f getIndexFromCoordinate(const ofVec2f&);
+		ofVec2f getIndexFromCoordinate(const ofVec2f&) const;
 		
 		static void setDefaultNear(float defaultNear = 0.5);
 		static void setDefaultFar(float defaultFar = 20.0f);
