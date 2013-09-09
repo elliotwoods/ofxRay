@@ -82,9 +82,9 @@ namespace ofxRay {
 		ofVec2f xyUndistorted = this->undistortCoordinate(xy);
 		ofMatrix4x4 matrix = this->getClippedProjectionMatrix();
 		matrix.preMult(this->getViewMatrix());
-		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, 1.0f, 1.0f) * matrix.getInverse();
+		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, -1.0f, 1.0f) * matrix.getInverse();
 		ofVec3f t = ofVec3f(PosW / PosW.w) - this->getPosition();
-		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f), false);
+		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f), true);
 	}
 
 	void Projector::castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const {
@@ -102,7 +102,7 @@ namespace ofxRay {
 		for (it = xy.begin(); it != xy.end(); it++) {
 			 PosW = ofVec4f(it->x, it->y, 1.0f, 1.0f) * matrix.getInverse();
 			 t = (PosW / PosW.w) - s;
-			 rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f)));
+			 rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f), true));
 		}
 	}
 
