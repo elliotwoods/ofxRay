@@ -52,7 +52,7 @@ namespace ofxRay {
         // Generate a ray for the projector itself (differs from the above if we have lens offset)
         Ray getProjectorRay(float distance) const;
         
-        Plane getProjectionPlaneAt(float distance, bool infinite = true) const;
+        Plane getProjectionPlaneAt(float distance, bool infinite = false) const;
 
         
         // Generate a plane at specified distance, 
@@ -65,6 +65,9 @@ namespace ofxRay {
 		void setHeight(int height);
 		int getWidth() const;
 		int getHeight() const;
+
+        float getThrowRatio() const;
+        ofVec2f getLensOffset() const;
 
 		ofMatrix4x4 getViewMatrix() const;
 		ofMatrix4x4 getProjectionMatrix() const;
@@ -83,6 +86,7 @@ namespace ofxRay {
 	protected:
 		int width;
 		int height;
+        
 		ofMatrix4x4 projection;
 		static ofMesh* drawBox;
 
@@ -90,5 +94,9 @@ namespace ofxRay {
 		static float defaultFar;
 	private:
 		static void makeBox();
+
+        float throwRatio;
+        ofVec2f lensOffset;
+
 	};
 }

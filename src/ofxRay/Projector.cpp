@@ -115,15 +115,21 @@ namespace ofxRay {
     }
 
     Plane Projector::getProjectionPlaneAt(float distance, bool infinite) const {
-        Plane plane(getPosition() + getLookAtDir() * distance, getLookAtDir()); // TODO: not working?
+        Plane plane(getPosition() + getLookAtDir() * distance, -getLookAtDir()); // TODO: not working?
         // TODO:
-        if(infinite) {} // find corners
+        if(!infinite) {} // find corners
+        plane.setInfinite(infinite);
+        plane.setScale(ofVec2f(distance / throwRatio, distance / throwRatio * height / width));  // TODO: better way of doing this?
+
         return plane;
     }
 
     
 	void Projector::setProjection(float throwRatio, const ofVec2f& lensOffset) {
 		ofMatrix4x4 projection;
+        
+        this->throwRatio = throwRatio;
+        this->lensOffset = lensOffset;
 
 		//throwRatio, aspectRatio
 		const float aspectRatio = (float)width / (float)height;
@@ -158,6 +164,15 @@ namespace ofxRay {
 	int Projector::getHeight() const {
 		return this->height;
 	}
+    
+    float Projector::getThrowRatio() const {
+        return throwRatio;
+    }
+    
+    ofVec2f Projector::getLensOffset() const {
+        return lensOffset;
+    }
+
 
 	bool Projector::isProjectionMatrixInfinite() const {
 		return this->projection(3, 2) == 0.0f;
