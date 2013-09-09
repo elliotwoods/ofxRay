@@ -111,7 +111,7 @@ namespace ofxRay {
 
 		//throwRatio, aspectRatio
 		const float aspectRatio = (float)width / (float)height;
-		const float fovx = 2.0f * atan(0.5f / throwRatio) * 90.0f / atan(1.0f);
+		const float fovx = 2.0f * atan(0.5f / throwRatio) * RAD_TO_DEG;
 		const float fovy = fovx / aspectRatio;
 		projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1f, 50.0f);
 
