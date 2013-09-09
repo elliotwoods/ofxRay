@@ -25,12 +25,12 @@ void testApp::draw(){
     projectionCenterRay.draw();
     
     // ray along projector (perpendicular to projector)
-    ofRay projectorRay = projector.getProjectorRay(200);
+    ofRay projectorRay = projector.getProjectorRay(20);
     projectorRay.color = ofColor::blue;
     projectorRay.draw();
     
     // plane at arbitrary distance
-    ofPlane plane = projector.getProjectionPlaneAt(100);
+    ofPlane plane = projector.getProjectionPlaneAt(30);
     plane.color = ofColor::green;
     plane.draw();
     
