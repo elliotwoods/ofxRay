@@ -154,7 +154,7 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
     
     ofVec3f Projector::getWorldPositionOfNormalizedUCoordinate(ofVec3f pointNormU) const {
         ofVec3f pointNormS(ofMap(pointNormU.x, 0, 1, -1, 1), ofMap(pointNormU.y, 0, 1, -1, 1), pointNormU.z);
-        return getWorldPositionOfNormalizedSCoordinate(pointNormU);
+        return getWorldPositionOfNormalizedSCoordinate(pointNormS);
     }
 
     ofVec3f Projector::getWorldPositionOfScreenCoordinate(ofVec3f pointScreen) const {
