@@ -32,15 +32,26 @@ namespace ofxRay {
 	}
 
 	ofVec2f Camera::undistortCoordinate(const ofVec2f & xy) const {
-		float theta = atan2(xy.y, xy.x);
+		const int distortionLength = this->distortion.size();
+		
+		if (this->distortion.size() < 2) {
+			return xy;
+		}
+		
 		float r = xy.length();
+		float rr = r*r;
 		
-		r = r + 
-			distortion.x * r * r + 
-			distortion.y * r * r * r + 
-			distortion.z * r * r * r * r + 
-			distortion.w * r * r * r * r * r;
+		float rad_coeff = 1.0f + distortion[0] * rr + distortion[1] * rr * rr;
+		if (distortionLength > 4) {
+			rad_coeff += distortion[4] * rr * rr * rr;
+		}
 		
-		return ofVec2f(r * cos(theta), r * sin(theta));
+		float xn = xy.x * rad_coeff;
+		float yn = xy.y * rad_coeff;
+		
+		xn += 2 * distortion[2] * xn * yn + distortion[3] * (rr + 2 * xn * xn);
+		yn += distortion[2] * (rr + 2 * yn * yn) + 2 * distortion[3] * xn * yn;
+		
+		return ofVec2f(xn, yn);
 	}
 }

@@ -42,6 +42,8 @@ namespace ofxRay {
 		glMultMatrixf(getViewMatrix().getInverse().getPtr());
 		glMultMatrixf(getClippedProjectionMatrix().getInverse().getPtr());
 		drawBox->draw();
+		ofLine(ofVec3f(0.0f,0.0f,+1.0f), ofVec3f(2.0f,0.0f,+1.0f));
+		ofLine(ofVec3f(0.0f,0.0f,+1.0f), ofVec3f(0.0f,2.0f,+1.0f));
 		ofPopMatrix();
 	
 		ofPopStyle();
@@ -82,9 +84,11 @@ namespace ofxRay {
 		ofVec2f xyUndistorted = this->undistortCoordinate(xy);
 		ofMatrix4x4 matrix = this->getClippedProjectionMatrix();
 		matrix.preMult(this->getViewMatrix());
-		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, 1.0f, 1.0f) * matrix.getInverse();
+		//we're using OpenGL standard here, i.e. -1.0f is far plane
+		//in DirectX, +1.0f is far plane
+		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, -1.0f, 1.0f) * matrix.getInverse();
 		ofVec3f t = ofVec3f(PosW / PosW.w) - this->getPosition();
-		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f), false);
+		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f), true);
 	}
 
 	void Projector::castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const {
@@ -100,9 +104,11 @@ namespace ofxRay {
 
 		vector<ofVec2f>::const_iterator it;
 		for (it = xy.begin(); it != xy.end(); it++) {
-			 PosW = ofVec4f(it->x, it->y, 1.0f, 1.0f) * matrix.getInverse();
-			 t = (PosW / PosW.w) - s;
-			 rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f)));
+			//we're using OpenGL standard here, i.e. -1.0f is far plane
+			//in DirectX, +1.0f is far plane
+			PosW = ofVec4f(it->x, it->y, -1.0f, 1.0f) * matrix.getInverse();
+			t = (PosW / PosW.w) - s;
+rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f), true));
 		}
 	}
     
@@ -117,13 +123,46 @@ namespace ofxRay {
     Plane Projector::getProjectionPlaneAt(float distance, bool infinite) const {
         Plane plane(getPosition() + getLookAtDir() * distance, -getLookAtDir()); // TODO: not working?
         // TODO:
-        if(!infinite) {} // find corners
+        if(!infinite) {} // find corners?
         plane.setInfinite(infinite);
         plane.setScale(ofVec2f(distance / throwRatio, distance / throwRatio * height / width));  // TODO: better way of doing this?
+        // TODO: account for lens offset?
 
         return plane;
     }
 
+
+    
+    ofVec3f Projector::getNormalizedSCoordinateOfWorldPosition(ofVec3f pointWorld) const {
+        return pointWorld * getViewMatrix() * getClippedProjectionMatrix();
+    }
+    
+    ofVec3f Projector::getNormalizedUCoordinateOfWorldPosition(ofVec3f pointWorld) const {
+        ofVec3f normS(getNormalizedSCoordinateOfWorldPosition(pointWorld));
+        return ofVec3f(ofMap(normS.x, -1, 1, 0, 1), ofMap(normS.y, 1, -1, 0, 1), normS.z);
+    }
+    
+    ofVec3f Projector::getScreenCoordinateOfWorldPosition(ofVec3f pointWorld) const {
+        return getNormalizedUCoordinateOfWorldPosition(pointWorld) * ofVec3f(width, height, 1);
+    }
+    
+    ofVec3f Projector::getWorldPositionOfNormalizedSCoordinate(ofVec3f pointNormS) const {
+        ofMatrix4x4 inverseCamera;
+        inverseCamera.makeInvertOf(getViewMatrix() * getClippedProjectionMatrix());
+        return pointNormS * inverseCamera;
+    }
+    
+    ofVec3f Projector::getWorldPositionOfNormalizedUCoordinate(ofVec3f pointNormU) const {
+        ofVec3f pointNormS(ofMap(pointNormU.x, 0, 1, -1, 1), ofMap(pointNormU.y, 0, 1, -1, 1), pointNormU.z);
+        return getWorldPositionOfNormalizedSCoordinate(pointNormU);
+    }
+
+    ofVec3f Projector::getWorldPositionOfScreenCoordinate(ofVec3f pointScreen) const {
+        return getWorldPositionOfNormalizedUCoordinate(pointScreen / ofVec3f(width, height, 1));
+    }
+    
+
+    
     
 	void Projector::setProjection(float throwRatio, const ofVec2f& lensOffset) {
 		ofMatrix4x4 projection;
@@ -133,8 +172,7 @@ namespace ofxRay {
 
 		//throwRatio, aspectRatio
 		const float aspectRatio = (float)width / (float)height;
-		const float fovx = 2.0f * atan(0.5f / throwRatio) * 90.0f / atan(1.0f);
-		const float fovy = fovx / aspectRatio;
+		const float fovy = 2.0f * atan(0.5f / (throwRatio * aspectRatio)) * RAD_TO_DEG;
 		projection.makePerspectiveMatrix(fovy, aspectRatio, 0.1f, 50.0f);
 
 		//lensOffset
@@ -204,13 +242,13 @@ namespace ofxRay {
 		ofMatrix4x4 inversed;
 		inversed.makeInvertOf(this->getViewMatrix() * this->getProjectionMatrix());
 		
-		plane.addVertex(ofVec3f(-1.0f, +1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(-1.0f, +1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(0,0));
-		plane.addVertex(ofVec3f(+1.0f, +1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(+1.0f, +1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(this->getWidth(),0));
-		plane.addVertex(ofVec3f(-1.0f, -1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(-1.0f, -1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(0,this->getHeight()));
-		plane.addVertex(ofVec3f(+1.0f, -1.0f, -1.0f) * inversed);
+		plane.addVertex(ofVec3f(+1.0f, -1.0f, +1.0f) * inversed);
 		plane.addTexCoord(ofVec2f(this->getWidth(),this->getHeight()));
 		
 		plane.addIndex(0);
@@ -223,6 +261,18 @@ namespace ofxRay {
 		image.getTextureReference().bind();
 		plane.draw();
 		image.getTextureReference().unbind();
+	}
+	
+	void Projector::beginAsCamera() const {
+		ofPushView();
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf(getProjectionMatrix().getPtr());
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(getViewMatrix().getPtr());
+	}
+	
+	void Projector::endAsCamera() const {
+		ofPopView();
 	}
 	
 	void Projector::makeBox() {
@@ -275,15 +325,23 @@ namespace ofxRay {
 		drawBox->setMode(OF_PRIMITIVE_LINES);
 	}
 
-	ofVec2f Projector::getNormFromIndex(const uint32_t pixelIndex) {
+	ofVec2f Projector::getCoordinateFromIndex(const uint32_t pixelIndex) const {
 		uint32_t x = pixelIndex % width;
 		uint32_t y = pixelIndex / width;
-		return getNormFromIndex(x, y);
+		return getCoordinateFromIndex(x, y);
 	}
 
-	ofVec2f Projector::getNormFromIndex(const uint32_t x, const uint32_t y) {
+	ofVec2f Projector::getCoordinateFromIndex(const uint32_t x, const uint32_t y) const {
 		return ofVec2f(2.0f * (float(x) + 0.5) / float(width) - 1.0f,
 				1.0f - 2.0f * (float(y) + 0.5) / float(height));
+	}
+	
+	ofVec2f Projector::getIndexFromCoordinate(const ofVec2f& coord) const {
+		ofVec2f result = coord;
+		result.y *= -1.0f;
+		result += 1.0f;
+		result *= ofVec2f(this->width, this->height) / 2.0f;
+		return result;
 	}
 	
 	void Projector::setDefaultNear(float defaultNear) {

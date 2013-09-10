@@ -16,6 +16,6 @@ namespace ofxRay {
 		Camera(const ofVec2f & focalLength, const ofVec2f & center, float w, float h);
 		
 		ofVec2f undistortCoordinate(const ofVec2f & xy) const;
-		ofVec4f distortion;
+		vector<float> distortion;
 	};
 }
