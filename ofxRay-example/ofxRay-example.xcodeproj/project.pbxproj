@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		8BB05C94146C0DA400E65B31 /* ofxGrabCam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB05C93146C0DA400E65B31 /* ofxGrabCam.cpp */; };
-		8BE663CB14B6F9B80028F7B7 /* ofRay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BE663C914B6F9B80028F7B7 /* ofRay.cpp */; };
-		8BE666B414B704210028F7B7 /* ofPlane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BE666B314B704210028F7B7 /* ofPlane.cpp */; };
-		8BE666B814B747A40028F7B7 /* ofGeometric.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BE666B714B747A30028F7B7 /* ofGeometric.cpp */; };
-		8BFC328C14B9194100ABDD44 /* ofProjector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC328B14B9194100ABDD44 /* ofProjector.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
+		BBFF4EAE17D7FFE90083168F /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA317D7FFE90083168F /* Base.cpp */; };
+		BBFF4EAF17D7FFE90083168F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA517D7FFE90083168F /* Camera.cpp */; };
+		BBFF4EB017D7FFE90083168F /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA717D7FFE90083168F /* Plane.cpp */; };
+		BBFF4EB117D7FFE90083168F /* Projector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA917D7FFE90083168F /* Projector.cpp */; };
+		BBFF4EB217D7FFE90083168F /* Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EAB17D7FFE90083168F /* Ray.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
@@ -64,17 +65,19 @@
 /* Begin PBXFileReference section */
 		8BB05C93146C0DA400E65B31 /* ofxGrabCam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxGrabCam.cpp; path = ../../../../addons/ofxGrabCam/src/ofxGrabCam.cpp; sourceTree = "<group>"; };
 		8BB05C95146C113600E65B31 /* ofxGrabCam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxGrabCam.h; path = ../../../../addons/ofxGrabCam/src/ofxGrabCam.h; sourceTree = "<group>"; };
-		8BE663C914B6F9B80028F7B7 /* ofRay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofRay.cpp; sourceTree = "<group>"; };
-		8BE663CA14B6F9B80028F7B7 /* ofRay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofRay.h; sourceTree = "<group>"; };
 		8BE666B114B701F80028F7B7 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
-		8BE666B214B703EE0028F7B7 /* ofPlane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofPlane.h; sourceTree = "<group>"; };
-		8BE666B314B704210028F7B7 /* ofPlane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofPlane.cpp; sourceTree = "<group>"; };
-		8BE666B514B7462F0028F7B7 /* ofxRay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRay.h; sourceTree = "<group>"; };
-		8BE666B614B747570028F7B7 /* ofGeometric.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofGeometric.h; sourceTree = "<group>"; };
-		8BE666B714B747A30028F7B7 /* ofGeometric.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofGeometric.cpp; sourceTree = "<group>"; };
-		8BFC328A14B9192C00ABDD44 /* ofProjector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofProjector.h; sourceTree = "<group>"; };
-		8BFC328B14B9194100ABDD44 /* ofProjector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofProjector.cpp; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
+		BBFF4EA317D7FFE90083168F /* Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base.cpp; sourceTree = "<group>"; };
+		BBFF4EA417D7FFE90083168F /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
+		BBFF4EA517D7FFE90083168F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		BBFF4EA617D7FFE90083168F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		BBFF4EA717D7FFE90083168F /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
+		BBFF4EA817D7FFE90083168F /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
+		BBFF4EA917D7FFE90083168F /* Projector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projector.cpp; sourceTree = "<group>"; };
+		BBFF4EAA17D7FFE90083168F /* Projector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projector.h; sourceTree = "<group>"; };
+		BBFF4EAB17D7FFE90083168F /* Ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ray.cpp; sourceTree = "<group>"; };
+		BBFF4EAC17D7FFE90083168F /* Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ray.h; sourceTree = "<group>"; };
+		BBFF4EAD17D7FFE90083168F /* ofxRay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRay.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
@@ -135,27 +138,11 @@
 		8BE663C714B6F9B80028F7B7 /* ofxRay */ = {
 			isa = PBXGroup;
 			children = (
-				8BE663C814B6F9B80028F7B7 /* src */,
+				BBFF4EA117D7FFE90083168F /* src */,
 				8BE666B114B701F80028F7B7 /* readme.md */,
 			);
 			name = ofxRay;
 			path = ../../../addons/ofxRay;
-			sourceTree = "<group>";
-		};
-		8BE663C814B6F9B80028F7B7 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				8BE663C914B6F9B80028F7B7 /* ofRay.cpp */,
-				8BE663CA14B6F9B80028F7B7 /* ofRay.h */,
-				8BE666B314B704210028F7B7 /* ofPlane.cpp */,
-				8BE666B214B703EE0028F7B7 /* ofPlane.h */,
-				8BE666B514B7462F0028F7B7 /* ofxRay.h */,
-				8BE666B714B747A30028F7B7 /* ofGeometric.cpp */,
-				8BE666B614B747570028F7B7 /* ofGeometric.h */,
-				8BFC328B14B9194100ABDD44 /* ofProjector.cpp */,
-				8BFC328A14B9192C00ABDD44 /* ofProjector.h */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		BB4B014C10F69532006C3DED /* addons */ = {
@@ -192,6 +179,32 @@
 				BBAB23BE13894E4700AA2426 /* GLUT.framework */,
 			);
 			name = "3rd party frameworks";
+			sourceTree = "<group>";
+		};
+		BBFF4EA117D7FFE90083168F /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BBFF4EA217D7FFE90083168F /* ofxRay */,
+				BBFF4EAD17D7FFE90083168F /* ofxRay.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		BBFF4EA217D7FFE90083168F /* ofxRay */ = {
+			isa = PBXGroup;
+			children = (
+				BBFF4EA317D7FFE90083168F /* Base.cpp */,
+				BBFF4EA417D7FFE90083168F /* Base.h */,
+				BBFF4EA517D7FFE90083168F /* Camera.cpp */,
+				BBFF4EA617D7FFE90083168F /* Camera.h */,
+				BBFF4EA717D7FFE90083168F /* Plane.cpp */,
+				BBFF4EA817D7FFE90083168F /* Plane.h */,
+				BBFF4EA917D7FFE90083168F /* Projector.cpp */,
+				BBFF4EAA17D7FFE90083168F /* Projector.h */,
+				BBFF4EAB17D7FFE90083168F /* Ray.cpp */,
+				BBFF4EAC17D7FFE90083168F /* Ray.h */,
+			);
+			path = ofxRay;
 			sourceTree = "<group>";
 		};
 		E4328144138ABC890047C5CB /* Products */ = {
@@ -330,10 +343,11 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				8BB05C94146C0DA400E65B31 /* ofxGrabCam.cpp in Sources */,
-				8BE663CB14B6F9B80028F7B7 /* ofRay.cpp in Sources */,
-				8BE666B414B704210028F7B7 /* ofPlane.cpp in Sources */,
-				8BE666B814B747A40028F7B7 /* ofGeometric.cpp in Sources */,
-				8BFC328C14B9194100ABDD44 /* ofProjector.cpp in Sources */,
+				BBFF4EAE17D7FFE90083168F /* Base.cpp in Sources */,
+				BBFF4EAF17D7FFE90083168F /* Camera.cpp in Sources */,
+				BBFF4EB017D7FFE90083168F /* Plane.cpp in Sources */,
+				BBFF4EB117D7FFE90083168F /* Projector.cpp in Sources */,
+				BBFF4EB217D7FFE90083168F /* Ray.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,7 +436,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxRay/src,
+				);
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -507,6 +524,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
 				PREBINDING = NO;
 				PRODUCT_NAME = "ofxRay-exampleDebug";
+				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -526,7 +544,10 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					../../../addons/ofxRay/src,
+				);
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -611,6 +632,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
 				PREBINDING = NO;
 				PRODUCT_NAME = "ofxRay-example";
+				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

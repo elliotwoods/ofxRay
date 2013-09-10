@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		8BB05C94146C0DA400E65B31 /* ofxGrabCam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB05C93146C0DA400E65B31 /* ofxGrabCam.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
-		BBFF4EC117D800AA0083168F /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EB617D800AA0083168F /* Base.cpp */; };
-		BBFF4EC217D800AA0083168F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EB817D800AA0083168F /* Camera.cpp */; };
-		BBFF4EC317D800AA0083168F /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EBA17D800AA0083168F /* Plane.cpp */; };
-		BBFF4EC417D800AA0083168F /* Projector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EBC17D800AA0083168F /* Projector.cpp */; };
-		BBFF4EC517D800AA0083168F /* Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EBE17D800AA0083168F /* Ray.cpp */; };
+		BBFF4EAE17D7FFE90083168F /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA317D7FFE90083168F /* Base.cpp */; };
+		BBFF4EAF17D7FFE90083168F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA517D7FFE90083168F /* Camera.cpp */; };
+		BBFF4EB017D7FFE90083168F /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA717D7FFE90083168F /* Plane.cpp */; };
+		BBFF4EB117D7FFE90083168F /* Projector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA917D7FFE90083168F /* Projector.cpp */; };
+		BBFF4EB217D7FFE90083168F /* Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EAB17D7FFE90083168F /* Ray.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
@@ -67,17 +67,17 @@
 		8BB05C95146C113600E65B31 /* ofxGrabCam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxGrabCam.h; path = ../../../../addons/ofxGrabCam/src/ofxGrabCam.h; sourceTree = "<group>"; };
 		8BE666B114B701F80028F7B7 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
-		BBFF4EB617D800AA0083168F /* Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base.cpp; sourceTree = "<group>"; };
-		BBFF4EB717D800AA0083168F /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
-		BBFF4EB817D800AA0083168F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
-		BBFF4EB917D800AA0083168F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		BBFF4EBA17D800AA0083168F /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
-		BBFF4EBB17D800AA0083168F /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
-		BBFF4EBC17D800AA0083168F /* Projector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projector.cpp; sourceTree = "<group>"; };
-		BBFF4EBD17D800AA0083168F /* Projector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projector.h; sourceTree = "<group>"; };
-		BBFF4EBE17D800AA0083168F /* Ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ray.cpp; sourceTree = "<group>"; };
-		BBFF4EBF17D800AA0083168F /* Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ray.h; sourceTree = "<group>"; };
-		BBFF4EC017D800AA0083168F /* ofxRay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRay.h; sourceTree = "<group>"; };
+		BBFF4EA317D7FFE90083168F /* Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base.cpp; sourceTree = "<group>"; };
+		BBFF4EA417D7FFE90083168F /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
+		BBFF4EA517D7FFE90083168F /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		BBFF4EA617D7FFE90083168F /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		BBFF4EA717D7FFE90083168F /* Plane.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
+		BBFF4EA817D7FFE90083168F /* Plane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
+		BBFF4EA917D7FFE90083168F /* Projector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Projector.cpp; sourceTree = "<group>"; };
+		BBFF4EAA17D7FFE90083168F /* Projector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projector.h; sourceTree = "<group>"; };
+		BBFF4EAB17D7FFE90083168F /* Ray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Ray.cpp; sourceTree = "<group>"; };
+		BBFF4EAC17D7FFE90083168F /* Ray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ray.h; sourceTree = "<group>"; };
+		BBFF4EAD17D7FFE90083168F /* ofxRay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxRay.h; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
 		E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
@@ -88,7 +88,7 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* ofxRay-ofPlaneExampleDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ofxRay-ofPlaneExampleDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* ofxRay-exampleMoreDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ofxRay-exampleMoreDebug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = testApp.cpp; path = src/testApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = testApp.h; path = src/testApp.h; sourceTree = SOURCE_ROOT; };
@@ -138,7 +138,7 @@
 		8BE663C714B6F9B80028F7B7 /* ofxRay */ = {
 			isa = PBXGroup;
 			children = (
-				BBFF4EB417D800AA0083168F /* src */,
+				BBFF4EA117D7FFE90083168F /* src */,
 				8BE666B114B701F80028F7B7 /* readme.md */,
 			);
 			name = ofxRay;
@@ -181,28 +181,28 @@
 			name = "3rd party frameworks";
 			sourceTree = "<group>";
 		};
-		BBFF4EB417D800AA0083168F /* src */ = {
+		BBFF4EA117D7FFE90083168F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				BBFF4EB517D800AA0083168F /* ofxRay */,
-				BBFF4EC017D800AA0083168F /* ofxRay.h */,
+				BBFF4EA217D7FFE90083168F /* ofxRay */,
+				BBFF4EAD17D7FFE90083168F /* ofxRay.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
 		};
-		BBFF4EB517D800AA0083168F /* ofxRay */ = {
+		BBFF4EA217D7FFE90083168F /* ofxRay */ = {
 			isa = PBXGroup;
 			children = (
-				BBFF4EB617D800AA0083168F /* Base.cpp */,
-				BBFF4EB717D800AA0083168F /* Base.h */,
-				BBFF4EB817D800AA0083168F /* Camera.cpp */,
-				BBFF4EB917D800AA0083168F /* Camera.h */,
-				BBFF4EBA17D800AA0083168F /* Plane.cpp */,
-				BBFF4EBB17D800AA0083168F /* Plane.h */,
-				BBFF4EBC17D800AA0083168F /* Projector.cpp */,
-				BBFF4EBD17D800AA0083168F /* Projector.h */,
-				BBFF4EBE17D800AA0083168F /* Ray.cpp */,
-				BBFF4EBF17D800AA0083168F /* Ray.h */,
+				BBFF4EA317D7FFE90083168F /* Base.cpp */,
+				BBFF4EA417D7FFE90083168F /* Base.h */,
+				BBFF4EA517D7FFE90083168F /* Camera.cpp */,
+				BBFF4EA617D7FFE90083168F /* Camera.h */,
+				BBFF4EA717D7FFE90083168F /* Plane.cpp */,
+				BBFF4EA817D7FFE90083168F /* Plane.h */,
+				BBFF4EA917D7FFE90083168F /* Projector.cpp */,
+				BBFF4EAA17D7FFE90083168F /* Projector.h */,
+				BBFF4EAB17D7FFE90083168F /* Ray.cpp */,
+				BBFF4EAC17D7FFE90083168F /* Ray.h */,
 			);
 			path = ofxRay;
 			sourceTree = "<group>";
@@ -231,7 +231,7 @@
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
-				E4B69B5B0A3A1756003C02F2 /* ofxRay-ofPlaneExampleDebug.app */,
+				E4B69B5B0A3A1756003C02F2 /* ofxRay-exampleMoreDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -259,9 +259,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E4B69B5A0A3A1756003C02F2 /* ofxRay-ofPlaneExample */ = {
+		E4B69B5A0A3A1756003C02F2 /* ofxRay-exampleMore */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "ofxRay-ofPlaneExample" */;
+			buildConfigurationList = E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "ofxRay-exampleMore" */;
 			buildPhases = (
 				E4B69B580A3A1756003C02F2 /* Sources */,
 				E4B69B590A3A1756003C02F2 /* Frameworks */,
@@ -273,9 +273,9 @@
 			dependencies = (
 				E4EEB9AC138B136A00A80321 /* PBXTargetDependency */,
 			);
-			name = "ofxRay-ofPlaneExample";
+			name = "ofxRay-exampleMore";
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* ofxRay-ofPlaneExampleDebug.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* ofxRay-exampleMoreDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -283,7 +283,7 @@
 /* Begin PBXProject section */
 		E4B69B4C0A3A1720003C02F2 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "ofxRay-ofPlaneExample" */;
+			buildConfigurationList = E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "ofxRay-exampleMore" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -304,7 +304,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				E4B69B5A0A3A1756003C02F2 /* ofxRay-ofPlaneExample */,
+				E4B69B5A0A3A1756003C02F2 /* ofxRay-exampleMore */,
 			);
 		};
 /* End PBXProject section */
@@ -343,11 +343,11 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				8BB05C94146C0DA400E65B31 /* ofxGrabCam.cpp in Sources */,
-				BBFF4EC117D800AA0083168F /* Base.cpp in Sources */,
-				BBFF4EC217D800AA0083168F /* Camera.cpp in Sources */,
-				BBFF4EC317D800AA0083168F /* Plane.cpp in Sources */,
-				BBFF4EC417D800AA0083168F /* Projector.cpp in Sources */,
-				BBFF4EC517D800AA0083168F /* Ray.cpp in Sources */,
+				BBFF4EAE17D7FFE90083168F /* Base.cpp in Sources */,
+				BBFF4EAF17D7FFE90083168F /* Camera.cpp in Sources */,
+				BBFF4EB017D7FFE90083168F /* Plane.cpp in Sources */,
+				BBFF4EB117D7FFE90083168F /* Projector.cpp in Sources */,
+				BBFF4EB217D7FFE90083168F /* Ray.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,7 +523,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/vs2010\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
 				PREBINDING = NO;
-				PRODUCT_NAME = "ofxRay-ofPlaneExampleDebug";
+				PRODUCT_NAME = "ofxRay-exampleMoreDebug";
 				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -631,7 +631,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/vs2010\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
 				PREBINDING = NO;
-				PRODUCT_NAME = "ofxRay-ofPlaneExample";
+				PRODUCT_NAME = "ofxRay-exampleMore";
 				SDKROOT = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -640,7 +640,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "ofxRay-ofPlaneExample" */ = {
+		E4B69B4D0A3A1720003C02F2 /* Build configuration list for PBXProject "ofxRay-exampleMore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B4E0A3A1720003C02F2 /* Debug */,
@@ -649,7 +649,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "ofxRay-ofPlaneExample" */ = {
+		E4B69B5F0A3A1757003C02F2 /* Build configuration list for PBXNativeTarget "ofxRay-exampleMore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E4B69B600A3A1757003C02F2 /* Debug */,
