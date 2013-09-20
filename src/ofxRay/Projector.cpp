@@ -6,6 +6,8 @@
 //	http://www.kimchiandchips.com
 //
 #include "ofxRay/Projector.h"
+#include "ofxRay/Plane.h"
+
 
 namespace ofxRay {
 	ofMesh* Projector::drawBox = 0;
@@ -109,9 +111,64 @@ namespace ofxRay {
 rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f), true));
 		}
 	}
+    
+    Ray Projector::getProjectionCenterRay() const {
+        return Ray(castCoordinate(ofVec2f(0, 0)));
+    }
+    
+    Ray Projector::getProjectorRay(float distance) const {
+        return Ray(getPosition(), getLookAtDir() * distance, false); // TODO: default distance?
+    }
 
+    Plane Projector::getProjectionPlaneAt(float distance, bool infinite) const {
+        Plane plane(getPosition() + getLookAtDir() * distance, -getLookAtDir()); // TODO: not working?
+        // TODO:
+        if(!infinite) {} // find corners?
+        plane.setInfinite(infinite);
+        plane.setScale(ofVec2f(distance / throwRatio, distance / throwRatio * height / width));  // TODO: better way of doing this?
+        // TODO: account for lens offset?
+
+        return plane;
+    }
+
+
+    
+    ofVec3f Projector::getNormalizedSCoordinateOfWorldPosition(ofVec3f pointWorld) const {
+        return pointWorld * getViewMatrix() * getClippedProjectionMatrix();
+    }
+    
+    ofVec3f Projector::getNormalizedUCoordinateOfWorldPosition(ofVec3f pointWorld) const {
+        ofVec3f normS(getNormalizedSCoordinateOfWorldPosition(pointWorld));
+        return ofVec3f(ofMap(normS.x, -1, 1, 0, 1), ofMap(normS.y, 1, -1, 0, 1), normS.z);
+    }
+    
+    ofVec3f Projector::getScreenCoordinateOfWorldPosition(ofVec3f pointWorld) const {
+        return getNormalizedUCoordinateOfWorldPosition(pointWorld) * ofVec3f(width, height, 1);
+    }
+    
+    ofVec3f Projector::getWorldPositionOfNormalizedSCoordinate(ofVec3f pointNormS) const {
+        ofMatrix4x4 inverseCamera;
+        inverseCamera.makeInvertOf(getViewMatrix() * getClippedProjectionMatrix());
+        return pointNormS * inverseCamera;
+    }
+    
+    ofVec3f Projector::getWorldPositionOfNormalizedUCoordinate(ofVec3f pointNormU) const {
+        ofVec3f pointNormS(ofMap(pointNormU.x, 0, 1, -1, 1), ofMap(pointNormU.y, 0, 1, -1, 1), pointNormU.z);
+        return getWorldPositionOfNormalizedSCoordinate(pointNormS);
+    }
+
+    ofVec3f Projector::getWorldPositionOfScreenCoordinate(ofVec3f pointScreen) const {
+        return getWorldPositionOfNormalizedUCoordinate(pointScreen / ofVec3f(width, height, 1));
+    }
+    
+
+    
+    
 	void Projector::setProjection(float throwRatio, const ofVec2f& lensOffset) {
 		ofMatrix4x4 projection;
+        
+        this->throwRatio = throwRatio;
+        this->lensOffset = lensOffset;
 
 		//throwRatio, aspectRatio
 		const float aspectRatio = (float)width / (float)height;
@@ -145,6 +202,15 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 	int Projector::getHeight() const {
 		return this->height;
 	}
+    
+    float Projector::getThrowRatio() const {
+        return throwRatio;
+    }
+    
+    ofVec2f Projector::getLensOffset() const {
+        return lensOffset;
+    }
+
 
 	bool Projector::isProjectionMatrixInfinite() const {
 		return this->projection(3, 2) == 0.0f;
