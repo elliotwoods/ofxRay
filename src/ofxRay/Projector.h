@@ -6,8 +6,8 @@
 //  Elliot Woods (C) 2012, MIT license
 //	http://www.kimchiandchips.com
 //
-#include "ofxRay/Ray.h"
-#include "ofxRay/Base.h"
+#include "Ray.h"
+#include "Base.h"
 
 namespace ofxRay {
 	///A class to generate rays given parameters for a projector or camera
