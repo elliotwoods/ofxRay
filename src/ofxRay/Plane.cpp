@@ -172,6 +172,21 @@ namespace ofxRay {
 	void Plane::setInfinite(const bool b) {
 		infinite = b;
 	}
+	
+	void Plane::setFrom(ofPlanePrimitive & planePrimitive) {
+		const ofMatrix4x4 transform = planePrimitive.getLocalTransformMatrix();
+		ofVec3f translation, scale;
+		ofQuaternion rotation, so;
+		transform.decompose(translation, rotation, scale, so);
+		
+		this->setScale(scale * ofVec2f(planePrimitive.getWidth(), planePrimitive.getHeight()) / 2.0f);
+		this->setCenter(translation);
+		
+		this->setNormal(ofVec3f(0.0f, 0.0f, 1.0f) * rotation);
+		this->setUp(ofVec3f(0.0f, 1.0f, 0.0f) * rotation);
+
+		this->setInfinite(false);
+	}
 
 	void Plane::getCornerRaysTo(const ofVec3f &target, Ray* rays) const {
 		ofVec3f up = this->up * scale.y;
