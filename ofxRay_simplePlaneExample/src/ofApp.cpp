@@ -9,7 +9,8 @@ void ofApp::setup(){
 	// set attributes to our displayed plane
 	planePrimitive.setPosition(0 ,0, 0);
 	planePrimitive.setScale(1,2,1);
-	rotationAmount = 0.3;
+	rotationX = 0.3;
+	rotationY = 0.2;
  	
 	// set attributes to our intersection plane
 	center	= ofVec3f(0, 0, 0);
@@ -44,9 +45,12 @@ void ofApp::update(){
 	mouseRay.t = worldMouseTransmissionVector;
 	
 	// rotate the plane
-	rotation.x += rotationAmount;
-	rotation.y += rotationAmount;
+	rotation.x += rotationX;
+	rotation.y += rotationY;
 	planePrimitive.setOrientation(rotation);
+	
+	// update intersection plane
+//	plane.setFrom(planePrimitive);
 }
 
 //--------------------------------------------------------------

@@ -36,7 +36,8 @@ public:
 	ofVec3f worldMouseEnd;
 	ofVec3f worldMouseTransmissionVector;
 	
-	float rotationAmount;
+	float rotationX;
+	float rotationY;
 	ofVec3f rotation;
 	
 
