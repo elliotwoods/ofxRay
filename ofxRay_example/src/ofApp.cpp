@@ -10,11 +10,7 @@ void ofApp::setup(){
 	ray.randomise();
 	
 	projector.setPosition(ofVec3f(0,1,0));
-<<<<<<< HEAD:ofxRay-example/src/testApp.cpp
 	projector.setOrientation(ofQuaternion(90, ofVec3f(0,1,0)));
-=======
-	projector.rotate(90,0,1,0);
->>>>>>> jordi:ofxRay_example/src/ofApp.cpp
 	i = j = 0;
 	
 	drawEnabled.insert(pair<string,bool>("ofGrid", true));	
