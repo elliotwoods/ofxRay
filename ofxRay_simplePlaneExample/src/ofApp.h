@@ -22,13 +22,15 @@ public:
 	//ofxRay objects
 	ofPlane plane;	// the plane to check intersection
 	ofRay mouseRay;
+	bool doesIntersect;
 	
+	// plane attributes
 	ofVec3f center;
 	ofVec3f normal;
 	ofVec3f up;
 	ofVec3f scale; // only 2D
 		
-	ofVec3f lookat;
+	// vectors
 	ofVec3f screenMouse;
 	ofVec3f worldMouse;
 	ofVec3f worldMouseEnd;
@@ -37,5 +39,5 @@ public:
 	float rotationAmount;
 	ofVec3f rotation;
 	
-	bool doesIntersect;
+
 };

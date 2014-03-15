@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:my_ofPlaneExample.xcodeproj">
+      location = "self:ofxRay_simplePlaneExample.xcodeproj">
    </FileRef>
 </Workspace>

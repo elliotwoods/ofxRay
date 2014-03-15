@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	
 	// let the axis oclude
 	ofEnableDepthTest();
 	
@@ -16,6 +17,7 @@ void ofApp::setup(){
 	up		= ofVec3f(0, 1, 0).normalize();
 	scale	= ofVec2f(100, 100);
 
+	// this would me a lot better!
 //	plane.setFrom(planePrimitive);
 	
 	updatePlane();
@@ -41,14 +43,15 @@ void ofApp::update(){
 	mouseRay.s = worldMouse;
 	mouseRay.t = worldMouseTransmissionVector;
 	
+	// rotate the plane
 	rotation.x += rotationAmount;
 	rotation.y += rotationAmount;
-	
 	planePrimitive.setOrientation(rotation);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	
 	ofBackgroundGradient(100, 50);
 	
 	camera.begin();
@@ -58,34 +61,22 @@ void ofApp::draw(){
 	// under your mouse
 	mouseRay.draw();
 	
+	
 	plane.draw();
-
-
+	
 	ofSetColor(0, 250, 250, 100);
 	planePrimitive.draw(OF_MESH_FILL);
 	planePrimitive.drawAxes(100);
 	
-//	ofDrawAxis(100);
 	camera.end();
 	
 	drawLabels();
 }
 
-void ofApp::drawLabels() {
+void ofApp::drawLabels(){
 	
-	string label = "mouse in world coordinates";
-	label += " x = " + ofToString(worldMouse.x);
-	label += " y = " + ofToString(worldMouse.y);
-	label += " x = " + ofToString(worldMouse.z);
+	string label;
 	int y = ofGetHeight() - 70;
-	ofDrawBitmapStringHighlight(label, 40, y);
-
-	//--------------------------------------------------------------
-	label = "mouse in screen coordinates x =" + ofToString(screenMouse.x)+" y = "+ofToString(screenMouse.y);
-	y += 20;
-	ofDrawBitmapStringHighlight(label, 40, y);
-	
-	y += 20;
 	ofVec3f intersectionPosition;
 	doesIntersect = plane.intersect(mouseRay, intersectionPosition);
 	label = doesIntersect ? "hits" : "misses";
@@ -99,7 +90,8 @@ void ofApp::keyPressed(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::updatePlane()	{
+void ofApp::updatePlane(){
+	
 	plane.setCenter(center);
 	plane.setNormal(normal);
 	plane.setUp(up);
