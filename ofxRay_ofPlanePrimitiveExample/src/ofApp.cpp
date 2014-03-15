@@ -55,6 +55,8 @@ void ofApp::draw(){
 	
 	camera.begin();
 	
+	ofDrawGrid(1000.0f, 1.0f);
+	
 	// this will be drawn as a dot at your mouse cursor
 	// because it's a line going away from the camera
 	// under your mouse

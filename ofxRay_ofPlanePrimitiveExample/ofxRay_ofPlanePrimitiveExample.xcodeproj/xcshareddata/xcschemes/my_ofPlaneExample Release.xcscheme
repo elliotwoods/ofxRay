@@ -16,17 +16,17 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
                BuildableName = "my_ofPlaneExample.app"
-               BlueprintName = "my_ofPlaneExample"
-               ReferencedContainer = "container:my_ofPlaneExample.xcodeproj">
+               BlueprintName = "ofxRay_ofPlanePrimitiveExample"
+               ReferencedContainer = "container:ofxRay_ofPlanePrimitiveExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
       <Testables>
       </Testables>
       <MacroExpansion>
@@ -34,17 +34,17 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
             BuildableName = "my_ofPlaneExample.app"
-            BlueprintName = "my_ofPlaneExample"
-            ReferencedContainer = "container:my_ofPlaneExample.xcodeproj">
+            BlueprintName = "ofxRay_ofPlanePrimitiveExample"
+            ReferencedContainer = "container:ofxRay_ofPlanePrimitiveExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
    <LaunchAction
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.GDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
@@ -53,8 +53,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
             BuildableName = "my_ofPlaneExample.app"
-            BlueprintName = "my_ofPlaneExample"
-            ReferencedContainer = "container:my_ofPlaneExample.xcodeproj">
+            BlueprintName = "ofxRay_ofPlanePrimitiveExample"
+            ReferencedContainer = "container:ofxRay_ofPlanePrimitiveExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -64,23 +64,23 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
             BuildableName = "my_ofPlaneExample.app"
-            BlueprintName = "my_ofPlaneExample"
-            ReferencedContainer = "container:my_ofPlaneExample.xcodeproj">
+            BlueprintName = "ofxRay_ofPlanePrimitiveExample"
+            ReferencedContainer = "container:ofxRay_ofPlanePrimitiveExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
