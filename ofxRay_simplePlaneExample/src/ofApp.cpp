@@ -11,10 +11,15 @@ void ofApp::setup(){
 	planePrimitive.setScale(1,2,1);
 	rotationX = 0.3;
 	rotationY = 0.2;
- 		
-	// get the attributes from the plane primitive
-	// and apply them to the intersection plane
-	plane.setFrom(planePrimitive);
+ 	
+	// set attributes to our intersection plane
+	center	= ofVec3f(0, 0, 0);
+	normal	= ofVec3f(0, 0, 1).normalize();
+	up		= ofVec3f(0, 1, 0).normalize();
+	scale	= ofVec2f(100, 100);
+
+	// this would me a lot better!
+//	plane.setFrom(planePrimitive);
 	
 	updatePlane();
 	plane.setInfinite(false);
@@ -22,7 +27,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	
+
 	// the mouse position on screen coordinates
 	screenMouse = ofVec3f(ofGetMouseX(),ofGetMouseY(),0);
 	
@@ -45,7 +50,7 @@ void ofApp::update(){
 	planePrimitive.setOrientation(rotation);
 	
 	// update intersection plane
-	plane.setFrom(planePrimitive);
+//	plane.setFrom(planePrimitive);
 }
 
 //--------------------------------------------------------------
@@ -54,7 +59,7 @@ void ofApp::draw(){
 	ofBackgroundGradient(100, 50);
 	
 	camera.begin();
-	
+
 	// this will be drawn as a dot at your mouse cursor
 	// because it's a line going away from the camera
 	// under your mouse

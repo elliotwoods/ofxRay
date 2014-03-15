@@ -18,7 +18,7 @@ public:
 	ofEasyCam camera;
 	
 	ofPlanePrimitive planePrimitive;	// the plane to display
-	
+
 	//ofxRay objects
 	ofPlane plane;	// the plane to check intersection
 	ofRay mouseRay;
@@ -29,7 +29,7 @@ public:
 	ofVec3f normal;
 	ofVec3f up;
 	ofVec3f scale; // only 2D
-	
+		
 	// vectors
 	ofVec3f screenMouse;
 	ofVec3f worldMouse;
@@ -39,4 +39,6 @@ public:
 	float rotationX;
 	float rotationY;
 	ofVec3f rotation;
+	
+
 };
