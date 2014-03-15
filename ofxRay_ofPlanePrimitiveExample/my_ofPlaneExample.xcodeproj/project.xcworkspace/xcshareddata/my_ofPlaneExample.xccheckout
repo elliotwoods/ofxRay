@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8757F128-9BDF-40DD-B547-2FC2EEDAEA3F</string>
+	<key>IDESourceControlProjectName</key>
+	<string>my_ofPlaneExample</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>4B53268F-F653-473B-9B99-6F91779ED479</key>
+		<string>ssh://github.com/elliotwoods/openFrameworks.git</string>
+		<key>6DE1FE71-7F04-483F-8AF7-AA384D7B1977</key>
+		<string>ssh://github.com/elliotwoods/ofxRay.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>addons/ofxRay/ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>4B53268F-F653-473B-9B99-6F91779ED479</key>
+		<string>../../../../..</string>
+		<key>6DE1FE71-7F04-483F-8AF7-AA384D7B1977</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/elliotwoods/ofxRay.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>4B53268F-F653-473B-9B99-6F91779ED479</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6DE1FE71-7F04-483F-8AF7-AA384D7B1977</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxRay</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4B53268F-F653-473B-9B99-6F91779ED479</string>
+			<key>IDESourceControlWCCName</key>
+			<string>openFrameworks</string>
+		</dict>
+	</array>
+</dict>
+</plist>

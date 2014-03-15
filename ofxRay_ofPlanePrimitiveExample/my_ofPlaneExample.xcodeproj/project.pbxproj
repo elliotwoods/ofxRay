@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-		8BB05C94146C0DA400E65B31 /* ofxGrabCam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BB05C93146C0DA400E65B31 /* ofxGrabCam.cpp */; };
-=======
 		028a1a54f7661fb669a7dff85793c32e /* Ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4acd81c4476ff24e4a29315d5d82755a /* Ray.cpp */; };
 		4b14cedcc7195a4d1f8e28b4f9635a89 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 19c22cd05d10f78b32ff80c6be3a9385 /* ofApp.cpp */; };
 		9abe161f13b1e8b87b7c04f9a1bdaee7 /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = bf0f4a067a58ea2f68d32147f5864cec /* Plane.cpp */; };
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		BBFF4EAE17D7FFE90083168F /* Base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA317D7FFE90083168F /* Base.cpp */; };
 		BBFF4EAF17D7FFE90083168F /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBFF4EA517D7FFE90083168F /* Camera.cpp */; };
@@ -74,18 +70,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-		8BB05C93146C0DA400E65B31 /* ofxGrabCam.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxGrabCam.cpp; path = ../../../../addons/ofxGrabCam/src/ofxGrabCam.cpp; sourceTree = "<group>"; };
-		8BB05C95146C113600E65B31 /* ofxGrabCam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxGrabCam.h; path = ../../../../addons/ofxGrabCam/src/ofxGrabCam.h; sourceTree = "<group>"; };
-		8BE666B114B701F80028F7B7 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
-=======
 		0de82f34ce3c7e76904aeb8097c9d918 /* Ray.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Ray.h; path = ../../../addons/ofxRay/src/ofxRay/Ray.h; sourceTree = SOURCE_ROOT; };
 		13120e09450f7293a154aee1f48e0f2a /* Projector.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Projector.cpp; path = ../../../addons/ofxRay/src/ofxRay/Projector.cpp; sourceTree = SOURCE_ROOT; };
 		19c22cd05d10f78b32ff80c6be3a9385 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
 		4acd81c4476ff24e4a29315d5d82755a /* Ray.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Ray.cpp; path = ../../../addons/ofxRay/src/ofxRay/Ray.cpp; sourceTree = SOURCE_ROOT; };
 		84f6287fa54b66c746947875f6690182 /* ofApp.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
 		8a33fb6f77f652e8e0672eda5918efd3 /* Plane.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Plane.h; path = ../../../addons/ofxRay/src/ofxRay/Plane.h; sourceTree = SOURCE_ROOT; };
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		BBFF4EA317D7FFE90083168F /* Base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base.cpp; sourceTree = "<group>"; };
 		BBFF4EA417D7FFE90083168F /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
@@ -159,23 +149,6 @@
 		9c17f021207a6045cd0bf3147f27fd4a /* ofxRay */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-				8BB05C93146C0DA400E65B31 /* ofxGrabCam.cpp */,
-				8BB05C95146C113600E65B31 /* ofxGrabCam.h */,
-			);
-			name = ofxGrabCam;
-			path = src;
-			sourceTree = "<group>";
-		};
-		8BE663C714B6F9B80028F7B7 /* ofxRay */ = {
-			isa = PBXGroup;
-			children = (
-				BBFF4EA117D7FFE90083168F /* src */,
-				8BE666B114B701F80028F7B7 /* readme.md */,
-			);
-			name = ofxRay;
-			path = ../../../addons/ofxRay;
-=======
 				f822be6973957ef1d983414be18ed4fe /* Base.cpp */,
 				f66b2ded74ba1679711e7b44d4db0741 /* Base.h */,
 				dfcfa436686ad2091f124269973faa41 /* Camera.cpp */,
@@ -188,7 +161,6 @@
 				4acd81c4476ff24e4a29315d5d82755a /* Ray.cpp */,
 			);
 			name = ofxRay;
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 			sourceTree = "<group>";
 		};
 		BB4B014C10F69532006C3DED /* addons */ = {
@@ -409,22 +381,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
-				8BB05C94146C0DA400E65B31 /* ofxGrabCam.cpp in Sources */,
-				BBFF4EAE17D7FFE90083168F /* Base.cpp in Sources */,
-				BBFF4EAF17D7FFE90083168F /* Camera.cpp in Sources */,
-				BBFF4EB017D7FFE90083168F /* Plane.cpp in Sources */,
-				BBFF4EB117D7FFE90083168F /* Projector.cpp in Sources */,
-				BBFF4EB217D7FFE90083168F /* Ray.cpp in Sources */,
-=======
 				4b14cedcc7195a4d1f8e28b4f9635a89 /* ofApp.cpp in Sources */,
 				a0c1c42f6293bec48ca02d5d341fdfab /* Base.cpp in Sources */,
 				df2b08505f60babd6d71fd9654ebbac5 /* Camera.cpp in Sources */,
 				de51e964916e52b1ab50bb5fa1ddc9e1 /* Projector.cpp in Sources */,
 				9abe161f13b1e8b87b7c04f9a1bdaee7 /* Plane.cpp in Sources */,
 				028a1a54f7661fb669a7dff85793c32e /* Ray.cpp in Sources */,
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,20 +488,9 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-				GCC_MODEL_TUNING = G4;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = (
-					"$(OF_CORE_HEADERS)",
-					../../../addons/ofxRay/src,
-				);
-=======
 				GCC_MODEL_TUNING = NONE;
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -606,21 +557,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi-v7a\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/iphone\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/linux\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/linux64\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/osx\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/vs2010\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
-				PREBINDING = NO;
-				PRODUCT_NAME = "ofxRay-exampleDebug";
-				SDKROOT = "";
-=======
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -635,23 +572,10 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../libs/glut/lib/osx\"";
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_MODEL_TUNING = G4;
-				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Headers/Carbon.h";
-				HEADER_SEARCH_PATHS = (
-					"$(OF_CORE_HEADERS)",
-					../../../addons/ofxRay/src,
-				);
-=======
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
@@ -718,21 +642,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
-<<<<<<< HEAD:ofxRay-example/ofxRay-example.xcodeproj/project.pbxproj
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/android/armeabi-v7a\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/iphone\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/linux\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/linux64\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/osx\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/vs2010\"";
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../../../addons/ofxOpenCv/libs/opencv/lib/win_cb\"";
-				PREBINDING = NO;
-				PRODUCT_NAME = "ofxRay-example";
-				SDKROOT = "";
-=======
 				PRODUCT_NAME = "$(TARGET_NAME)";
->>>>>>> jordi:ofxRay_ofPlanePrimitiveExample/my_ofPlaneExample.xcodeproj/project.pbxproj
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
