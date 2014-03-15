@@ -22,9 +22,16 @@ void ofApp::update(){
 
 	lookat		= camera.getLookAtDir();
 	screenMouse = ofVec3f(ofGetMouseX(),ofGetMouseY(),0);
-	worldMouse	= camera.screenToWorld(screenMouse);
+	worldMouse = camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 0.0f));
+	worldMouseTransmissionVector = camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 1.0f)) - worldMouse;
 	
+	mouseRay.s = worldMouse;
+	mouseRay.t = worldMouseTransmissionVector;
 	
+	ofVec3f intersectionPosition;
+	bool doesIntersect = plane.intersect(mouseRay, intersectionPosition);
+	
+	cout << (doesIntersect ? "hits" : "misses") << " at world position " << intersectionPosition << endl;
 }
 
 //--------------------------------------------------------------
@@ -33,7 +40,11 @@ void ofApp::draw(){
 	
 	camera.begin();
 
-
+	//this will be drawn as a dot at your mouse cursor
+	// because it's a line going away from the camera
+	// under your mouse
+	mouseRay.draw();
+	
 	plane.draw();
 
 	ofSetColor(0, 250, 250, 100);

@@ -2,7 +2,6 @@
 
 #include "ofMain.h"
 
-#include "ofxGrabCam.h"
 #include "ofxRay.h"
 
 class ofApp : public ofBaseApp{
@@ -21,6 +20,7 @@ public:
 
 	//ofxRay::Plane
 	ofPlane plane;
+	ofRay mouseRay;
 	
 	ofVec3f center;
 	ofVec3f normal;
@@ -31,4 +31,5 @@ public:
 	ofVec3f lookat;
 	ofVec3f screenMouse;
 	ofVec3f worldMouse;
+	ofVec3f worldMouseTransmissionVector;
 };
