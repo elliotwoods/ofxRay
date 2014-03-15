@@ -2,36 +2,49 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+	// let the axis oclude
+	ofEnableDepthTest();
+	
+	// set attributes to our displayed plane
+	planePrimitive.setPosition(0 ,0, 0);
+	planePrimitive.setScale(1,2,1);
+	rotationAmount = 0.3;
+ 	
+	// set attributes to our intersection plane
+	center	= ofVec3f(0, 0, 0);
+	normal	= ofVec3f(0, 0, 1).normalize();
+	up		= ofVec3f(0, 1, 0).normalize();
+	scale	= ofVec2f(100, 100);
 
-	center = ofVec3f(1.0f, 1.0f, 0.0f);
-	normal = ofVec3f(1.0f, 1.0f, 1.0f).normalize();
-	up = ofVec3f(0.0f, 1.0f, 0.0f).normalize();
-	scale = ofVec2f(100.0f, 100.0f);
+//	plane.setFrom(planePrimitive);
 	
 	updatePlane();
 	plane.setInfinite(false);
-
-//	plane.
-	planePrimitive.setPosition(plane.getCenter());
-	planePrimitive.setScale(1,2,1);
-	planePrimitive.setResolution(5, 5);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 
-	lookat		= camera.getLookAtDir();
+	// the mouse position on screen coordinates
 	screenMouse = ofVec3f(ofGetMouseX(),ofGetMouseY(),0);
-	worldMouse = camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 0.0f));
-	worldMouseTransmissionVector = camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 1.0f)) - worldMouse;
 	
+	// the mouse position on world coordinates
+	worldMouse	= camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 0.0f));
+	
+	// a point right in front of the mouse (used to get mouse direction)
+	worldMouseEnd	= camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 1.0f));
+	
+	// a vector representing the mouse direction (from camera to infinity?)
+	worldMouseTransmissionVector = worldMouseEnd - worldMouse;
+	
+	// set attributes to the ray
 	mouseRay.s = worldMouse;
 	mouseRay.t = worldMouseTransmissionVector;
 	
-	ofVec3f intersectionPosition;
-	bool doesIntersect = plane.intersect(mouseRay, intersectionPosition);
+	rotation.x += rotationAmount;
+	rotation.y += rotationAmount;
 	
-	cout << (doesIntersect ? "hits" : "misses") << " at world position " << intersectionPosition << endl;
+	planePrimitive.setOrientation(rotation);
 }
 
 //--------------------------------------------------------------
@@ -40,75 +53,49 @@ void ofApp::draw(){
 	
 	camera.begin();
 
-	//this will be drawn as a dot at your mouse cursor
+	// this will be drawn as a dot at your mouse cursor
 	// because it's a line going away from the camera
 	// under your mouse
 	mouseRay.draw();
 	
 	plane.draw();
 
+
 	ofSetColor(0, 250, 250, 100);
 	planePrimitive.draw(OF_MESH_FILL);
-//	planePrimitive.draw(OF_MESH_WIREFRAME);
+	planePrimitive.drawAxes(100);
 	
-	// draw grid
-	ofPushStyle();
-	ofSetColor(200, 100, 100);
-	ofDrawGrid(100,1,true);
-	ofPopStyle();
-
+//	ofDrawAxis(100);
 	camera.end();
 	
-	// draw labels
 	drawLabels();
 }
 
 void ofApp::drawLabels() {
-	string wm = "x =" + ofToString(worldMouse.x)+" y = "+ofToString(worldMouse.y);
-	string instruction = "mouse in world coordinates " + wm;
 	
-	ofPushStyle();
-	ofFill();
-	ofSetColor(200, 100, 100);
+	string label = "mouse in world coordinates";
+	label += " x = " + ofToString(worldMouse.x);
+	label += " y = " + ofToString(worldMouse.y);
+	label += " x = " + ofToString(worldMouse.z);
 	int y = ofGetHeight() - 70;
-	ofSetColor(255, 255, 255);
-	
-	ofDrawBitmapStringHighlight(instruction, 40, y);
-
-	ofPopStyle();
+	ofDrawBitmapStringHighlight(label, 40, y);
 
 	//--------------------------------------------------------------
-	string sm = "x =" + ofToString(screenMouse.x)+" y = "+ofToString(screenMouse.y);
-	instruction = "mouse in screen coordinates " + sm;
+	label = "mouse in screen coordinates x =" + ofToString(screenMouse.x)+" y = "+ofToString(screenMouse.y);
+	y += 20;
+	ofDrawBitmapStringHighlight(label, 40, y);
 	
-	ofPushStyle();
-	ofFill();
-	ofSetColor(200, 100, 100);
-	y += 30;
-	ofSetColor(255, 255, 255);
-	
-	ofDrawBitmapStringHighlight(instruction, 40, y);
-	
-	ofPopStyle();
-
+	y += 20;
+	ofVec3f intersectionPosition;
+	doesIntersect = plane.intersect(mouseRay, intersectionPosition);
+	label = doesIntersect ? "hits" : "misses";
+	label += + " at world position " + ofToString(intersectionPosition);
+	ofDrawBitmapStringHighlight(label, 40, y);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	
-	updatePlane();
-	
-	if (key=='c')
-//		camera.toggleCursorDraw();
-	if (key=='f')
-		ofToggleFullscreen();
-	
-	if (key==OF_KEY_RETURN) {
-/*		if (dataCursor == data.end())
-			dataCursor = data.begin();
-		else
-			dataCursor++;
-*/	}
 }
 
 //--------------------------------------------------------------
