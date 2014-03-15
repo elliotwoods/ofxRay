@@ -1,5 +1,7 @@
 #include "ofApp.h"
 
+// Example by Jordi Puig
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 	
@@ -9,15 +11,14 @@ void ofApp::setup(){
 	// set attributes to our displayed plane
 	planePrimitive.setPosition(0 ,0, 0);
 	planePrimitive.setScale(1,2,1);
-	rotationX = 0.3;
-	rotationY = 0.2;
+	
+	//set the rotation speeds
+	rotationSpeedX = 0.3;
+	rotationSpeedY = 0.2;
  		
 	// get the attributes from the plane primitive
 	// and apply them to the intersection plane
 	plane.setFrom(planePrimitive);
-	
-	updatePlane();
-	plane.setInfinite(false);
 }
 
 //--------------------------------------------------------------
@@ -27,10 +28,10 @@ void ofApp::update(){
 	screenMouse = ofVec3f(ofGetMouseX(),ofGetMouseY(),0);
 	
 	// the mouse position on world coordinates
-	worldMouse	= camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 0.0f));
+	worldMouse = camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 0.0f));
 	
 	// a point right in front of the mouse (used to get mouse direction)
-	worldMouseEnd	= camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 1.0f));
+	worldMouseEnd = camera.screenToWorld(ofVec3f(screenMouse.x, screenMouse.y, 1.0f));
 	
 	// a vector representing the mouse direction (from camera to infinity?)
 	worldMouseTransmissionVector = worldMouseEnd - worldMouse;
@@ -40,8 +41,8 @@ void ofApp::update(){
 	mouseRay.t = worldMouseTransmissionVector;
 	
 	// rotate the plane
-	rotation.x += rotationX;
-	rotation.y += rotationY;
+	rotation.x += rotationSpeedX;
+	rotation.y += rotationSpeedY;
 	planePrimitive.setOrientation(rotation);
 	
 	// update intersection plane
@@ -89,28 +90,6 @@ void ofApp::drawLabels(){
 void ofApp::keyPressed(int key){
 	
 }
-
-//--------------------------------------------------------------
-void ofApp::updatePlane(){
-	
-	plane.setCenter(center);
-	plane.setNormal(normal);
-	plane.setUp(up);
-	plane.setScale(scale);
-	
-	normal = plane.getNormal();
-	up = plane.getUp();
-}
-
-
-
-
-
-
-
-
-
-
 
 
 
