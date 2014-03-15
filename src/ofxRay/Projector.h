@@ -9,7 +9,11 @@
 #include "Ray.h"
 #include "Base.h"
 
+
 namespace ofxRay {
+    
+    class Plane;
+    
 	///A class to generate rays given parameters for a projector or camera
 	///NB: ofProjector inherits from ofNode, and therefore ofNode stores its view matrix
 	class Projector : public Base, public ofNode {
@@ -43,9 +47,38 @@ namespace ofxRay {
 		Ray castCoordinate(const ofVec2f& xy) const;
 		void castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const;
 
+        // Generate a ray for the projection center
+        Ray getProjectionCenterRay() const;
+        
+        // Generate a ray for the projector itself (differs from the above if we have lens offset)
+        Ray getProjectorRay(float distance) const;
+        
+        // returns a plane, perpendicular to the projector ray, at the specified distance
+        Plane getProjectionPlaneAt(float distance, bool infinite = false) const;
+        
+        // convert world coordinates, to signed normalized (-1...1) coordinates
+        ofVec3f getNormalizedSCoordinateOfWorldPosition(ofVec3f pointWorld) const;
+        
+        // convert world coordinates, to unsigned normalized (0...1) coordinates
+        ofVec3f getNormalizedUCoordinateOfWorldPosition(ofVec3f pointWorld) const;
+
+        // convert world coordinates to screen pixel coordinates
+        ofVec3f getScreenCoordinateOfWorldPosition(ofVec3f pointWorld) const;
+        
+        // convert signed normalized (-1...1) coordiantes to world coordinates (pointNorm.z contains distance to projector plane)
+        ofVec3f getWorldPositionOfNormalizedSCoordinate(ofVec3f pointNormS) const;
+        
+        // convert unsigned normalized (0...1) coordiantes to world coordinates (pointNorm.z contains distance to projector plane)
+        ofVec3f getWorldPositionOfNormalizedUCoordinate(ofVec3f pointNormU) const;
+        
+        // convert screen pixel coordinates to world coordinates (pointScreen.z contains distance to projector plane)
+        ofVec3f getWorldPositionOfScreenCoordinate(ofVec3f pointScreen) const;
+        
+        
 		void setView(const ofMatrix4x4& m) {
 			ofNode::setTransformMatrix(m.getInverse());
 		}
+
 		void setProjection(float throwRatio, const ofVec2f& lensOffset);
 		void setProjection(const ofMatrix4x4& projection);
 
@@ -55,6 +88,9 @@ namespace ofxRay {
 		void setHeight(int height);
 		int getWidth() const;
 		int getHeight() const;
+
+        float getThrowRatio() const;
+        ofVec2f getLensOffset() const;
 
 		ofMatrix4x4 getViewMatrix() const;
 		ofMatrix4x4 getProjectionMatrix() const;
@@ -78,6 +114,7 @@ namespace ofxRay {
 	protected:
 		int width;
 		int height;
+        
 		ofMatrix4x4 projection;
 		static ofMesh* drawBox;
 
@@ -85,5 +122,9 @@ namespace ofxRay {
 		static float defaultFar;
 	private:
 		static void makeBox();
+
+        float throwRatio;
+        ofVec2f lensOffset;
+
 	};
 }

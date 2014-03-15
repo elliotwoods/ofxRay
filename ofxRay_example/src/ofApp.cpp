@@ -10,7 +10,7 @@ void ofApp::setup(){
 	ray.randomise();
 	
 	projector.setPosition(ofVec3f(0,1,0));
-	projector.rotate(90,0,1,0);
+	projector.setOrientation(ofQuaternion(90, ofVec3f(0,1,0)));
 	i = j = 0;
 	
 	drawEnabled.insert(pair<string,bool>("ofGrid", true));	
