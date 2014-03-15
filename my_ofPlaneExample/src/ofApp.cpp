@@ -2,19 +2,14 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
-	center = ofVec3f(1.0f, 1.0f, 0.0f);
-	normal = ofVec3f(1.0f, 1.0f, 1.0f).normalize();
-	up = ofVec3f(0.0f, 1.0f, 0.0f).normalize();
-	scale = ofVec2f(100.0f, 100.0f);
 	
-	updatePlane();
-	plane.setInfinite(false);
-
 //	plane.
-	planePrimitive.setPosition(plane.getCenter());
-	planePrimitive.setScale(1,2,1);
+	planePrimitive.setPosition(ofVec3f(30.0f, 50.0f, 100.0f));
+	planePrimitive.setScale(3,2,1);
 	planePrimitive.setResolution(5, 5);
+	planePrimitive.rotate(45, 1, 2, 3);
+	
+	plane.setFrom(planePrimitive);
 }
 
 //--------------------------------------------------------------
@@ -96,8 +91,6 @@ void ofApp::drawLabels() {
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	
-	updatePlane();
-	
 	if (key=='c')
 //		camera.toggleCursorDraw();
 	if (key=='f')
@@ -109,17 +102,6 @@ void ofApp::keyPressed(int key){
 		else
 			dataCursor++;
 */	}
-}
-
-//--------------------------------------------------------------
-void ofApp::updatePlane()	{
-	plane.setCenter(center);
-	plane.setNormal(normal);
-	plane.setUp(up);
-	plane.setScale(scale);
-	
-	normal = plane.getNormal();
-	up = plane.getUp();
 }
 
 

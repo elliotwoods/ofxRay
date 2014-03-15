@@ -13,7 +13,6 @@ public:
 	void drawLabels();
 	
 	void keyPressed  (int key);
-	void updatePlane();
 	
 	ofEasyCam camera;
 	ofPlanePrimitive planePrimitive;
@@ -21,11 +20,6 @@ public:
 	//ofxRay::Plane
 	ofPlane plane;
 	ofRay mouseRay;
-	
-	ofVec3f center;
-	ofVec3f normal;
-	ofVec3f up;
-	ofVec3f scale; // only 2D
 	
 	
 	ofVec3f lookat;
