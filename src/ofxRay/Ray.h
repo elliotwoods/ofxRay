@@ -8,7 +8,7 @@
 //
 
 #include "ofMain.h"
-#include "ofxRay/Base.h"
+#include "Base.h"
 
 namespace ofxRay {
 	class Ray : public Base {

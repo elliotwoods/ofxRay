@@ -8,8 +8,8 @@
 //
 
 #include "ofMain.h"
-#include "ofxRay/Base.h"
-#include "ofxRay/Ray.h"
+#include "Base.h"
+#include "Ray.h"
 
 namespace ofxRay {
 	class Plane : public Base {
@@ -39,6 +39,7 @@ namespace ofxRay {
 		void setUp(const ofVec3f& up);
 		void setScale(const ofVec2f& scale);
 		void setInfinite(const bool b);
+		void setFrom(ofPlanePrimitive &);
 	
 		///fills rays{0..3} with rays starting from corners and going to target
 		void getCornerRaysTo(const ofVec3f &target, Ray* rays) const;
