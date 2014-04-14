@@ -161,9 +161,6 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
         return getWorldPositionOfNormalizedUCoordinate(pointScreen / ofVec3f(width, height, 1));
     }
     
-
-    
-    
 	void Projector::setProjection(float throwRatio, const ofVec2f& lensOffset) {
 		ofMatrix4x4 projection;
         
@@ -240,15 +237,15 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		ofMesh plane;
 		
 		ofMatrix4x4 inversed;
-		inversed.makeInvertOf(this->getViewMatrix() * this->getProjectionMatrix());
+		inversed.makeInvertOf(this->getViewMatrix() * this->getClippedProjectionMatrix());
 		
-		plane.addVertex(ofVec3f(-1.0f, +1.0f, +1.0f) * inversed);
+		plane.addVertex(ofVec3f(-1.0f, +1.0f, +1.0f));
 		plane.addTexCoord(ofVec2f(0,0));
-		plane.addVertex(ofVec3f(+1.0f, +1.0f, +1.0f) * inversed);
+		plane.addVertex(ofVec3f(+1.0f, +1.0f, +1.0f));
 		plane.addTexCoord(ofVec2f(this->getWidth(),0));
-		plane.addVertex(ofVec3f(-1.0f, -1.0f, +1.0f) * inversed);
+		plane.addVertex(ofVec3f(-1.0f, -1.0f, +1.0f));
 		plane.addTexCoord(ofVec2f(0,this->getHeight()));
-		plane.addVertex(ofVec3f(+1.0f, -1.0f, +1.0f) * inversed);
+		plane.addVertex(ofVec3f(+1.0f, -1.0f, +1.0f));
 		plane.addTexCoord(ofVec2f(this->getWidth(),this->getHeight()));
 		
 		plane.addIndex(0);
@@ -259,7 +256,10 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		plane.addIndex(3);
 		
 		image.getTextureReference().bind();
+		ofPushMatrix();
+		glMultMatrixf(inversed.getPtr());
 		plane.draw();
+		ofPopMatrix();
 		image.getTextureReference().unbind();
 	}
 	
