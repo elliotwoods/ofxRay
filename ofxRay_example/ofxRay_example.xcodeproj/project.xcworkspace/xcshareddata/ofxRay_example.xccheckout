@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BE0F8078-B5DD-4BF7-A8E1-BDEA9A330073</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ofxRay_example</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>28E377C2-67BF-4C40-81DA-A30CAEEA1B82</key>
+		<string>https://github.com/elliotwoods/ofxGrabCam.git</string>
+		<key>B36DB7E0-FA58-41F4-9638-EE63FE64903F</key>
+		<string>ssh://github.com/wasawi/openFrameworks.git</string>
+		<key>E431B45D-5B1B-4379-9ACE-B63AB093565B</key>
+		<string>https://github.com/elliotwoods/ofxRay.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>addons/ofxRay/ofxRay_example/ofxRay_example.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>28E377C2-67BF-4C40-81DA-A30CAEEA1B82</key>
+		<string>../../../../ofxGrabCam</string>
+		<key>B36DB7E0-FA58-41F4-9638-EE63FE64903F</key>
+		<string>../../../../..</string>
+		<key>E431B45D-5B1B-4379-9ACE-B63AB093565B</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/elliotwoods/ofxRay.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B36DB7E0-FA58-41F4-9638-EE63FE64903F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>28E377C2-67BF-4C40-81DA-A30CAEEA1B82</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxGrabCam</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E431B45D-5B1B-4379-9ACE-B63AB093565B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxRay</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B36DB7E0-FA58-41F4-9638-EE63FE64903F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>openFrameworks</string>
+		</dict>
+	</array>
+</dict>
+</plist>
