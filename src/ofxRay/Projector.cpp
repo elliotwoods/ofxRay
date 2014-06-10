@@ -15,7 +15,6 @@ namespace ofxRay {
 	float Projector::defaultFar = 20.0f;
 
 	Projector::Projector(int width, int height) {
-		float aspectRatio= (float)width / (float)height;
 		*this = Projector(2.0f, ofVec2f(0.0f, 0.5f), width, height);
 	}
 
@@ -42,8 +41,8 @@ namespace ofxRay {
 		glMultMatrixf(getViewMatrix().getInverse().getPtr());
 		glMultMatrixf(getClippedProjectionMatrix().getInverse().getPtr());
 		drawBox->draw();
-		ofLine(ofVec3f(0.0f,0.0f,+1.0f), ofVec3f(2.0f,0.0f,+1.0f));
-		ofLine(ofVec3f(0.0f,0.0f,+1.0f), ofVec3f(0.0f,2.0f,+1.0f));
+		ofLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(2.0f,0.0f,-1.0f));
+		ofLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(0.0f,2.0f,-1.0f));
 		ofPopMatrix();
 	
 		ofPopStyle();
@@ -84,9 +83,9 @@ namespace ofxRay {
 		ofVec2f xyUndistorted = this->undistortCoordinate(xy);
 		ofMatrix4x4 matrix = this->getClippedProjectionMatrix();
 		matrix.preMult(this->getViewMatrix());
-		//we're using OpenGL standard here, i.e. -1.0f is far plane
-		//in DirectX, +1.0f is far plane
-		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, -1.0f, 1.0f) * matrix.getInverse();
+		//sometimes we need to switch that +1.0f for -1.0f in the z
+		//opengl should be -1.0f, directx should be +1.0f, i think opencv might be +?
+		ofVec4f PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, +1.0f, 1.0f) * matrix.getInverse();
 		ofVec3f t = ofVec3f(PosW / PosW.w) - this->getPosition();
 		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f), true);
 	}
@@ -239,13 +238,13 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		ofMatrix4x4 inversed;
 		inversed.makeInvertOf(this->getViewMatrix() * this->getClippedProjectionMatrix());
 		
-		plane.addVertex(ofVec3f(-1.0f, +1.0f, +1.0f));
+		plane.addVertex(ofVec3f(-1.0f, +1.0f, -1.0f));
 		plane.addTexCoord(ofVec2f(0,0));
-		plane.addVertex(ofVec3f(+1.0f, +1.0f, +1.0f));
+		plane.addVertex(ofVec3f(+1.0f, +1.0f, -1.0f));
 		plane.addTexCoord(ofVec2f(this->getWidth(),0));
-		plane.addVertex(ofVec3f(-1.0f, -1.0f, +1.0f));
+		plane.addVertex(ofVec3f(-1.0f, -1.0f, -1.0f));
 		plane.addTexCoord(ofVec2f(0,this->getHeight()));
-		plane.addVertex(ofVec3f(+1.0f, -1.0f, +1.0f));
+		plane.addVertex(ofVec3f(+1.0f, -1.0f, -1.0f));
 		plane.addTexCoord(ofVec2f(this->getWidth(),this->getHeight()));
 		
 		plane.addIndex(0);
