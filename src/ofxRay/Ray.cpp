@@ -92,7 +92,7 @@ namespace ofxRay {
 		Ray intersectRay;
 	
 		const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
-		const float EPS(1.0E-5);
+		const float EPS(1.0E-15);
 	
 		ofVec3f p13,p43,p21;
 		float d1343,d4321,d1321,d4343,d2121;
