@@ -13,7 +13,7 @@ void ofApp::setup(){
 	planePrimitive.setScale(1,2,1);
 	
 	//set the rotation speeds
-	rotationSpeedX = 0.3;
+	rotationSpeedX = 0.33;
 	rotationSpeedY = 0.2;
  		
 	// get the attributes from the plane primitive
@@ -47,6 +47,11 @@ void ofApp::update(){
 	
 	// update intersection plane
 	plane.setFrom(planePrimitive);
+	
+	// check for intersection
+	// all the good stuff is done here!
+	doesIntersect = plane.intersect(mouseRay, intersectionPosition);
+
 }
 
 //--------------------------------------------------------------
@@ -63,7 +68,6 @@ void ofApp::draw(){
 	// under your mouse
 	mouseRay.draw();
 	
-	
 	plane.draw();
 	
 	ofSetColor(0, 250, 250, 100);
@@ -79,8 +83,6 @@ void ofApp::drawLabels(){
 	
 	string label;
 	int y = ofGetHeight() - 70;
-	ofVec3f intersectionPosition;
-	doesIntersect = plane.intersect(mouseRay, intersectionPosition);
 	label = doesIntersect ? "hits" : "misses";
 	label += + " at world position " + ofToString(intersectionPosition);
 	ofDrawBitmapStringHighlight(label, 40, y);
