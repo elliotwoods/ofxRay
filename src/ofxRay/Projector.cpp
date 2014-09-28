@@ -266,7 +266,7 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 	void Projector::beginAsCamera() const {
 		ofPushView();
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(getProjectionMatrix().getPtr());
+		glLoadMatrixf(getClippedProjectionMatrix().getPtr());
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(getViewMatrix().getPtr());
 	}
