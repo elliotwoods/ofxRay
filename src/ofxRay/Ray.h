@@ -19,10 +19,11 @@ namespace ofxRay {
 	
 		//-
 		//ofGeometric
-		void draw() const;
-		void randomiseVectors(float amplitude = 1.0f);
+		void draw() const override;
+		void randomiseVectors(float amplitude = 1.0f) override;
 		//-
-
+		
+		///NOTE : does not account for non-infinite lines
 		Ray intersect(const Ray &other) const;
 	
 		float distanceTo(const ofVec3f& point) const;
