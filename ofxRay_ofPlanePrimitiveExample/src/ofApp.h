@@ -22,6 +22,7 @@ public:
 	ofPlane plane;	// the plane to check intersection
 	ofRay mouseRay;
 	bool doesIntersect;
+	ofVec3f intersectionPosition;
 	
 	// vectors
 	ofVec3f screenMouse;
