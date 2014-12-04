@@ -35,6 +35,14 @@ namespace ofxRay {
 		float	getLength() const;
 		float	getLengthSquared() const;
 	
+		void setStart(const ofVec3f &);
+		void setEnd(const ofVec3f &);
+		void setTranmissionVector(const ofVec3f &);
+
+		const ofVec3f & getStart() const;
+		const ofVec3f & getEnd() const;
+		const ofVec3f & getTransmissionVector() const;
+
 		Ray operator*(float other) const;
 		ofVec3f operator()(float other) const;
 	

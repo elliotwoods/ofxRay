@@ -161,6 +161,30 @@ namespace ofxRay {
 		return t.lengthSquared();
 	}
 
+	void Ray::setStart(const ofVec3f & start) {
+		this->s = start;
+	}
+
+	void Ray::setEnd(const ofVec3f & end) {
+		this->t = end - this->s;
+	}
+
+	void Ray::setTranmissionVector(const ofVec3f & tranmissionVector) {
+		this->t = tranmissionVector;
+	}
+
+	const ofVec3f & Ray::getStart() const {
+		return this->s;
+	}
+
+	const ofVec3f & Ray::getEnd() const {
+		return this->t + this->s;
+	}
+
+	const ofVec3f & Ray::getTransmissionVector() const {
+		return this->t;
+	}
+
 	Ray Ray::operator*(float other) const {
 		return Ray(s, t * other, color, infinite);
 	}
