@@ -19,10 +19,11 @@ namespace ofxRay {
 	
 		//-
 		//ofGeometric
-		void draw() const;
-		void randomiseVectors(float amplitude = 1.0f);
+		void draw() const override;
+		void randomiseVectors(float amplitude = 1.0f) override;
 		//-
-
+		
+		///NOTE : does not account for non-infinite lines
 		Ray intersect(const Ray &other) const;
 	
 		float distanceTo(const ofVec3f& point) const;
@@ -35,6 +36,14 @@ namespace ofxRay {
 		float	getLength() const;
 		float	getLengthSquared() const;
 	
+		void setStart(const ofVec3f &);
+		void setEnd(const ofVec3f &);
+		void setTranmissionVector(const ofVec3f &);
+
+		const ofVec3f & getStart() const;
+		const ofVec3f & getEnd() const;
+		const ofVec3f & getTransmissionVector() const;
+
 		Ray operator*(float other) const;
 		ofVec3f operator()(float other) const;
 	

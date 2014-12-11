@@ -90,7 +90,7 @@ namespace ofxRay {
 	//	double *mua, double *mub)
 	Ray Ray::intersect(const Ray &other) const {
 		Ray intersectRay;
-	
+
 		const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
 		const float EPS(1.0E-15);
 	
@@ -159,6 +159,31 @@ namespace ofxRay {
 	
 	float Ray::getLengthSquared() const {
 		return t.lengthSquared();
+	}
+
+	void Ray::setStart(const ofVec3f & start) {
+		this->s = start;
+	}
+
+	void Ray::setEnd(const ofVec3f & end) {
+		this->setTranmissionVector(end - this->s);
+	}
+
+	void Ray::setTranmissionVector(const ofVec3f & tranmissionVector) {
+		this->t = tranmissionVector;
+		this->defined = true;
+	}
+
+	const ofVec3f & Ray::getStart() const {
+		return this->s;
+	}
+
+	const ofVec3f & Ray::getEnd() const {
+		return this->t + this->s;
+	}
+
+	const ofVec3f & Ray::getTransmissionVector() const {
+		return this->t;
 	}
 
 	Ray Ray::operator*(float other) const {

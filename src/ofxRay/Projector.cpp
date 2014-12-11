@@ -232,19 +232,20 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 			return this->getProjectionMatrix();
 	}
 
-	void Projector::drawOnNearPlane(ofBaseHasTexture &image) const {
+	void Projector::drawOnNearPlane(ofBaseHasTexture &image, bool nearPlaneFlipped) const {
 		ofMesh plane;
 		
 		ofMatrix4x4 inversed;
 		inversed.makeInvertOf(this->getViewMatrix() * this->getClippedProjectionMatrix());
 		
-		plane.addVertex(ofVec3f(-1.0f, +1.0f, -1.0f));
+		float z = nearPlaneFlipped ? 1.0f : -1.0f;
+		plane.addVertex(ofVec3f(-1.0f, +1.0f, z));
 		plane.addTexCoord(ofVec2f(0,0));
-		plane.addVertex(ofVec3f(+1.0f, +1.0f, -1.0f));
+		plane.addVertex(ofVec3f(+1.0f, +1.0f, z));
 		plane.addTexCoord(ofVec2f(this->getWidth(),0));
-		plane.addVertex(ofVec3f(-1.0f, -1.0f, -1.0f));
+		plane.addVertex(ofVec3f(-1.0f, -1.0f, z));
 		plane.addTexCoord(ofVec2f(0,this->getHeight()));
-		plane.addVertex(ofVec3f(+1.0f, -1.0f, -1.0f));
+		plane.addVertex(ofVec3f(+1.0f, -1.0f, z));
 		plane.addTexCoord(ofVec2f(this->getWidth(),this->getHeight()));
 		
 		plane.addIndex(0);
@@ -265,7 +266,7 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 	void Projector::beginAsCamera() const {
 		ofPushView();
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(getProjectionMatrix().getPtr());
+		glLoadMatrixf(getClippedProjectionMatrix().getPtr());
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(getViewMatrix().getPtr());
 	}
