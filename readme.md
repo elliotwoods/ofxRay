@@ -4,6 +4,10 @@
 
 A lightweight set of tools for intersection testings (e.g. does a ray intersect a plane).
 
+## Note
+
+The current code in this repository is designed for openFrameworks 0.9.0 (which has different base classes). If you are looking for a version of ofxRay which is compatible with previous versions of openFrameworks, please check https://github.com/elliotwoods/ofxRay/tree/0.8.0 .
+
 ## Objects
 
 ### ofxRay::Ray
