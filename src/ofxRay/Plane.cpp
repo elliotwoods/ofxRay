@@ -161,7 +161,7 @@ namespace ofxRay {
 	void Plane::setUp(const ofVec3f& up) {
 		this->up = up;
 		this->up = this->up - this->up * this->up.dot(this->normal);
-		this->up = this->normal.crossed(this->getRight());
+		this->up = this->normal.getCrossed(this->getRight());
 		this->up.normalize();
 	}
 
@@ -256,7 +256,7 @@ namespace ofxRay {
 
 
 	ofVec3f Plane::getRight() const {
-		return up.crossed(normal).normalize();
+		return up.getCrossed(normal).normalize();
 	}
 
 	Ray Plane::getUpRay() const {
