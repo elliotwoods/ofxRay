@@ -178,7 +178,7 @@ namespace ofxRay {
 		return this->s;
 	}
 
-	const ofVec3f & Ray::getEnd() const {
+	const ofVec3f Ray::getEnd() const {
 		return this->t + this->s;
 	}
 

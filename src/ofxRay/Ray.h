@@ -41,7 +41,7 @@ namespace ofxRay {
 		void setTranmissionVector(const ofVec3f &);
 
 		const ofVec3f & getStart() const;
-		const ofVec3f & getEnd() const;
+		const ofVec3f getEnd() const;
 		const ofVec3f & getTransmissionVector() const;
 
 		Ray operator*(float other) const;
