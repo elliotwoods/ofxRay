@@ -32,6 +32,7 @@ namespace ofxRay {
 		const ofVec3f& getNormal() const;
 		const ofVec3f& getUp() const;
 		const ofVec2f& getScale() const;
+		const ofVec4f& getABCD() const; ///< http://mathworld.wolfram.com/Point-PlaneDistance.html
 		bool getInfinite() const;
 	
 		void setCenter(const ofVec3f& center);
@@ -46,6 +47,9 @@ namespace ofxRay {
 		///fills rays{0..3} with rays starting from source and going to corners
 		void getCornerRaysFrom(const ofVec3f &source, Ray* rays) const;
 	
+		float getDistanceTo(const ofVec3f &) const;
+		bool fitToPoints(const vector<ofVec3f> &, float & residual);
+
 		ofVec3f getRight() const;
 	
 		Ray getUpRay() const;

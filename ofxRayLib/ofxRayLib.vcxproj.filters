@@ -44,5 +44,8 @@
     <ClCompile Include="..\src\ofxRay\Camera.cpp">
       <Filter>src\ofxRay</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ofxRay\Plane_fitToPoints.cpp">
+      <Filter>src\ofxRay</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

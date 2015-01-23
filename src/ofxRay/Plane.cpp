@@ -21,8 +21,9 @@ namespace ofxRay {
 
 	Plane::Plane(float a, float b, float c, float d) {
 		ofVec3f direction(a,b,c);
-		setCenter(direction * d);
-		setNormal(direction.normalize());
+		this->setCenter(direction * d);
+		this->setNormal(direction.getNormalized());
+		this->setScale(ofVec2f(1.0f, 1.0f));
 		infinite = true;
 		makeGrid();
 	}
@@ -145,6 +146,15 @@ namespace ofxRay {
 		return this->scale;
 	}
 
+	const ofVec4f& Plane::getABCD() const {
+		ofVec4f ABCD;
+		ABCD.x = this->normal.x;
+		ABCD.y = this->normal.y;
+		ABCD.z = this->normal.z;
+		ABCD.w = - this->normal.dot(this->center);
+		return ABCD;
+	}
+
 	bool Plane::getInfinite() const {
 		return this->infinite;
 	}
@@ -222,6 +232,15 @@ namespace ofxRay {
 	
 		corner = center + up - right;
 		*rays++ = Ray(source, corner - source, color, false);
+	}
+
+	//http://mathinsight.org/distance_point_plane
+	float Plane::getDistanceTo(const ofVec3f & point) const {
+		const auto ABCD = this->getABCD();
+		const auto ABC = ofVec3f(ABCD.x, ABCD.y, ABCD.z);
+		const auto numerator = abs(normal.dot(point) + ABCD.w);
+		const auto denominator = ABC.length();
+		return numerator / denominator;
 	}
 
 	void Plane::makeGrid() {
