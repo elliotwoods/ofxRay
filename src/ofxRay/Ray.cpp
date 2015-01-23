@@ -40,7 +40,7 @@ namespace ofxRay {
 	
 		ofPushMatrix();
 		ofTranslate(s);
-		ofSphere(0.01);
+		ofDrawSphere(0.01);
 		ofPopMatrix();
 	
 		if (infinite) {
@@ -51,13 +51,13 @@ namespace ofxRay {
 				ofPushStyle();
 				ofSetLineWidth(1.0f);
 				ofSetColor(255,255,255);
-				ofLine(s-100*t, s+100*t);
+				ofDrawLine(s-100*t, s+100*t);
 				ofPopStyle();
 			}
 		
 		
 			ofSetLineWidth(width==0.0f ? 1.0f : width);
-			ofLine(s-1000*t, s+1000*t);
+			ofDrawLine(s-1000*t, s+1000*t);
 		}
 	
 		//arrow
@@ -178,7 +178,7 @@ namespace ofxRay {
 		return this->s;
 	}
 
-	const ofVec3f & Ray::getEnd() const {
+	ofVec3f Ray::getEnd() const {
 		return this->t + this->s;
 	}
 

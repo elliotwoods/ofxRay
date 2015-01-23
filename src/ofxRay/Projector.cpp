@@ -41,8 +41,8 @@ namespace ofxRay {
 		glMultMatrixf(getViewMatrix().getInverse().getPtr());
 		glMultMatrixf(getClippedProjectionMatrix().getInverse().getPtr());
 		drawBox->draw();
-		ofLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(2.0f,0.0f,-1.0f));
-		ofLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(0.0f,2.0f,-1.0f));
+		ofDrawLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(2.0f,0.0f,-1.0f));
+		ofDrawLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(0.0f,2.0f,-1.0f));
 		ofPopMatrix();
 	
 		ofPopStyle();
@@ -255,12 +255,12 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		plane.addIndex(1);
 		plane.addIndex(3);
 		
-		image.getTextureReference().bind();
+		image.getTexture().bind();
 		ofPushMatrix();
 		glMultMatrixf(inversed.getPtr());
 		plane.draw();
 		ofPopMatrix();
-		image.getTextureReference().unbind();
+		image.getTexture().unbind();
 	}
 	
 	void Projector::beginAsCamera() const {
