@@ -8,6 +8,23 @@
 
 #include "ofxRay/Ray.h"
 
+ostream& operator<<(ostream & os, const ofxRay::Ray & ray) {
+	os << ray.s;
+	os << "; ";
+	os << ray.t;
+	os << "; ";
+	os << (const ofxRay::Base &)ray;
+	return os;
+}
+istream& operator>>(istream & is, ofxRay::Ray & ray) {
+	is >> ray.s;
+	is.ignore(2);
+	is >> ray.t;
+	is.ignore(2);
+	is >> (ofxRay::Base &)ray;
+	return is;
+}
+
 namespace ofxRay {
 	Ray::Ray() {
 		this->defined = false;

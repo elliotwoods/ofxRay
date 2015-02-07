@@ -8,6 +8,36 @@
 
 #include "Plane.h"
 
+ostream& operator<<(ostream & os, const ofxRay::Plane & plane) {
+	os << plane.center;
+	os << "; ";
+	os << plane.normal;
+	os << "; ";
+	os << plane.infinite;
+	os << "; ";
+	os << plane.up;
+	os << "; ";
+	os << plane.scale;
+	os << "; ";
+	os << (const ofxRay::Base &)plane;
+	return os;
+}
+
+istream& operator>>(istream & is, ofxRay::Plane & plane) {
+	is >> plane.center;
+	is.ignore(2);
+	is >> plane.normal;
+	is.ignore(2);
+	is >> plane.infinite;
+	is.ignore(2);
+	is >> plane.up;
+	is.ignore(2);
+	is >> plane.scale;
+	is.ignore(2);
+	is >> (ofxRay::Base &)plane;
+	return is;
+}
+
 namespace ofxRay {
 
 	ofMesh* Plane::viewGrid = 0;

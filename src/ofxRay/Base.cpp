@@ -7,6 +7,16 @@
 //
 #include "ofxRay/Base.h"
 
+ostream& operator<<(ostream & os, const ofxRay::Base & base) {
+	os << base.color;
+	return os;
+}
+
+istream& operator>>(istream & is, ofxRay::Base & base) {
+	is >> base.color;
+	return is;
+}
+
 namespace ofxRay {
 	Base::Base() {
 		randomiseColor();

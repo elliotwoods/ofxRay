@@ -10,6 +10,12 @@
 #include "Base.h"
 
 namespace ofxRay {
+	class Ray;
+}
+ostream& operator<<(ostream & os, const ofxRay::Ray &);
+istream& operator>>(istream & is, ofxRay::Ray &);
+
+namespace ofxRay {
 	class Ray : public Base {
 	public:
 		Ray();
@@ -45,6 +51,9 @@ namespace ofxRay {
 
 		Ray operator*(float other) const;
 		ofVec3f operator()(float other) const;
+
+		friend ostream& (::operator<<) (ostream&, const Ray &);
+		friend istream& (::operator>>) (istream&, Ray &);
 	
 		//vectors
 		ofVec3f	s, t;

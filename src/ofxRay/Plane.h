@@ -11,6 +11,12 @@
 #include "Ray.h"
 
 namespace ofxRay {
+	class Plane;
+}
+ostream& operator<<(ostream & os, const ofxRay::Plane &);
+istream& operator>>(istream & is, ofxRay::Plane &);
+
+namespace ofxRay {
 	class Plane : public Base {
 	public:
 		Plane();
@@ -54,6 +60,9 @@ namespace ofxRay {
 		Ray getUpRay() const;
 		Ray getRightRay() const;
 	
+		friend ostream & (::operator<<) (ostream &, const Plane &);
+		friend istream & (::operator>>) (istream &, Plane &);
+
 	protected:
 		void makeGrid();
 	

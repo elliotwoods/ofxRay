@@ -17,6 +17,12 @@
 #endif
 
 namespace ofxRay {
+	class Base;
+}
+ostream& operator<<(ostream & os, const ofxRay::Base &);
+istream& operator>>(istream & is, ofxRay::Base &);
+
+namespace ofxRay {
 	class Base {
 	public:
 		Base();
@@ -27,6 +33,9 @@ namespace ofxRay {
 	
 		virtual void draw() const = 0;	
 		virtual void randomiseVectors(float amplitude=1.0f) = 0;
+
+		friend ostream & (::operator<<) (ostream &, const Base &);
+		friend istream & (::operator>>) (istream &, Base &);
 
 		ofColor color;
 	};
