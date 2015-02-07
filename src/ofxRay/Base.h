@@ -9,6 +9,13 @@
 
 #include "ofMain.h"
 
+#if OF_VERSION_MINOR < 9	
+	#define ofDrawLine ofLine
+	#define OFXRAY_GET_TEXTURE getTextureReference()
+#else
+	#define OFXRAY_GET_TEXTURE getTexture()
+#endif
+
 namespace ofxRay {
 	class Base {
 	public:

@@ -7,7 +7,6 @@
 //	http://www.kimchiandchips.com
 //
 
-#include "ofMain.h"
 #include "Base.h"
 #include "Ray.h"
 

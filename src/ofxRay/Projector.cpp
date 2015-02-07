@@ -255,12 +255,12 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		plane.addIndex(1);
 		plane.addIndex(3);
 		
-		image.getTexture().bind();
+		image.OFXRAY_GET_TEXTURE.bind();
 		ofPushMatrix();
 		glMultMatrixf(inversed.getPtr());
 		plane.draw();
 		ofPopMatrix();
-		image.getTexture().unbind();
+		image.OFXRAY_GET_TEXTURE.unbind();
 	}
 	
 	void Projector::beginAsCamera() const {

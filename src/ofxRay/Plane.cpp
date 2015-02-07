@@ -165,13 +165,13 @@ namespace ofxRay {
 
 	void Plane::setNormal(const ofVec3f& normal) {
 		this->normal = normal.getNormalized();
-		setUp(this->up);
+		setUp(this->up); //reset up (to ensure orthogonal to normal)
 	}
 
 	void Plane::setUp(const ofVec3f& up) {
 		this->up = up;
-		this->up = this->up - this->up * this->up.dot(this->normal);
-		this->up = this->normal.getCrossed(this->getRight());
+		//remove component of up which is parallel to the normal
+		this->up = this->up - this->normal * this->up.dot(this->normal);
 		this->up.normalize();
 	}
 
