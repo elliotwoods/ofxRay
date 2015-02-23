@@ -176,7 +176,7 @@ namespace ofxRay {
 		return this->scale;
 	}
 
-	const ofVec4f& Plane::getABCD() const {
+	ofVec4f Plane::getABCD() const {
 		ofVec4f ABCD;
 		ABCD.x = this->normal.x;
 		ABCD.y = this->normal.y;

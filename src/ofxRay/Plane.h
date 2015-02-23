@@ -37,7 +37,7 @@ namespace ofxRay {
 		const ofVec3f& getNormal() const;
 		const ofVec3f& getUp() const;
 		const ofVec2f& getScale() const;
-		const ofVec4f& getABCD() const; ///< http://mathworld.wolfram.com/Point-PlaneDistance.html
+		ofVec4f getABCD() const; ///< http://mathworld.wolfram.com/Point-PlaneDistance.html
 		bool getInfinite() const;
 	
 		void setCenter(const ofVec3f& center);
