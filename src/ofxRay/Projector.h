@@ -100,7 +100,7 @@ namespace ofxRay {
 		
 		void drawOnNearPlane(ofBaseHasTexture & image, bool nearPlaneFlipped = false) const;
 		
-		void beginAsCamera() const;
+		void beginAsCamera(bool flipY = false) const;
 		void endAsCamera() const;
 		
 		ofVec2f getCoordinateFromIndex(const uint32_t index) const;

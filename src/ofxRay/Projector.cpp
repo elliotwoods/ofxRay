@@ -176,10 +176,12 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		lensOffsetTransform.makeTranslationMatrix(-lensOffset.x * 2.0f, -lensOffset.y * 2.0f, 0.0f);
 		projection *= lensOffsetTransform;
 
-		this->setProjection(projection);
+		this->projection = projection;
 	}
 
 	void Projector::setProjection(const ofMatrix4x4& projection) {
+		this->throwRatio = projection(0, 0);
+		this->lensOffset = ofVec2f(projection(2, 0), projection(2, 1));
 		this->projection = projection;
 	}
 
@@ -263,10 +265,14 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		image.OFXRAY_GET_TEXTURE.unbind();
 	}
 	
-	void Projector::beginAsCamera() const {
+	void Projector::beginAsCamera(bool flipY) const {
 		ofPushView();
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(getClippedProjectionMatrix().getPtr());
+		glLoadIdentity();
+		if (flipY) {
+			glScalef(1.0f, -1.0f, 1.0f);
+		}
+		glMultMatrixf(getClippedProjectionMatrix().getPtr());
 		glMatrixMode(GL_MODELVIEW);
 		glLoadMatrixf(getViewMatrix().getPtr());
 	}
