@@ -8,6 +8,73 @@
 #include "ofxRay/Projector.h"
 #include "ofxRay/Plane.h"
 
+ostream& operator<<(ostream & os, const ofxRay::Projector & projector) {
+	const auto & node = (ofNode &)projector;
+
+	os << (ofVec4f&)node.getOrientationQuat(); // handle that no oF serialisation operator for quat
+	os << "; ";
+	os << node.getPosition();
+	os << "; ";
+	os << node.getLocalTransformMatrix();
+	os << "; ";
+
+	os << projector.width << ", " << projector.height;
+	os << "; ";
+	os << projector.throwRatio;
+	os << "; ";
+	os << projector.lensOffset;
+	os << "; ";
+	os << projector.defaultNear << ", " << projector.defaultFar;
+	os << "; ";
+	os << projector.projection;
+	os << "; ";
+
+	os << (const ofxRay::Base &) projector;
+
+	return os;
+}
+
+istream& operator>>(istream & is, ofxRay::Projector & projector) {
+	auto & node = (ofNode &)projector;
+
+	{
+		ofQuaternion orientation;
+		ofVec3f position;
+		ofMatrix4x4 transform;
+
+		is >> (ofVec4f&) orientation; // handle that no oF serialisation operator for quat
+		is.ignore(2);
+		is >> position;
+		is.ignore(2);
+		is >> transform;
+		is.ignore(2);
+
+		node.setOrientation(orientation);
+		node.setPosition(position);
+		node.setTransformMatrix(transform);
+	}
+	
+	{
+		is >> projector.width;
+		is.ignore(2);
+		is >> projector.height;
+		is.ignore(2);
+		is >> projector.throwRatio;
+		is.ignore(2);
+		is >> projector.lensOffset;
+		is.ignore(2);
+		is >> projector.defaultNear;
+		is.ignore(2);
+		is >> projector.defaultFar;
+		is.ignore(2);
+		is >> projector.projection;
+		is.ignore(2);
+	}
+
+	is >> (ofxRay::Base &)projector;
+
+	return is;
+}
 
 namespace ofxRay {
 	ofMesh* Projector::drawBox = 0;
@@ -180,8 +247,8 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 	}
 
 	void Projector::setProjection(const ofMatrix4x4& projection) {
-		this->throwRatio = projection(0, 0);
-		this->lensOffset = ofVec2f(projection(2, 0), projection(2, 1));
+		this->throwRatio = projection(0, 0) / 2.0f;
+		this->lensOffset = - ofVec2f(projection(2, 0), projection(2, 1)) / 2.0f;
 		this->projection = projection;
 	}
 
@@ -358,4 +425,3 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 		Projector::defaultFar = defaultFar;
 	}
 }
-

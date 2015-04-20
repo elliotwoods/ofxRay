@@ -9,6 +9,11 @@
 #include "Ray.h"
 #include "Base.h"
 
+namespace ofxRay {
+	class Projector;
+}
+ostream& operator<<(ostream &, const ofxRay::Projector &);
+istream& operator>>(istream & is, ofxRay::Projector &);
 
 namespace ofxRay {
     
@@ -110,6 +115,9 @@ namespace ofxRay {
 		
 		static void setDefaultNear(float defaultNear = 0.5);
 		static void setDefaultFar(float defaultFar = 20.0f);
+
+		friend ostream & (::operator<<) (ostream &, const Projector &);
+		friend istream & (::operator>>) (istream &, Projector &);
 	protected:
 		int width;
 		int height;
@@ -124,6 +132,6 @@ namespace ofxRay {
 
         float throwRatio;
         ofVec2f lensOffset;
-
 	};
 }
+

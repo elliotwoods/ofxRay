@@ -8,6 +8,44 @@
 
 #include "ofxRay/Camera.h"
 
+ostream& operator<<(ostream & os, const ofxRay::Camera & camera) {
+	os << camera.distortion.size();
+	os << "; ";
+	for (auto parameter : camera.distortion) {
+		os << parameter;
+		os << ", ";
+	}
+	os << "; ";
+
+	os << (const ofxRay::Projector &) camera;
+
+	return os;
+}
+
+istream& operator>>(istream & is, ofxRay::Camera & camera) {
+
+	size_t distortionSize;
+
+	is >> distortionSize;
+	is.ignore(2);
+
+	camera.distortion.resize(distortionSize);
+
+	for (int i = 0; i < distortionSize; i++) {
+		float parameter;
+		
+		is >> parameter;
+		is.ignore(2);
+
+		camera.distortion[i] = parameter;
+	}
+	is.ignore(2);
+
+	is >> (ofxRay::Projector &)camera;
+
+	return is;
+}
+
 namespace ofxRay {
 	Camera::Camera() :
 	Projector(1.0f, ofVec2f(0.0f, 0.0f), 1024, 768) {
