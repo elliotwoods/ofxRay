@@ -10,12 +10,12 @@
 
 ostream& operator<<(ostream & os, const ofxRay::Camera & camera) {
 	os << camera.distortion.size();
-	os << "; ";
+	os << ": ";
 	for (auto parameter : camera.distortion) {
 		os << parameter;
 		os << ", ";
 	}
-	os << "; ";
+	os << ";\n";
 
 	os << (const ofxRay::Projector &) camera;
 

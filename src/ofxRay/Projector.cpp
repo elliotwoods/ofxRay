@@ -12,22 +12,22 @@ ostream& operator<<(ostream & os, const ofxRay::Projector & projector) {
 	const auto & node = (ofNode &)projector;
 
 	os << (ofVec4f&)node.getOrientationQuat(); // handle that no oF serialisation operator for quat
-	os << "; ";
+	os << ";\n";
 	os << node.getPosition();
-	os << "; ";
+	os << ";\n";
 	os << node.getLocalTransformMatrix();
-	os << "; ";
+	os << ";\n";
 
 	os << projector.width << ", " << projector.height;
-	os << "; ";
+	os << ";\n";
 	os << projector.throwRatio;
-	os << "; ";
+	os << ";\n";
 	os << projector.lensOffset;
-	os << "; ";
+	os << ";\n";
 	os << projector.defaultNear << ", " << projector.defaultFar;
-	os << "; ";
+	os << ";\n";
 	os << projector.projection;
-	os << "; ";
+	os << ";\n";
 
 	os << (const ofxRay::Base &) projector;
 
