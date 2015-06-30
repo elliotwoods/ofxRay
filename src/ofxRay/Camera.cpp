@@ -70,7 +70,7 @@ namespace ofxRay {
 	}
 
 	ofVec2f Camera::undistortCoordinate(const ofVec2f & xy) const {
-		const int distortionLength = this->distortion.size();
+		auto distortionLength = this->distortion.size();
 		
 		if (this->distortion.size() < 2) {
 			return xy;
