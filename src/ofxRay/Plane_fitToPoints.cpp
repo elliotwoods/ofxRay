@@ -34,7 +34,7 @@ void Find_ScatterMatrix(
 		ScatterMatrix[i][0] = ScatterMatrix[i][1] = ScatterMatrix[i][2] = 0;
 	}
 
-	for (UINT i = 0; i < Points.size(); i++)
+	for (unsigned int i = 0; i < Points.size(); i++)
 	{
 		const ofVec4f &P = Points[i];
 		ofVec3f d = ofVec3f(P.x, P.y, P.z) - Centroid;
@@ -321,7 +321,7 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 	// Find centroid
 	Centroid = ofVec3f();
 	float TotalWeight = 0.0f;
-	for (UINT i = 0; i < Points.size(); i++)
+	for (unsigned int i = 0; i < Points.size(); i++)
 	{
 		TotalWeight += Points[i].w;
 		Centroid += ofVec3f(Points[i].x, Points[i].y, Points[i].z) * Points[i].w;
@@ -339,10 +339,10 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 	*/
 	float Min = DiagonalMatrix[0];
 	float Max = DiagonalMatrix[0];
-	UINT MinIndex = 0;
-	UINT MiddleIndex = 0;
-	UINT MaxIndex = 0;
-	for (UINT i = 1; i < 3; i++)
+	unsigned int MinIndex = 0;
+	unsigned int MiddleIndex = 0;
+	unsigned int MaxIndex = 0;
+	for (unsigned int i = 1; i < 3; i++)
 	{
 		if (DiagonalMatrix[i] < Min)
 		{
@@ -355,7 +355,7 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 			MaxIndex = i;
 		}
 	}
-	for (UINT i = 0; i < 3; i++)
+	for (unsigned int i = 0; i < 3; i++)
 	{
 		if (MinIndex != i && MaxIndex != i)
 		{
@@ -365,7 +365,7 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 	/*
 	**    The normal of the plane is the smallest eigenvector.
 	*/
-	for (UINT i = 0; i < 3; i++)
+	for (unsigned int i = 0; i < 3; i++)
 	{
 		Normal[Order[i]] = ScatterMatrix[i][MinIndex];
 		Basis1[Order[i]] = ScatterMatrix[i][MiddleIndex];
@@ -389,7 +389,7 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 	}
 
 	ResidualError = 0.0f;
-	for (UINT i = 0; i < Points.size(); i++)
+	for (unsigned int i = 0; i < Points.size(); i++)
 	{
 		ResidualError += plane.getDistanceTo(ofVec3f(Points[i].x, Points[i].y, Points[i].z));
 	}
@@ -402,7 +402,7 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec3f> &Points, floa
 {
 	ofVec3f Basis1, Basis2;
 	vector<ofVec4f> WeightedPoints(Points.size());
-	for (UINT i = 0; i < Points.size(); i++)
+	for (unsigned int i = 0; i < Points.size(); i++)
 	{
 		WeightedPoints[i] = ofVec4f(Points[i].x, Points[i].y, Points[i].z, 1.0f);
 	}
