@@ -11,8 +11,9 @@
 ostream& operator<<(ostream & os, const ofxRay::Projector & projector) {
 	const auto & node = (ofNode &)projector;
 
-	os << (ofVec4f&)node.getOrientationQuat(); // handle that no oF serialisation operator for quat
-	os << ";\n";
+	//os << (ofVec4f&)node.getOrientationQuat(); // handle that no oF serialisation operator for quat
+    os << *new ofVec4f(node.getOrientationQuat().asVec4());
+    os << ";\n";
 	os << node.getPosition();
 	os << ";\n";
 	os << node.getLocalTransformMatrix();
