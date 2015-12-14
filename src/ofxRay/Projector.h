@@ -103,7 +103,8 @@ namespace ofxRay {
 		bool isProjectionMatrixInfinite() const;
 		ofMatrix4x4 getClippedProjectionMatrix() const; ///<If projection matrix is infinite, we enforce a (0.01...10.0) clipping
 		
-		void drawOnNearPlane(ofBaseHasTexture & image, bool nearPlaneFlipped = false) const;
+		void drawOnNearPlane(ofBaseHasTexture &, bool nearPlaneFlipped = false) const;
+		void drawOnNearPlane(ofTexture &, bool nearPlaneFlipped = false) const;
 		
 		void beginAsCamera(bool flipY = false) const;
 		void endAsCamera() const;
