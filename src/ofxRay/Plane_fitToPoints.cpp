@@ -1,5 +1,9 @@
 #include "Plane.h"
 
+#ifndef UINT
+#define UINT unsigned int
+#endif
+
 using namespace std;
 
 /*    This routine finds the scatter matrix of a number of points equal
