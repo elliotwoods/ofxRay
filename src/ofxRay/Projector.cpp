@@ -11,7 +11,7 @@
 ostream& operator<<(ostream & os, const ofxRay::Projector & projector) {
 	const auto & node = (ofNode &)projector;
 
-	os << node.getOrientationQuat().asVec4(); // handle that no oF serialisation operator for quat
+	os << (ofVec4f&)node.getOrientationQuat(); // handle that no oF serialisation operator for quat
 	os << ";\n";
 	os << node.getPosition();
 	os << ";\n";
@@ -301,35 +301,39 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 			return this->getProjectionMatrix();
 	}
 
-	void Projector::drawOnNearPlane(ofBaseHasTexture &image, bool nearPlaneFlipped) const {
+	void Projector::drawOnNearPlane(ofBaseHasTexture & image, bool nearPlaneFlipped) const {
+		this->drawOnNearPlane(image.getTexture());
+	}
+
+	void Projector::drawOnNearPlane(ofTexture & texture, bool nearPlaneFlipped) const {
 		ofMesh plane;
-		
+
 		ofMatrix4x4 inversed;
 		inversed.makeInvertOf(this->getViewMatrix() * this->getClippedProjectionMatrix());
-		
+
 		float z = nearPlaneFlipped ? 1.0f : -1.0f;
 		plane.addVertex(ofVec3f(-1.0f, +1.0f, z));
-		plane.addTexCoord(ofVec2f(0,0));
+		plane.addTexCoord(ofVec2f(0, 0));
 		plane.addVertex(ofVec3f(+1.0f, +1.0f, z));
-		plane.addTexCoord(ofVec2f(this->getWidth(),0));
+		plane.addTexCoord(ofVec2f(this->getWidth(), 0));
 		plane.addVertex(ofVec3f(-1.0f, -1.0f, z));
-		plane.addTexCoord(ofVec2f(0,this->getHeight()));
+		plane.addTexCoord(ofVec2f(0, this->getHeight()));
 		plane.addVertex(ofVec3f(+1.0f, -1.0f, z));
-		plane.addTexCoord(ofVec2f(this->getWidth(),this->getHeight()));
-		
+		plane.addTexCoord(ofVec2f(this->getWidth(), this->getHeight()));
+
 		plane.addIndex(0);
 		plane.addIndex(1);
 		plane.addIndex(2);
 		plane.addIndex(2);
 		plane.addIndex(1);
 		plane.addIndex(3);
-		
-		image.OFXRAY_GET_TEXTURE.bind();
+
+		texture.bind();
 		ofPushMatrix();
 		glMultMatrixf(inversed.getPtr());
 		plane.draw();
 		ofPopMatrix();
-		image.OFXRAY_GET_TEXTURE.unbind();
+		texture.unbind();
 	}
 	
 	void Projector::beginAsCamera(bool flipY) const {
