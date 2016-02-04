@@ -26,8 +26,11 @@ ostream& operator<<(ostream & os, const ofxRay::Projector & projector) {
 	os << ";\n";
 	os << projector.defaultNear << ", " << projector.defaultFar;
 	os << ";\n";
-	os << projector.projection;
+	os << projector.getClippedProjectionMatrix();
 	os << ";\n";
+	os << projector.getViewMatrix();
+	os << ";\n";
+
 
 	os << (const ofxRay::Base &) projector;
 
@@ -68,6 +71,10 @@ istream& operator>>(istream & is, ofxRay::Projector & projector) {
 		is >> projector.defaultFar;
 		is.ignore(2);
 		is >> projector.projection;
+		is.ignore(2);
+
+		ofMatrix4x4 viewMatrix;
+		is >> viewMatrix;
 		is.ignore(2);
 	}
 
