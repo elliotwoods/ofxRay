@@ -112,8 +112,8 @@ namespace ofxRay {
 		ofSetLineWidth(3.0f);
 	
 		ofPushMatrix();
-		glMultMatrixf(getViewMatrix().getInverse().getPtr());
-		glMultMatrixf(getClippedProjectionMatrix().getInverse().getPtr());
+		ofMultMatrix(getViewMatrix().getInverse());
+		ofMultMatrix(getClippedProjectionMatrix().getInverse());
 		drawBox->draw();
 		ofDrawLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(2.0f,0.0f,-1.0f));
 		ofDrawLine(ofVec3f(0.0f,0.0f,-1.0f), ofVec3f(0.0f,2.0f,-1.0f));
@@ -337,7 +337,7 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 
 		texture.bind();
 		ofPushMatrix();
-		glMultMatrixf(inversed.getPtr());
+		ofMultMatrix(inversed);
 		plane.draw();
 		ofPopMatrix();
 		texture.unbind();
@@ -345,14 +345,14 @@ rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y
 	
 	void Projector::beginAsCamera(bool flipY) const {
 		ofPushView();
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
+		ofSetMatrixMode(ofMatrixMode::OF_MATRIX_PROJECTION);
+		ofLoadIdentityMatrix();
 		if (flipY) {
-			glScalef(1.0f, -1.0f, 1.0f);
+			ofScale(1.0f, -1.0f, 1.0f);
 		}
-		glMultMatrixf(getClippedProjectionMatrix().getPtr());
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(getViewMatrix().getPtr());
+		ofMultMatrix(getClippedProjectionMatrix());
+		ofSetMatrixMode(ofMatrixMode::OF_MATRIX_MODELVIEW);
+		ofLoadMatrix(getViewMatrix());
 	}
 	
 	void Projector::endAsCamera() const {
