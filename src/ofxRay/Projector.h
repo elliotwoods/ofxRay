@@ -114,8 +114,8 @@ namespace ofxRay {
 
 		ofVec2f getIndexFromCoordinate(const ofVec2f&) const;
 		
-		static void setDefaultNear(float defaultNear = 0.5);
-		static void setDefaultFar(float defaultFar = 20.0f);
+		void setNearClip(float near = 0.5);
+		void setFarClip(float far = 20.0f);
 
 		friend ostream & (::operator<<) (ostream &, const Projector &);
 		friend istream & (::operator>>) (istream &, Projector &);
@@ -126,8 +126,8 @@ namespace ofxRay {
 		ofMatrix4x4 projection;
 		static ofMesh* drawBox;
 
-		static float defaultNear;
-		static float defaultFar;
+		float nearClip = 0.5f;
+		float farClip = 20.0f;
 	private:
 		static void makeBox();
 
