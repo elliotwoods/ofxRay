@@ -40,6 +40,8 @@ namespace ofxRay {
 		///Choose a random pose, for the projector with scale factor
 		void randomisePose(float scale=1.0f);
 	
+		ofVec2f pixelToCoordinate(const ofVec2f & xy) const;
+
 		///Undistort the given coordinate (pass through for Projector)
 		virtual ofVec2f undistortCoordinate(const ofVec2f & xy) const { return xy;}
 		

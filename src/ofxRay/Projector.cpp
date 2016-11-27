@@ -131,13 +131,17 @@ namespace ofxRay {
 		((ofNode*)(this))->setOrientation(ofQuaternion(ofRandom(360.0f), 0.0f, 1.0f, 0.0f));
 	}
 
+	ofVec2f Projector::pixelToCoordinate(const ofVec2f & xy) const {
+		return ofVec2f((xy.x + 0.5f) / (float)width * 2.0f - 1.0f
+			, 1.0f - (xy.y + 0.5f) / (float)height * 2.0f);
+	}
+
 	Ray Projector::castPixel(int x, int y) const {
 		return castPixel(ofVec2f(x, y));	
 	}
 
 	Ray Projector::castPixel(const ofVec2f& xy) const {
-		return castCoordinate(ofVec2f(	(xy.x + 0.5f)/ (float) width * 2.0f - 1.0f,
-										1.0f - (xy.y + 0.5f) / (float) height * 2.0f)	);
+		return castCoordinate(this->pixelToCoordinate(xy));
 	}
 
 	void Projector::castPixels(const vector<ofVec2f>& xy, vector<Ray>& rays) const {
@@ -145,9 +149,9 @@ namespace ofxRay {
 		xyNormalised.reserve(xy.size());
 		vector<ofVec2f>::const_iterator in;
 	
-		for (in = xy.begin(); in != xy.end(); in++)
-			xyNormalised.push_back(ofVec2f(	(in->x + 0.5f)/ (float) width * 2.0f - 1.0f,
-											1.0f - (in->y + 0.5f) / (float) height * 2.0f));
+		for (in = xy.begin(); in != xy.end(); in++) {
+			xyNormalised.push_back(this->pixelToCoordinate(*in));
+		}
 		castCoordinates(xyNormalised, rays);
 	}
 
