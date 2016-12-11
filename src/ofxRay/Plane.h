@@ -21,8 +21,8 @@ namespace ofxRay {
 	public:
 		Plane();
 		Plane(float a, float b, float c, float d);
-		Plane(ofVec3f center, ofVec3f normal);
-		Plane(ofVec3f center, ofVec3f normal, ofVec3f up, ofVec2f scale);
+		Plane(glm::vec3 center, glm::vec3 normal);
+		Plane(glm::vec3 center, glm::vec3 normal, glm::vec3 up, glm::vec2 scale);
 	
 		//-
 		//ofGeometric
@@ -31,31 +31,31 @@ namespace ofxRay {
 		//-
 	
 		bool intersect(const Ray &ray) const;
-		bool intersect(const Ray &ray, ofVec3f &position) const;
+		bool intersect(const Ray &ray, glm::vec3 &position) const;
 	
-		const ofVec3f& getCenter() const;
-		const ofVec3f& getNormal() const;
-		const ofVec3f& getUp() const;
-		const ofVec2f& getScale() const;
-		ofVec4f getABCD() const; ///< http://mathworld.wolfram.com/Point-PlaneDistance.html
+		const glm::vec3& getCenter() const;
+		const glm::vec3& getNormal() const;
+		const glm::vec3& getUp() const;
+		const glm::vec2& getScale() const;
+		glm::vec4 getABCD() const; ///< http://mathworld.wolfram.com/Point-PlaneDistance.html
 		bool getInfinite() const;
 	
-		void setCenter(const ofVec3f& center);
-		void setNormal(const ofVec3f& normal);
-		void setUp(const ofVec3f& up);
-		void setScale(const ofVec2f& scale);
+		void setCenter(const glm::vec3& center);
+		void setNormal(const glm::vec3& normal);
+		void setUp(const glm::vec3& up);
+		void setScale(const glm::vec2& scale);
 		void setInfinite(const bool b);
 		void setFrom(ofPlanePrimitive &);
 	
 		///fills rays{0..3} with rays starting from corners and going to target
-		void getCornerRaysTo(const ofVec3f &target, Ray* rays) const;
+		void getCornerRaysTo(const glm::vec3 &target, Ray* rays) const;
 		///fills rays{0..3} with rays starting from source and going to corners
-		void getCornerRaysFrom(const ofVec3f &source, Ray* rays) const;
+		void getCornerRaysFrom(const glm::vec3 &source, Ray* rays) const;
 	
-		float getDistanceTo(const ofVec3f &) const;
-		bool fitToPoints(const vector<ofVec3f> &, float & residual);
+		float getDistanceTo(const glm::vec3 &) const;
+		bool fitToPoints(const vector<glm::vec3> &, float & residual);
 
-		ofVec3f getRight() const;
+		glm::vec3 getRight() const;
 	
 		Ray getUpRay() const;
 		Ray getRightRay() const;
@@ -66,12 +66,12 @@ namespace ofxRay {
 	protected:
 		void makeGrid();
 	
-		ofVec3f center;
-		ofVec3f normal;
+		glm::vec3 center;
+		glm::vec3 normal;
 	
 		bool infinite;
-		ofVec3f up;
-		ofVec2f scale;
+		glm::vec3 up;
+		glm::vec2 scale;
 	
 		static ofMesh* viewGrid;
 		static ofMesh* viewPlane;

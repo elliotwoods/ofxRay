@@ -18,8 +18,8 @@ using namespace std;
 */
 
 void Find_ScatterMatrix(
-	const vector<ofVec4f> &Points,
-	const ofVec3f &Centroid,
+	const vector<glm::vec4> &Points,
+	const glm::vec3 &Centroid,
 	float ScatterMatrix[3][3],
 	int Order[3]
 	){
@@ -40,8 +40,8 @@ void Find_ScatterMatrix(
 
 	for (UINT i = 0; i < Points.size(); i++)
 	{
-		const ofVec4f &P = Points[i];
-		ofVec3f d = ofVec3f(P.x, P.y, P.z) - Centroid;
+		const glm::vec4 &P = Points[i];
+		glm::vec3 d = glm::vec3(P.x, P.y, P.z) - Centroid;
 		float Weight = P.w;
 		ScatterMatrix[0][0] += d.x*d.x*Weight;
 		ScatterMatrix[0][1] += d.x*d.y*Weight;
@@ -304,7 +304,7 @@ void tqli(float d[3], float e[3], float z[3][3]){
 	}
 }
 
-bool isValid(const ofVec3f & vector) {
+bool isValid(const glm::vec3 & vector) {
 	for (int i = 0; i < 3; i++) {
 		if (vector[i] != vector[i]) {
 			return false;
@@ -313,9 +313,9 @@ bool isValid(const ofVec3f & vector) {
 	return true;
 }
 
-bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVec3f &Basis1, ofVec3f &Basis2, float &NormalEigenvalue, float &ResidualError)
+bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<glm::vec4> &Points, glm::vec3 &Basis1, glm::vec3 &Basis2, float &NormalEigenvalue, float &ResidualError)
 {
-	ofVec3f Centroid, Normal;
+	glm::vec3 Centroid, Normal;
 
 	float ScatterMatrix[3][3];
 	int  Order[3];
@@ -323,12 +323,12 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 	float OffDiagonalMatrix[3];
 
 	// Find centroid
-	Centroid = ofVec3f();
+	Centroid = glm::vec3();
 	float TotalWeight = 0.0f;
 	for (UINT i = 0; i < Points.size(); i++)
 	{
 		TotalWeight += Points[i].w;
-		Centroid += ofVec3f(Points[i].x, Points[i].y, Points[i].z) * Points[i].w;
+		Centroid += glm::vec3(Points[i].x, Points[i].y, Points[i].z) * Points[i].w;
 	}
 	Centroid /= TotalWeight;
 
@@ -376,15 +376,15 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 		Basis2[Order[i]] = ScatterMatrix[i][MaxIndex];
 	}
 	NormalEigenvalue = abs(DiagonalMatrix[MinIndex]);
-	Basis1 *= (DiagonalMatrix[MiddleIndex]) / Basis1.length();
-	Basis2 *= (DiagonalMatrix[MaxIndex]) / Basis2.length();
+	Basis1 *= (DiagonalMatrix[MiddleIndex]) / glm::length(Basis1);
+	Basis2 *= (DiagonalMatrix[MaxIndex]) / glm::length(Basis2);
 
 	if (!isValid(Basis1) || !isValid(Basis2) || !isValid(Normal))
 	{
 		plane.setCenter(Centroid);
-		plane.setNormal(ofVec3f(1, 0, 0));
-		Basis1 = ofVec3f(0, 1, 0);
-		Basis2 = ofVec3f(0, 0, 1);
+		plane.setNormal(glm::vec3(1, 0, 0));
+		Basis1 = glm::vec3(0, 1, 0);
+		Basis2 = glm::vec3(0, 0, 1);
 	}
 	else
 	{
@@ -395,27 +395,27 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec4f> &Points, ofVe
 	ResidualError = 0.0f;
 	for (UINT i = 0; i < Points.size(); i++)
 	{
-		ResidualError += plane.getDistanceTo(ofVec3f(Points[i].x, Points[i].y, Points[i].z));
+		ResidualError += plane.getDistanceTo(glm::vec3(Points[i].x, Points[i].y, Points[i].z));
 	}
 	ResidualError /= Points.size();
 
 	return true;
 }
 
-bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<ofVec3f> &Points, float &ResidualError)
+bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<glm::vec3> &Points, float &ResidualError)
 {
-	ofVec3f Basis1, Basis2;
-	vector<ofVec4f> WeightedPoints(Points.size());
+	glm::vec3 Basis1, Basis2;
+	vector<glm::vec4> WeightedPoints(Points.size());
 	for (UINT i = 0; i < Points.size(); i++)
 	{
-		WeightedPoints[i] = ofVec4f(Points[i].x, Points[i].y, Points[i].z, 1.0f);
+		WeightedPoints[i] = glm::vec4(Points[i].x, Points[i].y, Points[i].z, 1.0f);
 	}
 	float NormalEigenvalue;
 	return FitPlaneToPoints(plane, WeightedPoints, Basis1, Basis2, NormalEigenvalue, ResidualError);
 }
 
 namespace ofxRay {
-	bool Plane::fitToPoints(const vector<ofVec3f> & points, float & residual) {
+	bool Plane::fitToPoints(const vector<glm::vec3> & points, float & residual) {
 		return FitPlaneToPoints(*this, points, residual);
 	}
 }

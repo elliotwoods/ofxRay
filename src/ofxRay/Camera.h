@@ -19,9 +19,9 @@ namespace ofxRay {
 	class Camera : public Projector {
 	public:
 		Camera();
-		Camera(const ofVec2f & focalLength, const ofVec2f & center, float w, float h);
+		Camera(const glm::vec2 & focalLength, const glm::vec2 & center, float w, float h);
 		
-		ofVec2f undistortCoordinate(const ofVec2f & xy) const;
+		glm::vec2 undistortCoordinate(const glm::vec2 & xy) const;
 		vector<float> distortion;
 
 		friend ostream & (::operator<<) (ostream &, const Camera &);

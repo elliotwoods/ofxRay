@@ -24,9 +24,9 @@ namespace ofxRay {
 	class Projector : public Base, public ofNode {
 	public:
 		Projector(int width=1024, int height=768);
-		Projector(float throwRatio, const ofVec2f& lensOffset, int width, int height);
-		Projector(const ofMatrix4x4 & projection, int width, int height);
-		Projector(const ofMatrix4x4 & view, const ofMatrix4x4 & projection, int width, int height);
+		Projector(float throwRatio, const glm::vec2& lensOffset, int width, int height);
+		Projector(const glm::mat4 & projection, int width, int height);
+		Projector(const glm::mat4 & view, const glm::mat4 & projection, int width, int height);
 
 		//--
 		//ofGeometric
@@ -40,17 +40,19 @@ namespace ofxRay {
 		///Choose a random pose, for the projector with scale factor
 		void randomisePose(float scale=1.0f);
 	
+		glm::vec2 pixelToCoordinate(const glm::vec2 & xy) const;
+
 		///Undistort the given coordinate (pass through for Projector)
-		virtual ofVec2f undistortCoordinate(const ofVec2f & xy) const { return xy;}
+		virtual glm::vec2 undistortCoordinate(const glm::vec2 & xy) const { return xy;}
 		
 		///Generate a ray for the given pixel coordinates x,y within the projector's image
 		Ray castPixel(int x, int y) const;
-		Ray castPixel(const ofVec2f& xy) const;
-		void castPixels(const vector<ofVec2f>& xy, vector<Ray>& rays) const;
+		Ray castPixel(const glm::vec2& xy) const;
+		void castPixels(const vector<glm::vec2>& xy, vector<Ray>& rays) const;
 
 		///Generate a ray for the given normalised coordinate x,y where {-1.0f<x,y<1.0f}
-		Ray castCoordinate(const ofVec2f& xy) const;
-		void castCoordinates(const vector<ofVec2f>& xy, vector<Ray>& rays) const;
+		Ray castCoordinate(const glm::vec2& xy) const;
+		void castCoordinates(const vector<glm::vec2>& xy, vector<Ray>& rays) const;
 
         // Generate a ray for the projection center
         Ray getProjectionCenterRay() const;
@@ -62,30 +64,30 @@ namespace ofxRay {
         Plane getProjectionPlaneAt(float distance, bool infinite = false) const;
         
         // convert world coordinates, to signed normalized (-1...1) coordinates
-        ofVec3f getNormalizedSCoordinateOfWorldPosition(ofVec3f pointWorld) const;
+        glm::vec3 getNormalizedSCoordinateOfWorldPosition(glm::vec3 pointWorld) const;
         
         // convert world coordinates, to unsigned normalized (0...1) coordinates
-        ofVec3f getNormalizedUCoordinateOfWorldPosition(ofVec3f pointWorld) const;
+        glm::vec3 getNormalizedUCoordinateOfWorldPosition(glm::vec3 pointWorld) const;
 
         // convert world coordinates to screen pixel coordinates
-        ofVec3f getScreenCoordinateOfWorldPosition(ofVec3f pointWorld) const;
+        glm::vec3 getScreenCoordinateOfWorldPosition(glm::vec3 pointWorld) const;
         
         // convert signed normalized (-1...1) coordiantes to world coordinates (pointNorm.z contains distance to projector plane)
-        ofVec3f getWorldPositionOfNormalizedSCoordinate(ofVec3f pointNormS) const;
+        glm::vec3 getWorldPositionOfNormalizedSCoordinate(glm::vec3 pointNormS) const;
         
         // convert unsigned normalized (0...1) coordiantes to world coordinates (pointNorm.z contains distance to projector plane)
-        ofVec3f getWorldPositionOfNormalizedUCoordinate(ofVec3f pointNormU) const;
+        glm::vec3 getWorldPositionOfNormalizedUCoordinate(glm::vec3 pointNormU) const;
         
         // convert screen pixel coordinates to world coordinates (pointScreen.z contains distance to projector plane)
-        ofVec3f getWorldPositionOfScreenCoordinate(ofVec3f pointScreen) const;
+        glm::vec3 getWorldPositionOfScreenCoordinate(glm::vec3 pointScreen) const;
         
         
-		void setView(const ofMatrix4x4& m) {
-			ofNode::setTransformMatrix(m.getInverse());
+		void setView(const glm::mat4 & m) {
+			ofNode::setLocalTransformMatrix(glm::inverse(m));
 		}
 
-		void setProjection(float throwRatio, const ofVec2f& lensOffset);
-		void setProjection(const ofMatrix4x4& projection);
+		void setProjection(float throwRatio, const glm::vec2& lensOffset);
+		void setProjection(const glm::mat4& projection);
 
 		///Set width of projector. Warning: we will forget our throwRatio and lensOffset
 		void setWidth(int width);
@@ -95,13 +97,13 @@ namespace ofxRay {
 		int getHeight() const;
 
         float getThrowRatio() const;
-        ofVec2f getLensOffset() const;
+        glm::vec2 getLensOffset() const;
 
-		ofMatrix4x4 getViewMatrix() const;
-		ofMatrix4x4 getProjectionMatrix() const;
+		glm::mat4 getViewMatrix() const;
+		glm::mat4 getProjectionMatrix() const;
 
 		bool isProjectionMatrixInfinite() const;
-		ofMatrix4x4 getClippedProjectionMatrix() const; ///<If projection matrix is infinite, we enforce a (0.01...10.0) clipping
+		glm::mat4 getClippedProjectionMatrix() const; ///<If projection matrix is infinite, we enforce a (0.01...10.0) clipping
 		
 		void drawOnNearPlane(ofBaseHasTexture &, bool nearPlaneFlipped = false) const;
 		void drawOnNearPlane(ofTexture &, bool nearPlaneFlipped = false) const;
@@ -109,10 +111,10 @@ namespace ofxRay {
 		void beginAsCamera(bool flipY = false) const;
 		void endAsCamera() const;
 		
-		ofVec2f getCoordinateFromIndex(const uint32_t index) const;
-		ofVec2f getCoordinateFromIndex(const uint32_t x, const uint32_t y) const;
+		glm::vec2 getCoordinateFromIndex(const uint32_t index) const;
+		glm::vec2 getCoordinateFromIndex(const uint32_t x, const uint32_t y) const;
 
-		ofVec2f getIndexFromCoordinate(const ofVec2f&) const;
+		glm::vec2 getIndexFromCoordinate(const glm::vec2&) const;
 		
 		void setNearClip(float near = 0.5);
 		void setFarClip(float far = 20.0f);
@@ -123,7 +125,7 @@ namespace ofxRay {
 		int width;
 		int height;
         
-		ofMatrix4x4 projection;
+		glm::mat4 projection;
 		static ofMesh* drawBox;
 
 		float nearClip = 0.5f;
@@ -132,7 +134,7 @@ namespace ofxRay {
 		static void makeBox();
 
         float throwRatio;
-        ofVec2f lensOffset;
+        glm::vec2 lensOffset;
 	};
 }
 
