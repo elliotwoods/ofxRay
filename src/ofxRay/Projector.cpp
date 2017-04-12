@@ -181,9 +181,10 @@ namespace ofxRay {
 		for (it = xy.begin(); it != xy.end(); it++) {
 			//we're using OpenGL standard here, i.e. -1.0f is far plane
 			//in DirectX, +1.0f is far plane
-			PosW = ofVec4f(it->x, it->y, -1.0f, 1.0f) * matrix.getInverse();
+			auto xyUndistorted = this->undistortCoordinate(ofVec2f{ it->x, it->y });
+			PosW = ofVec4f(xyUndistorted.x, xyUndistorted.y, -1.0f, 1.0f) * matrix.getInverse();
 			t = (PosW / PosW.w) - s;
-rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f), true));
+			rays.push_back(Ray(s, t, ofColor(255.0f * (it->x + 1.0f) / 2.0f, 255.0f * (it->y + 1.0f) / 2.0f, 0.0f), true));
 		}
 	}
     

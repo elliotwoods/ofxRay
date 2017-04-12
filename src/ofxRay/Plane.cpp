@@ -8,44 +8,10 @@
 
 #include "Plane.h"
 
-ostream& operator<<(ostream & os, const ofxRay::Plane & plane) {
-	os << plane.center;
-	os << "; ";
-	os << plane.normal;
-	os << "; ";
-	os << plane.infinite;
-	os << "; ";
-	os << plane.up;
-	os << "; ";
-	os << plane.scale;
-	os << "; ";
-	os << (const ofxRay::Base &)plane;
-	return os;
-}
-
-istream& operator>>(istream & is, ofxRay::Plane & plane) {
-	is >> plane.center;
-	is.ignore(2);
-	is >> plane.normal;
-	is.ignore(2);
-	is >> plane.infinite;
-	is.ignore(2);
-	is >> plane.up;
-	is.ignore(2);
-	is >> plane.scale;
-	is.ignore(2);
-	is >> (ofxRay::Base &)plane;
-	return is;
-}
-
 namespace ofxRay {
-
-	ofMesh* Plane::viewGrid = 0;
-	ofMesh* Plane::viewPlane = 0;
 
 	Plane::Plane() {
 		infinite = true;
-		makeGrid();
 		randomiseVectors();
 	}
 
@@ -55,14 +21,12 @@ namespace ofxRay {
 		this->setNormal(direction.getNormalized());
 		this->setScale(ofVec2f(1.0f, 1.0f));
 		infinite = true;
-		makeGrid();
 	}
 
 	Plane::Plane(ofVec3f center, ofVec3f normal) {
 		setCenter(center);
 		setNormal(normal);
 		infinite = true;
-		makeGrid();
 	}
 
 	Plane::Plane(ofVec3f center, ofVec3f normal, ofVec3f up, ofVec2f scale) {
@@ -71,7 +35,6 @@ namespace ofxRay {
 		setUp(up);
 		setScale(scale);
 		infinite = false;	
-		makeGrid();
 	}
 
 	void Plane::draw() const {
@@ -88,13 +51,16 @@ namespace ofxRay {
 		ofRotate(angle, x, y, z);
 		ofScale(this->scale.x, this->scale.y, 1.0f);
 	
-		viewGrid->draw();
+		auto & viewGrid = Plane::getViewGrid();
+		auto & viewPlane = Plane::getViewPlane();
+
+		viewGrid.draw();
 	
 		if (this->infinite) {
 			ofPushStyle();
 			ofEnableAlphaBlending();
 			ofSetColor(color.r, color.g, color.b, 50);
-			viewPlane->draw();	
+			viewPlane.draw();	
 			ofPopStyle();
 		}
 	
@@ -273,36 +239,44 @@ namespace ofxRay {
 		return numerator / denominator;
 	}
 
-	void Plane::makeGrid() {
-		if (viewGrid != 0)
-			return;
-	
-		vector<ofVec3f> vertices((2.0f / 0.25 + 1)*4);
-		int i=0;
-		for (float y=-1.0f; y<=1.0f; y+=0.25f) {
-			vertices[i++] = ofVec3f(-1.0f, y, 0.0f);
-			vertices[i++] = ofVec3f(+1.0f, y, 0.0f);
+	ofMesh & Plane::getViewGrid() {
+		static unique_ptr<ofMesh> viewGrid;
+		if (!viewGrid) {
+			vector<ofVec3f> vertices((2.0f / 0.25 + 1) * 4);
+			int i = 0;
+			for (float y = -1.0f; y <= 1.0f; y += 0.25f) {
+				vertices[i++] = ofVec3f(-1.0f, y, 0.0f);
+				vertices[i++] = ofVec3f(+1.0f, y, 0.0f);
+			}
+			cout << endl;
+			for (float x = 1.0f; x >= -1.0f; x -= 0.25f) {
+				vertices[i++] = ofVec3f(x, 1.0f, 0.0f);
+				vertices[i++] = ofVec3f(x, -1.0f, 0.0f);
+			}
+
+			viewGrid = make_unique<ofMesh>();
+			viewGrid->addVertices(vertices);
+			viewGrid->setMode(OF_PRIMITIVE_LINES);			
 		}
-		cout << endl;
-		for (float x=1.0f; x>=-1.0f; x-=0.25f) {
-			vertices[i++] = ofVec3f(x, 1.0f, 0.0f);
-			vertices[i++] = ofVec3f(x, -1.0f, 0.0f);
-		}
-	
-		viewGrid = new ofMesh();
-		viewGrid->addVertices(vertices);
-		viewGrid->setMode(OF_PRIMITIVE_LINES);
-	
-		viewPlane = new ofMesh();
-		vertices.resize(4);
-		vertices[0] = ofVec3f(-1000.0f, -1000.0f, 0.0f);
-		vertices[1] = ofVec3f(+1000.0f, -1000.0f, 0.0f);
-		vertices[2] = ofVec3f(-1000.0f, +1000.0f, 0.0f);
-		vertices[3] = ofVec3f(-1000.0f, +1000.0f, 0.0f);
-		viewPlane->addVertices(vertices);
-		viewPlane->setMode(OF_PRIMITIVE_TRIANGLE_FAN);	
+
+		return *viewGrid;
 	}
 
+
+	ofMesh & Plane::getViewPlane() {
+		static unique_ptr<ofMesh> viewPlane;
+		if (!viewPlane) {
+			viewPlane = make_unique<ofMesh>();
+			vector<ofVec3f> vertices(4);
+			vertices[0] = ofVec3f(-1000.0f, -1000.0f, 0.0f);
+			vertices[1] = ofVec3f(+1000.0f, -1000.0f, 0.0f);
+			vertices[2] = ofVec3f(-1000.0f, +1000.0f, 0.0f);
+			vertices[3] = ofVec3f(-1000.0f, +1000.0f, 0.0f);
+			viewPlane->addVertices(vertices);
+			viewPlane->setMode(OF_PRIMITIVE_TRIANGLE_FAN);
+		}
+		return *viewPlane;
+	}
 
 	ofVec3f Plane::getRight() const {
 		return up.getCrossed(normal).normalize();
@@ -315,4 +289,47 @@ namespace ofxRay {
 	Ray Plane::getRightRay() const {
 		return Ray(this->center, getRight());
 	}
+}
+
+ostream& operator<<(ostream & os, const ofxRay::Plane & plane) {
+	os << plane.getCenter();
+	os << "; ";
+	os << plane.getNormal();
+	os << "; ";
+	os << plane.getInfinite();
+	os << "; ";
+	os << plane.getUp();
+	os << "; ";
+	os << plane.getScale();
+	os << "; ";
+	os << (const ofxRay::Base &)plane;
+	return os;
+}
+
+istream& operator >> (istream & is, ofxRay::Plane & plane) {
+	ofVec3f center;
+	ofVec3f normal;
+	bool infinite;
+	ofVec3f up;
+	ofVec2f scale;
+
+	is >> center;
+	is.ignore(2);
+	is >> normal;
+	is.ignore(2);
+	is >> infinite;
+	is.ignore(2);
+	is >> up;
+	is.ignore(2);
+	is >> scale;
+	is.ignore(2);
+
+	plane.setCenter(center);
+	plane.setNormal(normal);
+	plane.setInfinite(infinite);
+	plane.setUp(up);
+	plane.setScale(scale);
+
+	is >> (ofxRay::Base &)plane;
+	return is;
 }
