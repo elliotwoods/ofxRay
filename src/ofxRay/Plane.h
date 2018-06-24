@@ -26,6 +26,8 @@ namespace ofxRay {
 	
 		bool intersect(const Ray &ray) const;
 		bool intersect(const Ray &ray, ofVec3f &position) const;
+
+		ofVec3f reflect(const ofVec3f & position) const;
 	
 		const ofVec3f& getCenter() const;
 		const ofVec3f& getNormal() const;

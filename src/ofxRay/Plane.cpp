@@ -126,7 +126,12 @@ namespace ofxRay {
 			return true;
 	}
 
-	const ofVec3f& Plane::getCenter() const{
+	ofVec3f Plane::reflect(const ofVec3f & position) const {
+		auto distance = (position - this->center).dot(this->normal);
+		return position - 2 * distance * this->normal;
+	}
+
+	const ofVec3f& Plane::getCenter() const {
 		return this->center;
 	}
 
