@@ -48,11 +48,11 @@ istream& operator>>(istream & is, ofxRay::Camera & camera) {
 
 namespace ofxRay {
 	Camera::Camera() :
-		Projector(1.0f, ofVec2f(0.0f, 0.0f), 1024, 768) {
+		Projector(1.0f, glm::vec2(0.0f, 0.0f), 1024, 768) {
 
 	}
 
-	Camera::Camera(const ofVec2f & focalLength, const ofVec2f & center, float w, float h)
+	Camera::Camera(const glm::vec2 & focalLength, const glm::vec2 & center, float w, float h)
 		: Projector(w, h) {
 		ofMatrix4x4 projection;
 
@@ -69,7 +69,7 @@ namespace ofxRay {
 		setProjection(projection);
 	}
 
-	ofVec2f Camera::undistortCoordinate(const ofVec2f & xy) const {
+	glm::vec2 Camera::undistortCoordinate(const glm::vec2 & xy) const {
 		auto distortionLength = this->distortion.size();
 
 		if (this->distortion.size() < 2) {
@@ -90,6 +90,6 @@ namespace ofxRay {
 		xn += 2 * distortion[2] * xn * yn + distortion[3] * (rr + 2 * xn * xn);
 		yn += distortion[2] * (rr + 2 * yn * yn) + 2 * distortion[3] * xn * yn;
 
-		return ofVec2f(xn, yn);
+		return glm::vec2(xn, yn);
 	}
 }
