@@ -166,7 +166,6 @@ namespace ofxRay {
 	// using http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 	float Ray::distanceTo(const glm::vec3& point) const {
 		return glm::length(glm::cross(point - s, point - (s+t))) / glm::length(t);
-//		return (point - s).cross(point - (s+t)).length() / t.length();
 	}
 	// untested but makes sense
 	glm::vec3 Ray::closestPointOnRayTo(const glm::vec3& point) const {
@@ -178,7 +177,7 @@ namespace ofxRay {
 	}
 
 	float Ray::getLength() const {
-		return t.length();
+		return glm::length(t);
 	}
 	
 	float Ray::getLengthSquared() const {

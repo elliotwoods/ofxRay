@@ -376,8 +376,8 @@ bool FitPlaneToPoints(ofxRay::Plane & plane, const vector<glm::vec4> &Points, gl
 		Basis2[Order[i]] = ScatterMatrix[i][MaxIndex];
 	}
 	NormalEigenvalue = abs(DiagonalMatrix[MinIndex]);
-	Basis1 *= (DiagonalMatrix[MiddleIndex]) / Basis1.length();
-	Basis2 *= (DiagonalMatrix[MaxIndex]) / Basis2.length();
+	Basis1 *= (DiagonalMatrix[MiddleIndex]) / length(Basis1);
+	Basis2 *= (DiagonalMatrix[MaxIndex]) / glm::length(Basis2);
 
 	if (!isValid(Basis1) || !isValid(Basis2) || !isValid(Normal))
 	{

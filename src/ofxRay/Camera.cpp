@@ -76,7 +76,7 @@ namespace ofxRay {
 			return xy;
 		}
 
-		float r = xy.length();
+		float r = glm::length(xy);
 		float rr = r*r;
 
 		float rad_coeff = 1.0f + distortion[0] * rr + distortion[1] * rr * rr;
