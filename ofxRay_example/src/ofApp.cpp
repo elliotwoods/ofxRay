@@ -4,9 +4,6 @@
 void ofApp::setup(){
 	ofBackground(100, 100, 100);
 	ofEnableSmoothing();
-#ifdef USE_GRAB_CAM
-	camera.setCursorDrawEnabled(true);
-#endif
 	
 	plane = ofPlane(glm::vec3(0,100,400),//Center 
 					glm::vec3(1,0,-1),//Normal
@@ -147,10 +144,6 @@ void ofApp::keyPressed(int key){
 		if (key==OF_KEY_DOWN)
 			ray.s += ofVec3f(0,-1,0);
 	}else{
-#ifdef USE_GRAB_CAM
-		if (key=='c')
-			camera.toggleCursorDrawEnabled();
-#endif
 		if (key==' ') {
 			randomiseRay();
 		}

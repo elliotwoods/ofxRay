@@ -1,10 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-//#define USE_GRAB_CAM/
-#ifdef USE_GRAB_CAM
-#include "ofxGrabCam.h"
-#endif
 #include "ofxRay.h"
 
 class ofApp : public ofBaseApp{
@@ -16,11 +12,9 @@ public:
 	void drawSelection();
 	
 	void keyPressed  (int key);
-#ifdef USE_GRAB_CAM
-	ofxGrabCam camera;
-#else
+
 	ofEasyCam camera;
-#endif
+
 	map<string, bool> drawEnabled;
 	map<string, bool>::iterator drawEnabledCursor;
 	
