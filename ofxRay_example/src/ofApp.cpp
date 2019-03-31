@@ -6,10 +6,11 @@ void ofApp::setup(){
 	ofEnableSmoothing();
 	
 	plane = ofPlane(glm::vec3(0,100,400),//Center 
-					glm::vec3(1,0,-1),//Normal
-					glm::vec3(0,1,0),//Up vector
-					glm::vec2(100,100));//Scale
-	ray.randomise(10);
+					glm::vec3(1,0,-1),   //Normal
+					glm::vec3(0,1,0),    //Up vector
+					glm::vec2(100,100)); //Scale
+	plane.color = ofColor::white;
+	
 	randomiseRay();
 	ray.color = ofColor::yellow;
 	ray.width = 3;
@@ -63,7 +64,6 @@ void ofApp::draw(){
 	
 	if (drawEnabled["ofGrid"]) {
 		ofPushStyle();
-		ofSetColor(155,100,100);
 		ofDrawGrid(50.0f, 10, true);
 		ofPopStyle();
 	}
@@ -72,7 +72,10 @@ void ofApp::draw(){
 		ray.draw();
 	
 	if (drawEnabled["ofPlane"]) {
+		ofPushStyle();
+		ofSetLineWidth(2);
 		plane.draw();
+		ofPopStyle();
 		for (int i=0; i<4; i++)
 			corners[i].draw();
 	}
@@ -95,6 +98,8 @@ void ofApp::draw(){
 	camera.end();
 	
 	drawSelection();
+	
+	
 }
 
 //--------------------------------------------------------------
