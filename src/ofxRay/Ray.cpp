@@ -55,11 +55,8 @@ namespace ofxRay {
 		ofEnableSmoothing();
 		ofSetColor(color);
 	
-		ofPushMatrix();
-		ofTranslate(s);
-		ofDrawSphere(0.01);
-		ofPopMatrix();
-	
+		ofDrawSphere(s, 5);
+		
 		if (infinite) {
 			//'infinite' line
 		
@@ -87,6 +84,7 @@ namespace ofxRay {
 		infinite = true;
 		s = glm::vec3(ofRandomf(), ofRandomf(), ofRandomf()) * amplitude;
 		t = glm::vec3(ofRandomf(), ofRandomf(), ofRandomf()) * amplitude;
+		this->defined = true;
 	}
 
 	Ray& Ray::operator*=(const glm::mat4 &m) {
