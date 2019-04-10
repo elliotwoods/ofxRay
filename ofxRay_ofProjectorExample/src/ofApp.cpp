@@ -4,7 +4,6 @@
 void ofApp::setup(){
 	ofBackground(100, 100, 100);
 	ofEnableSmoothing();
-	camera.setCursorDraw(true);
 	
 	data.insert(pair<string, float&>("position.x", position.x));
 	data.insert(pair<string, float&>("position.y", position.y));
@@ -40,9 +39,9 @@ void ofApp::draw(){
 	
 	projector.draw();
 	
-	vector<ofRay>::iterator it;
-	for (it = rays.begin(); it != rays.end(); it++)
-		it->draw();
+	for (const auto & ray : this->rays) {
+		ray.draw();
+	}
 	
 	camera.end();
 	
@@ -106,8 +105,6 @@ void ofApp::keyPressed(int key){
 	updateProjector();
 	
 	
-	if (key=='c')
-		camera.toggleCursorDraw();
 	if (key=='f')
 		ofToggleFullscreen();
 }
@@ -119,8 +116,11 @@ void ofApp::updateProjector()	{
 	projector.setProjection(this->throwRatio, this->lensOffset);
 	projector.setPosition(this->position);
 	pixels.clear();
-	for (int i=0; i<this->resolution.x; i+=32)
-		for(int j=0; j<this->resolution.y; j+=32)
-			pixels.push_back(ofVec2f(i, j));
+	for (int i = 0; i < this->resolution.x; i += 32) {
+		for (int j = 0; j < this->resolution.y; j += 32) {
+			pixels.push_back(glm::vec2(i, j));
+		}
+	}
+
 	projector.castPixels(pixels, rays);
 }

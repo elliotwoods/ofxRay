@@ -2,7 +2,6 @@
 
 #include "ofMain.h"
 
-#include "ofxGrabCam.h"
 #include "ofxRay.h"
 
 class ofApp : public ofBaseApp{
@@ -16,12 +15,12 @@ public:
 	void keyPressed  (int key);
 	void updateProjector();
 	
-	ofxGrabCam camera;
+	ofEasyCam camera;
 	map<string, float&> data;
 	map<string, float&>::iterator dataCursor;
 	
 	ofProjector projector;
-	vector<ofVec2f> pixels;
+	vector<glm::vec2> pixels;
 	vector<ofRay> rays;
 	
 	ofVec3f position;

@@ -40,3 +40,13 @@ xcuserdata
 *.xcworkspace
 
 *~.xml
+
+#VS Studio
+*.VC.db
+
+#Example solutions
+*Example/**/*.vcxproj
+*Example/**/*.sln
+*Example/**/*.filters
+*Example/**/.vs
+*Example/**/icon.rc
