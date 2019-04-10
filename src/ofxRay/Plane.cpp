@@ -16,20 +16,20 @@ namespace ofxRay {
 	}
 
 	Plane::Plane(float a, float b, float c, float d) {
-		ofVec3f direction(a,b,c);
+		glm::vec3 direction(a,b,c);
 		this->setCenter(direction * d);
-		this->setNormal(direction.getNormalized());
-		this->setScale(ofVec2f(1.0f, 1.0f));
+		this->setNormal(glm::normalize(direction));
+		this->setScale(glm::vec2(1.0f, 1.0f));
 		infinite = true;
 	}
 
-	Plane::Plane(ofVec3f center, ofVec3f normal) {
+	Plane::Plane(const glm::vec3& center, const glm::vec3& normal) {
 		setCenter(center);
 		setNormal(normal);
 		infinite = true;
 	}
 
-	Plane::Plane(ofVec3f center, ofVec3f normal, ofVec3f up, ofVec2f scale) {
+	Plane::Plane(const glm::vec3& center, const glm::vec3& normal, const glm::vec3& up, const glm::vec2& scale){
 		setCenter(center);
 		setNormal(normal);
 		setUp(up);
@@ -73,33 +73,33 @@ namespace ofxRay {
 	}
 
 	void Plane::randomiseVectors(float amplitude) {
-		center = ofVec3f(ofRandom(-1.0f, 1.0f),
+		center = glm::vec3(ofRandom(-1.0f, 1.0f),
 					ofRandom(-1.0f, 1.0f),
 					ofRandom(-1.0f, 1.0f)) * amplitude;
-		normal = ofVec3f(ofRandom(-1.0f, 1.0f),
+		normal = glm::vec3(ofRandom(-1.0f, 1.0f),
 					ofRandom(-1.0f, 1.0f),
 					ofRandom(-1.0f, 1.0f));
-		up = ofVec3f(ofRandom(-1.0f, 1.0f),
+		up = glm::vec3(ofRandom(-1.0f, 1.0f),
 					 ofRandom(-1.0f, 1.0f),
 					 ofRandom(-1.0f, 1.0f));
-		scale = ofVec2f(ofRandom(-1.0f, 1.0f),
+		scale = glm::vec2(ofRandom(-1.0f, 1.0f),
 						ofRandom(-1.0f, 1.0f)) * amplitude;
-		normal.normalize();
+		normal = glm::normalize(normal);
 		infinite = true;
 	}
 
 	bool Plane::intersect(const Ray &ray) const {
-		ofVec3f position;
+		glm::vec3 position;
 		return intersect(ray, position);
 	}
 
-	bool Plane::intersect(const Ray &ray, ofVec3f &position) const {
+	bool Plane::intersect(const Ray &ray, glm::vec3 &position) const {
 		//check if line is parallel to plane
 		//if so, die young
-		if (ray.t.dot(normal) == 0.0f)
+		if (glm::dot(ray.t, normal) == 0.0f)
 			return false;
 	
-		float u = normal.dot(center - ray.s) / normal.dot(ray.t);	
+		float u = glm::dot(normal, center - ray.s) / glm::dot(normal, ray.t);	
 		position = ray.s + u * ray.t;
 	
 	
@@ -114,7 +114,7 @@ namespace ofxRay {
 		
 			//define up as ray, find distance between this ray and ray<> plane intersection point to get x position in plane
 			float x = getUpRay().distanceTo(position);
-			float y = sqrt((center - position).lengthSquared() - x*x);
+			float y = sqrt(glm::length2(center - position) - x*x);
 		
 			//if length along this ray < height and distance of point to ray < width then we're in the plane
 			if (abs(x) <= scale.x && abs(y) <= scale.y)
@@ -126,33 +126,33 @@ namespace ofxRay {
 			return true;
 	}
 
-	ofVec3f Plane::reflect(const ofVec3f & position) const {
-		auto distance = (position - this->center).dot(this->normal);
+	glm::vec3 Plane::reflect(const glm::vec3 & position) const {
+		auto distance = glm::dot(position - this->center,this->normal);
 		return position - 2 * distance * this->normal;
 	}
 
-	const ofVec3f& Plane::getCenter() const {
+	const glm::vec3& Plane::getCenter() const {
 		return this->center;
 	}
 
-	const ofVec3f& Plane::getNormal() const {
+	const glm::vec3& Plane::getNormal() const {
 		return this->normal;
 	}
 
-	const ofVec3f& Plane::getUp() const {
+	const glm::vec3& Plane::getUp() const {
 		return this->up;
 	}
 
-	const ofVec2f& Plane::getScale() const{
+	const glm::vec2& Plane::getScale() const{
 		return this->scale;
 	}
 
-	ofVec4f Plane::getABCD() const {
-		ofVec4f ABCD;
+	glm::vec4 Plane::getABCD() const {
+		glm::vec4 ABCD;
 		ABCD.x = this->normal.x;
 		ABCD.y = this->normal.y;
 		ABCD.z = this->normal.z;
-		ABCD.w = - this->normal.dot(this->center);
+		ABCD.w = - glm::dot(this->normal, this->center);
 		return ABCD;
 	}
 
@@ -160,23 +160,23 @@ namespace ofxRay {
 		return this->infinite;
 	}
 
-	void Plane::setCenter(const ofVec3f& center) {
+	void Plane::setCenter(const glm::vec3& center) {
 		this->center = center;
 	}
 
-	void Plane::setNormal(const ofVec3f& normal) {
-		this->normal = normal.getNormalized();
+	void Plane::setNormal(const glm::vec3& normal) {
+		this->normal = glm::normalize(normal);
 		setUp(this->up); //reset up (to ensure orthogonal to normal)
 	}
 
-	void Plane::setUp(const ofVec3f& up) {
+	void Plane::setUp(const glm::vec3& up) {
 		this->up = up;
 		//remove component of up which is parallel to the normal
-		this->up = this->up - this->normal * this->up.dot(this->normal);
-		this->up.normalize();
+		this->up = this->up - this->normal * glm::dot(this->up,this->normal);
+		this->up = glm::normalize(this->up);
 	}
 
-	void Plane::setScale(const ofVec2f& scale) {
+	void Plane::setScale(const glm::vec2& scale) {
 		this->scale = scale;
 	}
 
@@ -185,24 +185,25 @@ namespace ofxRay {
 	}
 	
 	void Plane::setFrom(ofPlanePrimitive & planePrimitive) {
-		const ofMatrix4x4 transform = planePrimitive.getLocalTransformMatrix();
-		ofVec3f translation, scale;
-		ofQuaternion rotation, so;
-		transform.decompose(translation, rotation, scale, so);
+//		const ofMatrix4x4 transform = planePrimitive.getLocalTransformMatrix();
+		glm::vec3 translation = planePrimitive.getGlobalPosition();
+		glm::vec3 scale = planePrimitive.getGlobalScale();
+		glm::quat rotation = planePrimitive.getGlobalOrientation();
+//		transform.decompose(translation, rotation, scale, so);
 		
-		this->setScale(scale * ofVec2f(planePrimitive.getWidth(), planePrimitive.getHeight()) / 2.0f);
+		this->setScale(scale * glm::vec2(planePrimitive.getWidth(), planePrimitive.getHeight()) / 2.0f);
 		this->setCenter(translation);
 		
-		this->setNormal(ofVec3f(0.0f, 0.0f, 1.0f) * rotation);
-		this->setUp(ofVec3f(0.0f, 1.0f, 0.0f) * rotation);
+		this->setNormal(rotation * glm::vec3(0.0f, 0.0f, 1.0f));
+		this->setUp(rotation * glm::vec3(0.0f, 1.0f, 0.0f));
 
 		this->setInfinite(false);
 	}
 
-	void Plane::getCornerRaysTo(const ofVec3f &target, Ray* rays) const {
-		ofVec3f up = this->up * scale.y;
-		ofVec3f right = getRight() * scale.x;
-		ofVec3f corner;
+	void Plane::getCornerRaysTo(const glm::vec3 &target, Ray* rays) const {
+		glm::vec3 up = this->up * scale.y;
+		glm::vec3 right = getRight() * scale.x;
+		glm::vec3 corner;
 	
 		corner = center - up - right;
 		*rays++ = Ray(corner, target - corner, color, false);
@@ -217,10 +218,10 @@ namespace ofxRay {
 		*rays++ = Ray(corner, target - corner, color, false);
 	}
 
-	void Plane::getCornerRaysFrom(const ofVec3f &source, Ray* rays) const {
-		ofVec3f up = this->up * scale.y;
-		ofVec3f right = getRight() * scale.x;
-		ofVec3f corner;
+	void Plane::getCornerRaysFrom(const glm::vec3 &source, Ray* rays) const {
+		glm::vec3 up = this->up * scale.y;
+		glm::vec3 right = getRight() * scale.x;
+		glm::vec3 corner;
 	
 		corner = center - up - right;
 		*rays++ = Ray(source, corner - source, color, false);
@@ -236,27 +237,27 @@ namespace ofxRay {
 	}
 
 	//http://mathinsight.org/distance_point_plane
-	float Plane::getDistanceTo(const ofVec3f & point) const {
+	float Plane::getDistanceTo(const glm::vec3 & point) const {
 		const auto ABCD = this->getABCD();
-		const auto ABC = ofVec3f(ABCD.x, ABCD.y, ABCD.z);
-		const auto numerator = abs(normal.dot(point) + ABCD.w);
-		const auto denominator = ABC.length();
+		const auto ABC = glm::vec3(ABCD.x, ABCD.y, ABCD.z);
+		const auto numerator = abs(glm::dot(normal, point) + ABCD.w);
+		const auto denominator = glm::length(ABC);
 		return numerator / denominator;
 	}
 
 	ofMesh & Plane::getViewGrid() {
 		static unique_ptr<ofMesh> viewGrid;
 		if (!viewGrid) {
-			vector<ofVec3f> vertices((2.0f / 0.25 + 1) * 4);
+			vector<glm::vec3> vertices((2.0f / 0.25 + 1) * 4);
 			int i = 0;
 			for (float y = -1.0f; y <= 1.0f; y += 0.25f) {
-				vertices[i++] = ofVec3f(-1.0f, y, 0.0f);
-				vertices[i++] = ofVec3f(+1.0f, y, 0.0f);
+				vertices[i++] = glm::vec3(-1.0f, y, 0.0f);
+				vertices[i++] = glm::vec3(+1.0f, y, 0.0f);
 			}
 			cout << endl;
 			for (float x = 1.0f; x >= -1.0f; x -= 0.25f) {
-				vertices[i++] = ofVec3f(x, 1.0f, 0.0f);
-				vertices[i++] = ofVec3f(x, -1.0f, 0.0f);
+				vertices[i++] = glm::vec3(x, 1.0f, 0.0f);
+				vertices[i++] = glm::vec3(x, -1.0f, 0.0f);
 			}
 
 			viewGrid = make_unique<ofMesh>();
@@ -272,19 +273,20 @@ namespace ofxRay {
 		static unique_ptr<ofMesh> viewPlane;
 		if (!viewPlane) {
 			viewPlane = make_unique<ofMesh>();
-			vector<ofVec3f> vertices(4);
-			vertices[0] = ofVec3f(-1000.0f, -1000.0f, 0.0f);
-			vertices[1] = ofVec3f(+1000.0f, -1000.0f, 0.0f);
-			vertices[2] = ofVec3f(-1000.0f, +1000.0f, 0.0f);
-			vertices[3] = ofVec3f(-1000.0f, +1000.0f, 0.0f);
+			vector<glm::vec3> vertices(4);
+			vertices[0] = glm::vec3(-1000.0f, -1000.0f, 0.0f);
+			vertices[1] = glm::vec3(+1000.0f, -1000.0f, 0.0f);
+			vertices[2] = glm::vec3(-1000.0f, +1000.0f, 0.0f);
+			vertices[3] = glm::vec3(-1000.0f, +1000.0f, 0.0f);
 			viewPlane->addVertices(vertices);
 			viewPlane->setMode(OF_PRIMITIVE_TRIANGLE_FAN);
 		}
 		return *viewPlane;
 	}
 
-	ofVec3f Plane::getRight() const {
-		return up.getCrossed(normal).normalize();
+	glm::vec3 Plane::getRight() const {
+		return glm::normalize(glm::cross(up, normal));
+//		return up.getCrossed(normal).normalize();
 	}
 
 	Ray Plane::getUpRay() const {
@@ -312,11 +314,11 @@ ostream& operator<<(ostream & os, const ofxRay::Plane & plane) {
 }
 
 istream& operator >> (istream & is, ofxRay::Plane & plane) {
-	ofVec3f center;
-	ofVec3f normal;
+	glm::vec3 center;
+	glm::vec3 normal;
 	bool infinite;
-	ofVec3f up;
-	ofVec2f scale;
+	glm::vec3 up;
+	glm::vec2 scale;
 
 	is >> center;
 	is.ignore(2);

@@ -31,7 +31,7 @@ namespace ofxRay {
 		this->width = 2.0f;
 	}
 
-	Ray::Ray(ofVec3f s, ofVec3f t, bool infinite) {
+	Ray::Ray(glm::vec3 s, glm::vec3 t, bool infinite) {
 		this->defined = true;
 		this->s = s;
 		this->t = t;
@@ -39,7 +39,7 @@ namespace ofxRay {
 		this->width = 2.0f;
 	}
 
-	Ray::Ray(ofVec3f s, ofVec3f t, ofColor color, bool infinite) : ofxRay::Base(color) {
+	Ray::Ray(glm::vec3 s, glm::vec3 t, ofColor color, bool infinite) : ofxRay::Base(color) {
 		this->defined = true;
 		this->s = s;
 		this->t = t;
@@ -55,11 +55,8 @@ namespace ofxRay {
 		ofEnableSmoothing();
 		ofSetColor(color);
 	
-		ofPushMatrix();
-		ofTranslate(s);
-		ofDrawSphere(0.01);
-		ofPopMatrix();
-	
+		ofDrawSphere(s, 5);
+		
 		if (infinite) {
 			//'infinite' line
 		
@@ -85,18 +82,25 @@ namespace ofxRay {
 
 	void Ray::randomiseVectors(float amplitude) {
 		infinite = true;
-		s = ofVec3f(ofRandomf(), ofRandomf(), ofRandomf()) * amplitude;
-		t = ofVec3f(ofRandomf(), ofRandomf(), ofRandomf()) * amplitude;
+		s = glm::vec3(ofRandomf(), ofRandomf(), ofRandomf()) * amplitude;
+		t = glm::vec3(ofRandomf(), ofRandomf(), ofRandomf()) * amplitude;
+		this->defined = true;
 	}
 
-	Ray& Ray::operator*=(const ofMatrix4x4 &m) {
-		ofVec3f sOld = s;
-		s = s * m;
-		t = (t+sOld) * m - s;
+	Ray& Ray::operator*=(const glm::mat4 &m) {
+		auto sOld = s;
+		auto tmp = m * glm::vec4(s, 1.0);
+		s = glm::vec3(tmp)/tmp.w;
+//		s = s * m;
+		tmp = m * glm::vec4(t+sOld, 1.0);
+		auto tmp2 = glm::vec3(tmp)/tmp.w;
+//		tmp = s;
+//		t = (t+sOld) * m - s;
+		t = tmp2 -s;
 		return *this;
 	}
 
-	Ray Ray::operator*(const ofMatrix4x4 &m) const {
+	Ray Ray::operator*(const glm::mat4 &m) const {
 		Ray ray = *this;
 		return ray *= m;
 	}
@@ -108,10 +112,10 @@ namespace ofxRay {
 	Ray Ray::intersect(const Ray &other) const {
 		Ray intersectRay;
 
-		const ofVec3f p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
+		const glm::vec3 p1(s), p2(s+t), p3(other.s), p4(other.s+other.t);
 		const float EPS(1.0E-15);
 	
-		ofVec3f p13,p43,p21;
+		glm::vec3 p13,p43,p21;
 		float d1343,d4321,d1321,d4343,d2121;
 		float numer,denom;
 	
@@ -143,8 +147,8 @@ namespace ofxRay {
 		float ma = numer / denom;
 		float mb = (d1343 + d4321 * (ma)) / d4343;
 	
-		ofVec3f s;
-		ofVec3f t;
+		glm::vec3 s;
+		glm::vec3 t;
 	
 		s.x = p1.x + ma * p21.x;
 		s.y = p1.y + ma * p21.y;
@@ -158,48 +162,48 @@ namespace ofxRay {
 	}
 
 	// using http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
-	float Ray::distanceTo(const ofVec3f& point) const {
-		return (point - s).cross(point - (s+t)).length() / t.length();
+	float Ray::distanceTo(const glm::vec3& point) const {
+		return glm::length(glm::cross(point - s, point - (s+t))) / glm::length(t);
 	}
 	// untested but makes sense
-	ofVec3f Ray::closestPointOnRayTo(const ofVec3f& point) const {
-		return s + (t * (point - s).dot(t) / t.lengthSquared());
+	glm::vec3 Ray::closestPointOnRayTo(const glm::vec3& point) const {
+		return s + (t * glm::dot(point - s, t) / glm::length2(t));
 	}
 
-	ofVec3f Ray::getMidpoint() const {
+	glm::vec3 Ray::getMidpoint() const {
 		return s + t*0.5;
 	}
 
 	float Ray::getLength() const {
-		return t.length();
+		return glm::length(t);
 	}
 	
 	float Ray::getLengthSquared() const {
-		return t.lengthSquared();
+		return glm::length2(t);
 	}
 
-	void Ray::setStart(const ofVec3f & start) {
+	void Ray::setStart(const glm::vec3 & start) {
 		this->s = start;
 	}
 
-	void Ray::setEnd(const ofVec3f & end) {
+	void Ray::setEnd(const glm::vec3 & end) {
 		this->setTranmissionVector(end - this->s);
 	}
 
-	void Ray::setTranmissionVector(const ofVec3f & tranmissionVector) {
+	void Ray::setTranmissionVector(const glm::vec3 & tranmissionVector) {
 		this->t = tranmissionVector;
 		this->defined = true;
 	}
 
-	const ofVec3f & Ray::getStart() const {
+	const glm::vec3 & Ray::getStart() const {
 		return this->s;
 	}
 
-	ofVec3f Ray::getEnd() const {
+	glm::vec3 Ray::getEnd() const {
 		return this->t + this->s;
 	}
 
-	const ofVec3f & Ray::getTransmissionVector() const {
+	const glm::vec3 & Ray::getTransmissionVector() const {
 		return this->t;
 	}
 
@@ -207,7 +211,7 @@ namespace ofxRay {
 		return Ray(s, t * other, color, infinite);
 	}
 
-	ofVec3f Ray::operator()(float other) const {
+	glm::vec3 Ray::operator()(float other) const {
 		return s + other * t;
 	}
 }

@@ -2,7 +2,6 @@
 
 #include "ofMain.h"
 
-#include "ofxGrabCam.h"
 #include "ofxRay.h"
 
 class ofApp : public ofBaseApp{
@@ -16,14 +15,14 @@ public:
 	void keyPressed  (int key);
 	void updatePlane();
 	
-	ofxGrabCam camera;
-	map<string, ofVec3f&> data;
-	map<string, ofVec3f&>::iterator dataCursor;
+	ofEasyCam camera;
+	map<string, glm::vec3&> data;
+	map<string, glm::vec3&>::iterator dataCursor;
 	
 	ofPlane plane;
 	
-	ofVec3f center;
-	ofVec3f normal;
-	ofVec3f up;
-	ofVec3f scale; // only 2D
+	glm::vec3 center;
+	glm::vec3 normal;
+	glm::vec3 up;
+	glm::vec3 scale; // only 2D
 };

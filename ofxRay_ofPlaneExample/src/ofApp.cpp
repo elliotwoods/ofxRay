@@ -4,21 +4,23 @@
 void ofApp::setup(){
 	ofBackground(100, 100, 100);
 	ofEnableSmoothing();
-	camera.setCursorDraw(true);
 	
-	data.insert(pair<string, ofVec3f&>("center", center));
-	data.insert(pair<string, ofVec3f&>("normal", normal));
-	data.insert(pair<string, ofVec3f&>("up", up));
-	data.insert(pair<string, ofVec3f&>("scale xy", scale));
+	data.insert(pair<string, glm::vec3&>("center", center));
+	data.insert(pair<string, glm::vec3&>("normal", normal));
+	data.insert(pair<string, glm::vec3&>("up", up));
+	data.insert(pair<string, glm::vec3&>("scale xy", scale));
 	dataCursor = data.begin();
 	
-	center = ofVec3f(1.0f, 1.0f, 0.0f);
-	normal = ofVec3f(1.0f, 1.0f, 1.0f).normalize();
-	up = ofVec3f(0.0f, 1.0f, 0.0f).normalize();
-	scale = ofVec2f(1.0f, 1.0f);
+	center = glm::vec3(50.0f, 50.0f, 0.0f);
+	normal = glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f));
+	up = glm::normalize(glm::vec3(0.0f, 1.0f, 0.0f));
+	scale = glm::vec3(200.0f, 200.0f,1);
 	
 	updatePlane();
 	plane.setInfinite(false);
+	
+	plane.color = ofColor::white;
+	
 }
 
 //--------------------------------------------------------------
@@ -29,12 +31,11 @@ void ofApp::update(){
 void ofApp::draw(){
 	camera.begin();
 	
+	ofDrawGrid(50,5,true);
 	ofPushStyle();
-	ofSetColor(200, 100, 100);
-	ofDrawGrid(10,5,true);
-	ofPopStyle();
+	ofSetLineWidth(2);
 	plane.draw();
-	
+	ofPopStyle();
 	camera.end();
 	
 	drawSelection();
@@ -46,7 +47,7 @@ void ofApp::drawSelection() {
 	string instruction = "[RETURN] to move selection, [UP]/[DOWN],[LEFT]/[RIGHT],[A]/[Z] to edit";
 	
 	int stringWidth = 0;
-	map<string, ofVec3f&>::iterator it;
+	map<string, glm::vec3&>::iterator it;
 	for(it = data.begin(); it != data.end(); it++) {
 		stringWidth = MAX(stringWidth, (it->first).length());
 	}
@@ -55,7 +56,7 @@ void ofApp::drawSelection() {
 	ofFill();
 	ofSetColor(200, 100, 100);
 	int y = ofGetHeight() - nItems*10 - 70;
-	ofRect(20, y, MAX(stringWidth, instruction.length()) * 8 + 40, nItems*10 + 50);
+	ofDrawRectangle(20, y, MAX(stringWidth, instruction.length()) * 8 + 40, nItems*10 + 50);
 	
 	ofSetColor(255, 255, 255);
 	y += 20;
@@ -96,8 +97,6 @@ void ofApp::keyPressed(int key){
 	updatePlane();
 	
 	
-	if (key=='c')
-		camera.toggleCursorDraw();
 	if (key=='f')
 		ofToggleFullscreen();
 	

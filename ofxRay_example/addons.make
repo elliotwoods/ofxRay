@@ -1,2 +1,1 @@
-ofxGrabCam
 ofxRay

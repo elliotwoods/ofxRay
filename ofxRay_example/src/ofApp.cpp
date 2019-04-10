@@ -4,13 +4,19 @@
 void ofApp::setup(){
 	ofBackground(100, 100, 100);
 	ofEnableSmoothing();
-	camera.setCursorDraw(true);
 	
-	plane = ofPlane(ofVec3f(1,1,0), ofVec3f(1,0,-1), ofVec3f(0,1,0), ofVec2f(3,2));
-	ray.randomise();
+	plane = ofPlane(glm::vec3(0,100,400),//Center 
+					glm::vec3(1,0,-1),   //Normal
+					glm::vec3(0,1,0),    //Up vector
+					glm::vec2(100,100)); //Scale
+	plane.color = ofColor::white;
 	
-	projector.setPosition(ofVec3f(0,1,0));
-	projector.setOrientation(ofQuaternion(90, ofVec3f(0,1,0)));
+	randomiseRay();
+	ray.color = ofColor::yellow;
+	ray.width = 3;
+	
+	projector.setPosition(glm::vec3(0,0,0));
+	projector.setOrientation(glm::angleAxis(ofDegToRad(180), glm::vec3(0,1,0)));
 	i = j = 0;
 	
 	drawEnabled.insert(pair<string,bool>("ofGrid", true));	
@@ -19,7 +25,13 @@ void ofApp::setup(){
 	drawEnabled.insert(pair<string,bool>("ofProjector", false));
 	drawEnabledCursor = drawEnabled.begin();
 }
-
+//--------------------------------------------------------------
+void ofApp::randomiseRay(){
+	float s = 100;
+	ray.setStart({ofRandom(-s,s),ofRandom(-s,s),ofRandom(-s, s)});
+	float t = 500;
+	ray.setTranmissionVector({ofRandom(-t, t),ofRandom(-t,t),ofRandom(-t, t)});
+}
 //--------------------------------------------------------------
 void ofApp::update(){
 	i+=32;
@@ -31,17 +43,28 @@ void ofApp::update(){
 		j = 0;
 	
 	pRay = projector.castPixel(i, j);
-	plane.getCornerRaysTo(ofVec3f(0,0,0), corners);
+	plane.getCornerRaysTo(glm::vec3(0,0,0), corners);
 }
-
+//--------------------------------------------------------------
+void ofApp::drawRayIntersection(ofRay & r, ofColor onIntersectColor){
+	glm::vec3 intersect;
+	bool intersects = plane.intersect(r, intersect);
+	
+	ofPushStyle();
+	if (intersects)
+		ofSetColor(onIntersectColor);
+	else
+		ofSetColor(ofColor::white);
+	ofDrawSphere(intersect, 10);
+	ofPopStyle();
+}
 //--------------------------------------------------------------
 void ofApp::draw(){
 	camera.begin();
 	
 	if (drawEnabled["ofGrid"]) {
 		ofPushStyle();
-		ofSetColor(155,100,100);
-		ofDrawGrid(1.0f, 5.0f, true);
+		ofDrawGrid(50.0f, 10, true);
 		ofPopStyle();
 	}
 	
@@ -49,36 +72,34 @@ void ofApp::draw(){
 		ray.draw();
 	
 	if (drawEnabled["ofPlane"]) {
+		ofPushStyle();
+		ofSetLineWidth(2);
 		plane.draw();
+		ofPopStyle();
 		for (int i=0; i<4; i++)
 			corners[i].draw();
 	}
 	
 	if (drawEnabled["ofProjector"]) {
 		projector.draw();
+		drawRayIntersection(pRay, ofColor::red);
 		pRay.draw();
 	}
 
-	if (drawEnabled["ofRay"] && drawEnabled["ofRay"]) {
-		bool intersects;
-		ofVec3f intersect;
-		intersects = plane.intersect(ray, intersect);
-		
-		ofPushMatrix();
+	if (drawEnabled["ofRay"]) {
+		drawRayIntersection(ray, ofColor::blue);
+		ray.draw();	
 		ofPushStyle();
-		ofTranslate(intersect);
-		if (intersects)
-			ofFill();
-		else
-			ofNoFill();
-		ofCircle(0, 0, 0.1f);
+		ofSetColor(0);
+		ofDrawSphere(ray.getEnd(), 5);
 		ofPopStyle();
-		ofPopMatrix();
 	}
 	
 	camera.end();
 	
 	drawSelection();
+	
+	
 }
 
 //--------------------------------------------------------------
@@ -87,16 +108,15 @@ void ofApp::drawSelection() {
 	string instruction = "[UP]/[DOWN] to select, [LEFT]/[RIGHT] to disable/enable";
 	
 	int stringWidth = 0;
-	map<string, bool>::iterator it;
-	for(it = drawEnabled.begin(); it != drawEnabled.end(); it++) {
-		stringWidth = MAX(stringWidth, (it->first).length());
+	for(auto& it: drawEnabled){
+		stringWidth = MAX(stringWidth, (it.first).length());
 	}
 	
 	ofPushStyle();
 	ofFill();
 	ofSetColor(200, 100, 100);
 	int y = ofGetHeight() - nItems*10 - 70;
-	ofRect(20, y, MAX(stringWidth, instruction.length()) * 8 + 40, nItems*10 + 50);
+	ofDrawRectangle(20, y, MAX(stringWidth, instruction.length()) * 8 + 40, nItems*10 + 50);
 	
 	ofSetColor(255, 255, 255);
 	y += 20;
@@ -104,12 +124,12 @@ void ofApp::drawSelection() {
 	y += 20;
 	ofSetColor(200, 200, 200);
 	string result;
-	for(it = drawEnabled.begin(); it != drawEnabled.end(); it++) {
-		result = drawEnabledCursor == it ? "> " : "  ";
-		result += it->first;
+	for(auto& it: drawEnabled){
+		result = (drawEnabledCursor->first == it.first) ? "> " : "  ";
+		result += it.first;
 		while (result.length() < stringWidth+2)
 			result.push_back(' ');
-		result += it->second ? " [O]" : " [ ]";
+		result += it.second ? " [O]" : " [ ]";
 		ofDrawBitmapString(result, 40, y);
 		y += 10;
 	}
@@ -121,37 +141,37 @@ void ofApp::keyPressed(int key){
 	
 	if (ofGetKeyPressed(OF_KEY_SHIFT)) {
 		if (key==OF_KEY_LEFT)
-			ray.s += ofVec3f(-0.1,0,0);
+			ray.s += ofVec3f(-1,0,0);
 		if (key==OF_KEY_RIGHT)
-			ray.s += ofVec3f(0.1,0,0);
+			ray.s += ofVec3f(1,0,0);
 		if (key==OF_KEY_UP)
-			ray.s += ofVec3f(0,0.1,0);
+			ray.s += ofVec3f(0,1,0);
 		if (key==OF_KEY_DOWN)
-			ray.s += ofVec3f(0,-0.1,0);
-	}
-	
-	if (key=='c')
-		camera.toggleCursorDraw();
-	
-	if (key==OF_KEY_UP) {
-		if (drawEnabledCursor == drawEnabled.begin())
-		{
-			drawEnabledCursor = drawEnabled.end();
-			drawEnabledCursor--;
+			ray.s += ofVec3f(0,-1,0);
+	}else{
+		if (key==' ') {
+			randomiseRay();
 		}
-		else
-			drawEnabledCursor--;
+		if (key==OF_KEY_UP) {
+			if (drawEnabledCursor == drawEnabled.begin())
+			{
+				drawEnabledCursor = drawEnabled.end();
+				drawEnabledCursor--;
+			}
+			else
+				drawEnabledCursor--;
+		}
+		if (key==OF_KEY_DOWN) {
+			if (drawEnabledCursor == drawEnabled.end())
+				drawEnabledCursor = drawEnabled.begin();
+			else
+				drawEnabledCursor++;
+		}
+		if (key==OF_KEY_LEFT)
+			if (drawEnabledCursor != drawEnabled.end())
+				drawEnabledCursor->second = false;
+		if (key==OF_KEY_RIGHT)
+			if (drawEnabledCursor != drawEnabled.end())
+				drawEnabledCursor->second = true;
 	}
-	if (key==OF_KEY_DOWN) {
-		if (drawEnabledCursor == drawEnabled.end())
-			drawEnabledCursor = drawEnabled.begin();
-		else
-			drawEnabledCursor++;
-	}
-	if (key==OF_KEY_LEFT)
-		if (drawEnabledCursor != drawEnabled.end())
-			drawEnabledCursor->second = false;
-	if (key==OF_KEY_RIGHT)
-		if (drawEnabledCursor != drawEnabled.end())
-			drawEnabledCursor->second = true;
 }

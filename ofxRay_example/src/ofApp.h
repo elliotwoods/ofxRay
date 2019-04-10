@@ -1,8 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-
-#include "ofxGrabCam.h"
 #include "ofxRay.h"
 
 class ofApp : public ofBaseApp{
@@ -15,7 +13,8 @@ public:
 	
 	void keyPressed  (int key);
 
-	ofxGrabCam camera;
+	ofEasyCam camera;
+
 	map<string, bool> drawEnabled;
 	map<string, bool>::iterator drawEnabledCursor;
 	
@@ -26,4 +25,9 @@ public:
 	
 	ofxRay::Ray corners[4];
 	unsigned int i, j;
+	
+	void drawRayIntersection(ofRay & r, ofColor onIntersectColor);
+	
+	void randomiseRay();
+	
 };
