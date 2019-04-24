@@ -154,7 +154,7 @@ namespace ofxRay {
 		for (in = xy.begin(); in != xy.end(); in++) {
 			xyNormalised.push_back(this->pixelToCoordinate(*in));
 		}
-		castCoordinates(xyNormalised, rays);
+		castCoordinates(xyNormalised, rays);     
 	}
 
 	Ray Projector::castCoordinate(const glm::vec2& xy) const {
@@ -171,11 +171,8 @@ namespace ofxRay {
 	}
 
 	void Projector::castCoordinates(const vector<glm::vec2>& xy, vector<Ray>& rays) const {
-		glm::mat4 inverseMatrix = glm::inverse(this->getClippedProjectionMatrix());
+		glm::mat4 inverseMatrix = glm::inverse(this->getClippedProjectionMatrix() * this->getViewMatrix());
 		
-		
-		//matrix.preMult(this->getViewMatrix());
-
 		glm::vec4 s = glm::vec4(this->getPosition(), 0);
 		glm::vec4 PosW;
 		glm::vec3 t;
@@ -187,8 +184,8 @@ namespace ofxRay {
 		for (auto& it:xy){// it = xy.begin(); it != xy.end(); it++) {
 			//we're using OpenGL standard here, i.e. -1.0f is far plane
 			//in DirectX, +1.0f is far plane
-			auto xyUndistorted = this->undistortCoordinate({ it.x, it.y });
-			PosW = inverseMatrix * glm::vec4(xyUndistorted.x, xyUndistorted.y, -1.0f, 1.0f);
+			auto xyUndistorted = this->undistortCoordinate(it);
+			PosW = inverseMatrix * glm::vec4(xyUndistorted.x, xyUndistorted.y, +1.0f, 1.0f);
 			t = (PosW / PosW.w) - s;
 			rays.push_back(Ray(s, t, ofColor(255.0f * (it.x + 1.0f) / 2.0f, 255.0f * (it.y + 1.0f) / 2.0f, 0.0f), true));
 		}
