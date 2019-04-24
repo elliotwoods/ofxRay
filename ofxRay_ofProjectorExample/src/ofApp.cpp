@@ -63,7 +63,7 @@ void ofApp::drawSelection() {
 	ofFill();
 	ofSetColor(200, 100, 100);
 	int y = ofGetHeight() - nItems*10 - 70;
-	ofRect(20, y, MAX(stringWidth, instruction.length()) * 8 + 40, nItems*10 + 50);
+	ofDrawRectangle(20, y, MAX(stringWidth, instruction.length()) * 8 + 40, nItems*10 + 50);
 	
 	ofSetColor(255, 255, 255);
 	y += 20;
