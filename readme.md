@@ -6,7 +6,8 @@ A lightweight set of tools for intersection testings (e.g. does a ray intersect 
 
 ## Note
 
-The current code in this repository is designed for openFrameworks 0.9.0 (which has different base classes). If you are looking for a version of ofxRay which is compatible with previous versions of openFrameworks, please check https://github.com/elliotwoods/ofxRay/tree/0.8.0 .
+The current code in this repository is designed for openFrameworks 0.10.0. 
+If you are looking for a version of ofxRay which is compatible with previous versions of openFrameworks, please check [https://github.com/elliotwoods/ofxRay/tree/0.9.8](https://github.com/elliotwoods/ofxRay/tree/0.9.8) .
 
 ## Objects
 
@@ -38,6 +39,6 @@ We can use a projector to preview a projector or camera in a scene, and to gener
 
 A _Camera_ is defined the same as a _Projector_, but has distortion coefficients also.
 
-### ofxRay::Geometric
+### ofxRay::Base
 
-All objects within ofxRay inherit from ofGeometric. 
+All objects within ofxRay inherit from ofxRay::Base. 
