@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:ofxRay_ofProjectorExample.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>
