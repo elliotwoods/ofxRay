@@ -42,3 +42,8 @@ A _Camera_ is defined the same as a _Projector_, but has distortion coefficients
 ### ofxRay::Base
 
 All objects within ofxRay inherit from ofxRay::Base. 
+
+## Authors
+
+* [Elliot Woods](http://github.com/elliotwoods) (main author)
+* [Roy Macdonald](http://github.com/roymacdonald) (improvements and glm refactoring)
