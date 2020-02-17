@@ -27,10 +27,11 @@ namespace ofxRay {
 	public:
 		Base();
 		Base(ofColor color);
-	
+        virtual ~Base(){ };
+        
 		void randomiseColor();
 		void randomise(float amplitude=1.0f);
-	
+        
 		virtual void draw() const = 0;	
 		virtual void randomiseVectors(float amplitude=1.0f) = 0;
 
