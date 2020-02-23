@@ -116,7 +116,7 @@ namespace ofxRay {
 			float r2 = glm::length2(center - position);
 			float x = getUpRay().distanceTo(position);
 			float y2 = r2 - x * x;
-			float y = y2 > -1e-7 ? sqrt(y2) : 0.0f;
+            float y = y2 >= 0 ? sqrt(y2) : sqrt(-y2);
 		
 			//if length along this ray < height and distance of point to ray < width then we're in the plane
 			if (abs(x) <= scale.x && abs(y) <= scale.y)

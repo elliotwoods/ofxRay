@@ -43,7 +43,7 @@ namespace ofxRay {
 	
 		void setStart(const glm::vec3 &);
 		void setEnd(const glm::vec3 &);
-		void setTranmissionVector(const glm::vec3 &);
+		void setTransmissionVector(const glm::vec3 &);
 
 		const glm::vec3 & getStart() const;
 		glm::vec3 getEnd() const;
