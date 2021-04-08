@@ -8,6 +8,8 @@
 #include "ofxRay/Projector.h"
 #include "ofxRay/Plane.h"
 
+#include <glm/gtx/matrix_decompose.hpp>
+
 ostream& operator<<(ostream & os, const ofxRay::Projector & projector) {
 	const auto & node = (ofNode &)projector;
 
@@ -240,6 +242,26 @@ namespace ofxRay {
         return getWorldPositionOfNormalizedUCoordinate(pointScreen / glm::vec3(width, height, 1));
     }
     
+	void Projector::setView(const glm::mat4& viewMatrix) {
+		auto viewInverse = glm::inverse(viewMatrix);
+		{
+			glm::vec3 scale;
+			glm::quat orientation;
+			glm::vec3 translation, skew;
+			glm::vec4 perspective;
+
+			glm::decompose(viewInverse
+				, scale
+				, orientation
+				, translation
+				, skew
+				, perspective);
+
+			this->setOrientation(orientation);
+			this->setPosition(translation);
+		}
+	}
+
 	void Projector::setProjection(float throwRatio, const glm::vec2& lensOffset) {
 		
         

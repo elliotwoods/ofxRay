@@ -187,10 +187,10 @@ namespace ofxRay {
 	}
 
 	void Ray::setEnd(const glm::vec3 & end) {
-		this->setTranmissionVector(end - this->s);
+		this->setTransmissionVector(end - this->s);
 	}
 
-	void Ray::setTranmissionVector(const glm::vec3 & tranmissionVector) {
+	void Ray::setTransmissionVector(const glm::vec3 & tranmissionVector) {
 		this->t = tranmissionVector;
 		this->defined = true;
 	}

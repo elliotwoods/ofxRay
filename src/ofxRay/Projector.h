@@ -85,7 +85,7 @@ namespace ofxRay {
 //		void setView(const glm::mat4& m) {
 //			ofNode::setTransformMatrix(m.getInverse());
 //		}
-
+		void setView(const glm::mat4&);
 		void setProjection(float throwRatio, const glm::vec2& lensOffset);
 		void setProjection(const glm::mat4& projection);
 
