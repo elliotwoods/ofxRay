@@ -52,31 +52,32 @@ namespace ofxRay {
 			return;
 	
 		ofPushStyle();
-		ofEnableSmoothing();
-		ofSetColor(color);
-	
-		ofDrawSphere(s, 5);
-		
-		if (infinite) {
-			//'infinite' line
-		
-			//inner line
-			if (width > 2.0f){
-				ofPushStyle();
-				ofSetLineWidth(1.0f);
-				ofSetColor(255,255,255);
-				ofDrawLine(s-100*t, s+100*t);
-				ofPopStyle();
+		{
+			ofEnableSmoothing();
+			ofSetColor(color);
+
+			if (infinite) {
+				//'infinite' line
+
+				//inner line
+				if (width > 2.0f) {
+					ofPushStyle();
+					{
+						ofSetLineWidth(1.0f);
+						ofSetColor(255, 255, 255);
+						ofDrawLine(s - 100 * t, s + 100 * t);
+					}
+					ofPopStyle();
+				}
+
+
+				ofSetLineWidth(width == 0.0f ? 1.0f : width);
+				ofDrawLine(s - 1000 * t, s + 1000 * t);
 			}
-		
-		
-			ofSetLineWidth(width==0.0f ? 1.0f : width);
-			ofDrawLine(s-1000*t, s+1000*t);
+
+			//arrow
+			ofDrawArrow(s, s + t);
 		}
-	
-		//arrow
-		ofDrawArrow(s, s+t);
-	
 		ofPopStyle();
 	}
 
