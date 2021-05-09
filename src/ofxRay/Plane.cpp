@@ -16,8 +16,12 @@ namespace ofxRay {
 	}
 
 	Plane::Plane(float a, float b, float c, float d) {
+		// Define plane using 
+		// Ax + By + Cz + D = 0
+
 		glm::vec3 direction(a,b,c);
-		this->setCenter(direction * d);
+		auto u = -d / glm::dot(direction, direction);
+		this->setCenter(u * direction);
 		this->setNormal(glm::normalize(direction));
 		this->setScale(glm::vec2(1.0f, 1.0f));
 		infinite = true;
