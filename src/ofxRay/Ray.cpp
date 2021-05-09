@@ -72,7 +72,7 @@ namespace ofxRay {
 
 
 				ofSetLineWidth(width == 0.0f ? 1.0f : width);
-				ofDrawLine(s - 1000 * t, s + 1000 * t);
+				ofDrawLine(s - 100 * t, s + 100 * t);
 			}
 
 			//arrow

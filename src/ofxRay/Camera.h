@@ -21,9 +21,6 @@ namespace ofxRay {
 		Camera();
 		Camera(const glm::vec2 & focalLength, const glm::vec2 & center, float w, float h);
 		
-		glm::vec2 undistortCoordinate(const glm::vec2 & xy) const;
-		vector<float> distortion;
-
 		friend ostream & (::operator<<) (ostream &, const Camera &);
 		friend istream & (::operator>>) (istream &, Camera &);
 	};

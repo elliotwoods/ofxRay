@@ -135,44 +135,75 @@ namespace ofxRay {
 		((ofNode*)(this))->setOrientation(ofQuaternion(ofRandom(360.0f), 0.0f, 1.0f, 0.0f));
 	}
 
-	glm::vec2 Projector::pixelToCoordinate(const glm::vec2 & xy) const {
+	glm::vec2 Projector::distortedPixelToCoordinate(const glm::vec2& xy) const {
+		if (!this->undistortFunction) {
+			ofLogError("ofxRay::Projector") << "Cannot undistort pixels because no undistort function has been set. First initialise by calling setUndistortFunction(...)";
+			return this->undistortedPixelToCoordinate(xy);
+		}
+		else {
+			vector<glm::vec2> distortedImagePoints(1, xy);
+			auto undistortedImagePoints = this->undistortFunction(distortedImagePoints);
+			return this->undistortedPixelToCoordinate(undistortedImagePoints.front());
+		}
+	}
+
+	glm::vec2 Projector::undistortedPixelToCoordinate(const glm::vec2& xy) const {
 		return glm::vec2((xy.x + 0.5f) / (float)width * 2.0f - 1.0f
 			, 1.0f - (xy.y + 0.5f) / (float)height * 2.0f);
 	}
 
-	Ray Projector::castPixel(int x, int y) const {
-		return castPixel(glm::vec2(x, y));	
+	Ray Projector::castPixel(int x, int y, bool isDistorted) const {
+		return castPixel(glm::vec2(x, y), isDistorted);	
 	}
 
-	Ray Projector::castPixel(const glm::vec2& xy) const {
-		return castCoordinate(this->pixelToCoordinate(xy));
+	Ray Projector::castPixel(const glm::vec2& xy, bool isDistorted) const {
+		if (isDistorted) {
+			auto coordinate = this->distortedPixelToCoordinate(xy);
+			return this->castCoordinate(coordinate);
+		}
+		else {
+			return castCoordinate(this->undistortedPixelToCoordinate(xy));
+		}
 	}
 
-	void Projector::castPixels(const vector<glm::vec2>& xy, vector<Ray>& rays) const {
+	void Projector::castPixels(const vector<glm::vec2>& xy, vector<Ray>& rays, bool isDistorted) const {
+		vector<glm::vec2> undistortedImagePoints;
+		if (isDistorted) {
+			if (!this->undistortFunction) {
+				ofLogError("ofxRay::Projector") << "Cannot undistort pixels because no undistort function has been set. First initialise by calling setUndistortFunction(...)";
+				undistortedImagePoints = xy;
+			}
+			else {
+				undistortedImagePoints = this->undistortFunction(xy);
+			}
+		}
+		else {
+			undistortedImagePoints = xy;
+		}
+
 		vector<glm::vec2> xyNormalised;
 		xyNormalised.reserve(xy.size());
 		vector<glm::vec2>::const_iterator in;
 	
-		for (in = xy.begin(); in != xy.end(); in++) {
-			xyNormalised.push_back(this->pixelToCoordinate(*in));
+		for (const auto & undistortedImagePoint : undistortedImagePoints) {
+			xyNormalised.push_back(this->undistortedPixelToCoordinate(undistortedImagePoint));
 		}
-		castCoordinates(xyNormalised, rays);     
+		this->castCoordinates(xyNormalised, rays);     
 	}
 
 	Ray Projector::castCoordinate(const glm::vec2& xy) const {
-		glm::vec2 xyUndistorted = this->undistortCoordinate(xy);
 		glm::mat4 matrix = this->getClippedProjectionMatrix();
 //		matrix.preMult(this->getViewMatrix());
 		matrix = matrix * this->getViewMatrix(); 
 		//sometimes we need to switch that +1.0f for -1.0f in the z
 		//opengl should be -1.0f, directx should be +1.0f, i think opencv might be +?
 		
-		glm::vec4 PosW = glm::inverse(matrix) * glm::vec4(xyUndistorted.x, xyUndistorted.y, +1.0f, 1.0f) ;
+		glm::vec4 PosW = glm::inverse(matrix) * glm::vec4(xy.x, xy.y, +1.0f, 1.0f) ;
 		glm::vec3 t = glm::vec3(PosW / PosW.w) - this->getPosition();
-		return Ray(this->getPosition(), t, ofColor(255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 255.0f * (xyUndistorted.x + 1.0f) / 2.0f, 0.0f), true);
+		return Ray(this->getPosition(), t, ofColor(255.0f * (xy.x + 1.0f) / 2.0f, 255.0f * (xy.x + 1.0f) / 2.0f, 0.0f), false);
 	}
 
-	void Projector::castCoordinates(const vector<glm::vec2>& xy, vector<Ray>& rays) const {
+	void Projector::castCoordinates(const vector<glm::vec2>& coordinates, vector<Ray>& rays) const {
 		glm::mat4 inverseMatrix = glm::inverse(this->getClippedProjectionMatrix() * this->getViewMatrix());
 		
 		glm::vec4 s = glm::vec4(this->getPosition(), 0);
@@ -180,16 +211,15 @@ namespace ofxRay {
 		glm::vec3 t;
 	
 		rays.clear();
-		rays.reserve(xy.size());
+		rays.reserve(coordinates.size());
 
 		
-		for (auto& it:xy){// it = xy.begin(); it != xy.end(); it++) {
+		for (auto& xy : coordinates){
 			//we're using OpenGL standard here, i.e. -1.0f is far plane
 			//in DirectX, +1.0f is far plane
-			auto xyUndistorted = this->undistortCoordinate(it);
-			PosW = inverseMatrix * glm::vec4(xyUndistorted.x, xyUndistorted.y, +1.0f, 1.0f);
+			PosW = inverseMatrix * glm::vec4(xy.x, xy.y, +1.0f, 1.0f);
 			t = (PosW / PosW.w) - s;
-			rays.push_back(Ray(s, t, ofColor(255.0f * (it.x + 1.0f) / 2.0f, 255.0f * (it.y + 1.0f) / 2.0f, 0.0f), true));
+			rays.push_back(Ray(s, t, ofColor(255.0f * (xy.x + 1.0f) / 2.0f, 255.0f * (xy.y + 1.0f) / 2.0f, 0.0f), false));
 		}
 	}
     
@@ -459,5 +489,9 @@ namespace ofxRay {
 
 	void Projector::setFarClip(float farClip) {
 		this->farClip = farClip;
+	}
+
+	void Projector::setUndistortFunction(const UndistortFunction& undistortFunction) {
+		this->undistortFunction = undistortFunction;
 	}
 }

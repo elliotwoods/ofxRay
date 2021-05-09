@@ -16,7 +16,8 @@ ostream& operator<<(ostream &, const ofxRay::Projector &);
 istream& operator>>(istream & is, ofxRay::Projector &);
 
 namespace ofxRay {
-    
+	typedef std::function<vector<glm::vec2>(const vector<glm::vec2>&)> UndistortFunction;
+
     class Plane;
     
 	///A class to generate rays given parameters for a projector or camera
@@ -40,15 +41,13 @@ namespace ofxRay {
 		///Choose a random pose, for the projector with scale factor
 		void randomisePose(float scale=1.0f);
 	
-		glm::vec2 pixelToCoordinate(const glm::vec2 & xy) const;
-
-		///Undistort the given coordinate (pass through for Projector)
-		virtual glm::vec2 undistortCoordinate(const glm::vec2 & xy) const { return xy;}
+		glm::vec2 distortedPixelToCoordinate(const glm::vec2& xy) const;
+		glm::vec2 undistortedPixelToCoordinate(const glm::vec2 & xy) const;
 		
 		///Generate a ray for the given pixel coordinates x,y within the projector's image
-		Ray castPixel(int x, int y) const;
-		Ray castPixel(const glm::vec2& xy) const;
-		void castPixels(const vector<glm::vec2>& xy, vector<Ray>& rays) const;
+		Ray castPixel(int x, int y, bool isDistorted) const;
+		Ray castPixel(const glm::vec2& xy, bool isDistorted) const;
+		void castPixels(const vector<glm::vec2>& xy, vector<Ray>& rays, bool isDistorted) const;
 
 		///Generate a ray for the given normalised coordinate x,y where {-1.0f<x,y<1.0f}
 		Ray castCoordinate(const glm::vec2& xy) const;
@@ -119,6 +118,8 @@ namespace ofxRay {
 		void setNearClip(float near = 0.5);
 		void setFarClip(float far = 20.0f);
 
+		void setUndistortFunction(const UndistortFunction &);
+
 		friend ostream & (::operator<<) (ostream &, const Projector &);
 		friend istream & (::operator>>) (istream &, Projector &);
 	protected:
@@ -130,6 +131,9 @@ namespace ofxRay {
 
 		float nearClip = 0.5f;
 		float farClip = 20.0f;
+
+		UndistortFunction undistortFunction;
+
 	private:
 		static void makeBox();
 

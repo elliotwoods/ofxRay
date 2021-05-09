@@ -9,40 +9,12 @@
 #include "ofxRay/Camera.h"
 
 ostream& operator<<(ostream & os, const ofxRay::Camera & camera) {
-	os << camera.distortion.size();
-	os << ": ";
-	for (auto parameter : camera.distortion) {
-		os << parameter;
-		os << ", ";
-	}
-	os << ";\n";
-
 	os << (const ofxRay::Projector &) camera;
-
 	return os;
 }
 
 istream& operator>>(istream & is, ofxRay::Camera & camera) {
-
-	size_t distortionSize;
-
-	is >> distortionSize;
-	is.ignore(2);
-
-	camera.distortion.resize(distortionSize);
-
-	for (int i = 0; i < distortionSize; i++) {
-		float parameter;
-		
-		is >> parameter;
-		is.ignore(2);
-
-		camera.distortion[i] = parameter;
-	}
-	is.ignore(2);
-
 	is >> (ofxRay::Projector &)camera;
-
 	return is;
 }
 
@@ -67,29 +39,5 @@ namespace ofxRay {
 		projection(3, 3) = 0.0f;
 
 		setProjection(projection);
-	}
-
-	glm::vec2 Camera::undistortCoordinate(const glm::vec2 & xy) const {
-		auto distortionLength = this->distortion.size();
-
-		if (this->distortion.size() < 2) {
-			return xy;
-		}
-
-		float r = glm::length(xy);
-		float rr = r*r;
-
-		float rad_coeff = 1.0f + distortion[0] * rr + distortion[1] * rr * rr;
-		if (distortionLength > 4) {
-			rad_coeff += distortion[4] * rr * rr * rr;
-		}
-
-		float xn = xy.x * rad_coeff;
-		float yn = xy.y * rad_coeff;
-
-		xn += 2 * distortion[2] * xn * yn + distortion[3] * (rr + 2 * xn * xn);
-		yn += distortion[2] * (rr + 2 * yn * yn) + 2 * distortion[3] * xn * yn;
-
-		return glm::vec2(xn, yn);
 	}
 }
