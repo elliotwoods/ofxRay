@@ -70,9 +70,9 @@ namespace ofxRay {
 	
 		ofPopMatrix();
 	
-		ofDrawArrow(getCenter(), getCenter() + getNormal());
-		ofDrawArrow(getCenter(), getCenter() + getUp());
-		ofDrawArrow(getCenter(), getCenter() + getRight());
+		ofDrawArrow(getCenter(), getCenter() + getNormal(), 0.01f);
+		ofDrawArrow(getCenter(), getCenter() + getUp(), 0.01f);
+		ofDrawArrow(getCenter(), getCenter() + getRight(), 0.01f);
 		ofPopStyle();
 	}
 
