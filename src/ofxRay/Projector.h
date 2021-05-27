@@ -118,6 +118,9 @@ namespace ofxRay {
 		void setNearClip(float near = 0.5);
 		void setFarClip(float far = 20.0f);
 
+		float getNearClip() const;
+		float getFarClip() const;
+
 		void setUndistortFunction(const UndistortFunction &);
 
 		friend ostream & (::operator<<) (ostream &, const Projector &);

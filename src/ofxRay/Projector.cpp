@@ -334,11 +334,10 @@ namespace ofxRay {
     float Projector::getThrowRatio() const {
         return throwRatio;
     }
-    
+
     glm::vec2 Projector::getLensOffset() const {
         return lensOffset;
     }
-
 
 	bool Projector::isProjectionMatrixInfinite() const {
 		return this->projection[3][2] == 0.0f;
@@ -493,5 +492,13 @@ namespace ofxRay {
 
 	void Projector::setUndistortFunction(const UndistortFunction& undistortFunction) {
 		this->undistortFunction = undistortFunction;
+	}
+
+	float Projector::getNearClip() const {
+		return this->nearClip;
+	}
+
+	float Projector::getFarClip() const {
+		return this->farClip;
 	}
 }
